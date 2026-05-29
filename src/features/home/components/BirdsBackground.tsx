@@ -14,6 +14,12 @@ export const BirdsBackground = () => {
     const c2 = isLight ? 0x4c1d95 : 0x8b5cf6 
 
     // @ts-ignore
+    if (!window.VANTA || !window.VANTA.BIRDS) {
+      console.warn('Vanta Birds is not loaded yet or failed to load from CDN');
+      return;
+    }
+
+    // @ts-ignore
     const effect = window.VANTA.BIRDS({
       el: vantaRef.current,
       mouseControls: true,
@@ -31,7 +37,7 @@ export const BirdsBackground = () => {
     })
 
     return () => {
-      effect?.destroy()
+      if (effect) effect.destroy()
     }
   }, [theme])
 

@@ -1,10 +1,10 @@
 import { lazy } from 'react'
+import AuthCallbackPage from '../features/auth/page/AuthCallbackPage'
 
 import type { AppRoute } from '../types/Layout'
 
 const HomePage = lazy(() => import('../features/home'))
 const AuthPage = lazy(() => import('../features/auth'))
-const AuthCallbackPage = lazy(() => import('../features/auth/page/AuthCallbackPage'))
 const AdminProfilePage = lazy(() => import('../features/admin/adminProfile'))
 const AdminSkillsPage = lazy(() => import('../features/admin/skills'))
 const AdminExperiencePage = lazy(() => import('../features/admin/experience'))
