@@ -2,7 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/authStore';
 import { LoadingSpinner } from '../../../components/ui/Loading/LoadingSpinner';
-
+const saveLog = (message: string, data?: any) => {
+  const logs = JSON.parse(localStorage.getItem('auth_debug_logs') || '[]');
+  logs.push({
+    time: new Date().toISOString(),
+    message,
+    data: data ?? null
+  });
+  localStorage.setItem('auth_debug_logs', JSON.stringify(logs));
+};
 const AuthCallbackPage = () => {
   const navigate = useNavigate();
   const { setToken } = useAuthStore();
@@ -14,18 +22,16 @@ const AuthCallbackPage = () => {
     handled.current = true;
 
     try {
-      console.log('[AuthCallback] Full URL:', window.location.href);
-      console.log('[AuthCallback] Search part:', window.location.search);
-      console.log('[AuthCallback] Hash part:', window.location.hash);
+      saveLog('Full URL', window.location.href);
+      saveLog('Search part', window.location.search);
+      saveLog('Hash part', window.location.hash);
 
-      // 1. Try parsing from query string (window.location.search)
       let params = new URLSearchParams(window.location.search);
       let accessToken = params.get('accessToken');
       let refreshToken = params.get('refreshToken');
       let role = params.get('role');
       let error = params.get('error');
 
-      // 2. If not found in search, try parsing from hash (window.location.hash)
       if (!accessToken || !refreshToken) {
         const hash = window.location.hash;
         if (hash) {
@@ -38,37 +44,33 @@ const AuthCallbackPage = () => {
         }
       }
 
-      console.log('[AuthCallback] Parsed values:', {
+      saveLog('Parsed values', {
         hasAccessToken: !!accessToken,
         hasRefreshToken: !!refreshToken,
         role,
         error
       });
 
-      if (error) {
-        throw new Error(`Authentication error from server: ${error}`);
-      }
+      if (error) throw new Error(`Authentication error from server: ${error}`);
+      if (!accessToken || !refreshToken) throw new Error('Token missing in URL');
 
-      if (!accessToken || !refreshToken) {
-        throw new Error('Access token or refresh token is missing in the URL parameters.');
-      }
-
-      console.log('[AuthCallback] Saving tokens to localStorage and Zustand store...');
-      // Set thủ công vào localStorage
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('role', role ?? '');
+      saveLog('localStorage saved', {
+        accessToken: localStorage.getItem('accessToken')?.slice(0, 20) + '...',
+        refreshToken: localStorage.getItem('refreshToken')?.slice(0, 20) + '...',
+      });
 
-      // Set vào Zustand (cũng tự động ghi vào localStorage under 'auth-storage')
       setToken(accessToken, refreshToken, role ?? '');
-      console.log('[AuthCallback] Tokens successfully stored!');
+      saveLog('setToken called');
 
       const redirectPath = role === 'ADMIN' ? '/admin/profile' : '/';
-      console.log('[AuthCallback] Navigating to:', redirectPath);
+      saveLog('Navigating to', redirectPath);
       navigate(redirectPath, { replace: true });
 
     } catch (err: any) {
-      console.error('[AuthCallback] Error during callback handling:', err);
+      saveLog('ERROR', err?.message || String(err));
       setErrorText(err?.message || String(err));
     }
   }, [navigate, setToken]);
@@ -90,7 +92,7 @@ const AuthCallbackPage = () => {
           {errorText}
         </p>
         <div style={{ marginTop: '20px' }}>
-          <button 
+          <button
             onClick={() => navigate('/', { replace: true })}
             style={{
               padding: '8px 16px',
@@ -104,7 +106,7 @@ const AuthCallbackPage = () => {
           >
             Về Trang Chủ
           </button>
-          <button 
+          <button
             onClick={() => window.location.reload()}
             style={{
               padding: '8px 16px',
