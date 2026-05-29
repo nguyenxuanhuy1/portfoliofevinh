@@ -16,7 +16,7 @@ const AuthCallbackPage = () => {
   const { setToken } = useAuthStore();
   const handled = useRef(false);
   const [errorText, setErrorText] = useState<string | null>(null);
-
+  saveLog('Full URL vinhff 123');
   useEffect(() => {
     if (handled.current) return;
     handled.current = true;
