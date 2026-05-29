@@ -26,7 +26,7 @@ jobs:
 
             echo ">>> Pulling latest code..."	
             cd /opt/FE/portfoliofevinh
-            git pull origin master
+            git pull origin main
 
             echo ">>> Installing dependencies..."
             npm ci
