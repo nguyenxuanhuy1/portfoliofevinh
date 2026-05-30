@@ -6,6 +6,7 @@ import { routeConfig } from '../../router/routeConfig'
 import { useThemeStore } from '../../store/themeStore'
 import { useLanguageStore } from '../../store/languageStore'
 import logo from '../../assets/logo.png'
+import FloatingContactButton from '../../features/contact'
 
 type Props = {
   children: ReactNode
@@ -75,6 +76,8 @@ export function MainLayout({ children }: Props) {
       <footer className="main-layout__footer">
         © {new Date().getFullYear()} Nguyễn Đức Vĩnh - Portfolio.
       </footer>
+
+      <FloatingContactButton />
     </div>
   )
 }
