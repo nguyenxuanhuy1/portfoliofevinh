@@ -1,5 +1,9 @@
 import Button from '../../../components/ui/Button';
+import LoginDefault from '../components/LoginDefault';
 
+// ==========================================
+// Biểu tượng Google (Google SVG Icon)
+// ==========================================
 const GoogleIcon = () => (
   <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -9,26 +13,73 @@ const GoogleIcon = () => (
   </svg>
 );
 
+/**
+ * Trang Đăng Nhập (LoginPage)
+ * 
+ * Cung cấp hai phương thức đăng nhập chính:
+ * 1. Đăng nhập truyền thống (LoginDefault): Sử dụng Tên đăng nhập và Mật khẩu.
+ * 2. Đăng nhập nhanh bằng Google (Single Sign-On - SSO).
+ */
 const LoginPage = () => {
+  
+  /**
+   * Khởi chạy luồng Đăng nhập bằng Google (Google OAuth2 Flow)
+   * 
+   * [ LUỒNG ĐĂNG NHẬP GOOGLE CHUYỂN ĐỘNG TRỰC QUAN ]
+   * 
+   * Bước 1: Trình duyệt Client chuyển hướng sang Backend API
+   *         URL: `GET ${baseURL}/auth/google`
+   * 
+   * Bước 2: Backend chuyển hướng tiếp người dùng đến màn hình xác thực tài khoản Google (OAuth Consent Screen).
+   * 
+   * Bước 3: Người dùng phê duyệt -> Google gửi mã Authorization Code về URL Callback của Backend 
+   *         (ví dụ: `/auth/google/callback`).
+   * 
+   * Bước 4: Backend trao đổi mã lấy Profile người dùng, tạo JWT (accessToken, refreshToken, role),
+   *         và redirect trình duyệt về địa chỉ frontend:
+   *         URL: `${frontendURL}/auth/callback?accessToken=...&refreshToken=...&role=...`
+   * 
+   * Bước 5: Component AuthCallbackPage tại Frontend tiếp nhận, lưu token và dẫn người dùng vào trang trong.
+   */
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google`;
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+    if (!apiBaseUrl) {
+      console.error('[Google Login Error] VITE_API_BASE_URL is not defined in environment variables.');
+      return;
+    }
+    
+    // Thực hiện chuyển hướng trình duyệt đến API khởi tạo luồng OAuth của Backend
+    window.location.href = `${apiBaseUrl}/auth/google`;
   };
 
   return (
     <div className="login-page">
       <div className="login-card">
+        {/* Tiêu đề & Header */}
         <div className="login-logo">
           <span className="logo-text">Khu vực quản trị viên</span>
         </div>
         <h1 className="login-title">Chào mừng trở lại</h1>
-        <p className="login-subtitle">Đăng nhập để tiếp tục</p>
+        <p className="login-subtitle">Đăng nhập hoặc đăng ký tài khoản</p>
+
+        {/* 1. Form đăng nhập truyền thống (Username/Password) */}
+        <LoginDefault />
+
+        {/* Thanh ngăn cách giữa 2 phương thức */}
+        <div className="login-divider">
+          <span className="login-divider__line"></span>
+          <span className="login-divider__text">Hoặc</span>
+          <span className="login-divider__line"></span>
+        </div>
+
+        {/* 2. Nút kích hoạt Đăng nhập nhanh bằng Google */}
         <Button
           variant="secondary"
           width="100%"
           icon={<GoogleIcon />}
           onClick={handleGoogleLogin}
         >
-          Đăng nhập bằng Google
+          Tiếp tục bằng Google
         </Button>
       </div>
     </div>
