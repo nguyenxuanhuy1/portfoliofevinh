@@ -23,7 +23,7 @@ export default function HomePage1() {
         {loading
           ? <Skeleton.Button active size="small" shape="round" style={{ width: 140, marginBottom: 12 }} />
           : <span className="home-page__badge">
-              {profile?.workStatus === 'READY' ? t('unavailable') : t('available')}
+              {profile?.workStatus === 'READY' ? t('available') : t('unavailable')}
             </span>
         }
 
