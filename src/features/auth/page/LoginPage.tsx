@@ -1,5 +1,4 @@
 import Button from '../../../components/ui/Button';
-import LoginDefault from '../components/LoginDefault';
 
 // ==========================================
 // Biểu tượng Google (Google SVG Icon)
@@ -16,9 +15,7 @@ const GoogleIcon = () => (
 /**
  * Trang Đăng Nhập (LoginPage)
  * 
- * Cung cấp hai phương thức đăng nhập chính:
- * 1. Đăng nhập truyền thống (LoginDefault): Sử dụng Tên đăng nhập và Mật khẩu.
- * 2. Đăng nhập nhanh bằng Google (Single Sign-On - SSO).
+ * Cung cấp phương thức đăng nhập bằng Google (Single Sign-On - SSO).
  */
 const LoginPage = () => {
   
@@ -60,19 +57,9 @@ const LoginPage = () => {
           <span className="logo-text">Khu vực quản trị viên</span>
         </div>
         <h1 className="login-title">Chào mừng trở lại</h1>
-        <p className="login-subtitle">Đăng nhập hoặc đăng ký tài khoản</p>
+        <p className="login-subtitle">Đăng nhập tài khoản quản trị</p>
 
-        {/* 1. Form đăng nhập truyền thống (Username/Password) */}
-        <LoginDefault />
-
-        {/* Thanh ngăn cách giữa 2 phương thức */}
-        <div className="login-divider">
-          <span className="login-divider__line"></span>
-          <span className="login-divider__text">Hoặc</span>
-          <span className="login-divider__line"></span>
-        </div>
-
-        {/* 2. Nút kích hoạt Đăng nhập nhanh bằng Google */}
+        {/* Nút kích hoạt Đăng nhập nhanh bằng Google */}
         <Button
           variant="secondary"
           width="100%"
