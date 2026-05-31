@@ -32,7 +32,7 @@ export default function ExercisesSection({
   if (!ex) return null
 
   return (
-    <div className="screen active" style={{ display: 'flex', flexDirection: 'column', height: '100%', maxHeight: 'none' }}>
+    <div className="screen active">
       <div className="progress-row" style={{ marginBottom: '16px' }}>
         <span className="progress-text">{currentStep + 1} / {totalSteps}</span>
         <div className="progress-bar">
@@ -40,22 +40,22 @@ export default function ExercisesSection({
         </div>
       </div>
 
-      <div className="ex-instruction">
+      <div className="ex-instruction" style={{ marginBottom: '12px' }}>
         {ex.instruction || 'Hoàn thành các câu hỏi sau'}
       </div>
 
-      <div className="counter" style={{ marginBottom: '8px' }}>
+      <div className="counter" style={{ marginBottom: '12px' }}>
         Dạng bài {currentStep - 1} / {exercisesList.length}
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px', paddingRight: '4px', marginBottom: '8px' }}>
+      <div className="vocab-list">
         {ex.questions.map((q: any, qIdx: number) => {
           const gradeEx = gradingResult?.exercises?.find((item) => item.type === ex.type)
           const qGraded = gradeEx?.questions?.find((item) => item.id === q.id)
           const isCorrect = qGraded?.correct
 
           return (
-            <div key={q.id || qIdx} style={{ display: 'flex', flexDirection: 'column', gap: '8px', borderBottom: qIdx < ex.questions.length - 1 ? '1px dashed #222' : 'none', paddingBottom: qIdx < ex.questions.length - 1 ? '16px' : '0' }}>
+            <div key={q.id || qIdx} className="vocab-card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
               {/* MATCHING EXERCISE */}
               {ex.type === 'matching' && (

@@ -22,15 +22,17 @@ export default function ReadingSection({
         </div>
       </div>
       
-      {readingPassage ? (
-        <div className="reading-card">
-          <p className="reading-text" dangerouslySetInnerHTML={{
-            __html: readingPassage.content.replace(/\*\*(.*?)\*\*/g, '<span class="highlight">$1</span>')
-          }} />
-        </div>
-      ) : (
-        <p style={{ color: '#555555', fontStyle: 'italic' }}>Không có nội dung bài đọc.</p>
-      )}
+      <div className="vocab-list">
+        {readingPassage ? (
+          <div className="reading-card" style={{ margin: 0 }}>
+            <p className="reading-text" dangerouslySetInnerHTML={{
+              __html: readingPassage.content.replace(/\*\*(.*?)\*\*/g, '<span class="highlight">$1</span>')
+            }} />
+          </div>
+        ) : (
+          <p style={{ color: '#555555', fontStyle: 'italic' }}>Không có nội dung bài đọc.</p>
+        )}
+      </div>
     </div>
   )
 }

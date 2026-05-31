@@ -468,9 +468,11 @@ export default function LearnEnglishDetailPage() {
           {activeTab === 'wizard' && (
             <div className="bottom-nav-bar">
               {currentStep === 0 && (
-                <button className="next-btn" style={{ margin: 0 }} onClick={() => setCurrentStep(1)}>
-                  Tiếp theo →
-                </button>
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <button className="next-btn" style={{ width: '100%', margin: 0 }} onClick={() => setCurrentStep(1)}>
+                    Tiếp theo →
+                  </button>
+                </div>
               )}
 
               {currentStep === 1 && (
