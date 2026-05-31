@@ -1,0 +1,206 @@
+@import './variables.scss';
+
+// ==========================================
+// LIST PAGE CARDS & STRUCTURE
+// ==========================================
+.learn-english {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: $sp-xl;
+  }
+
+  &__btn-3d {
+    background: var(--color-card-bg);
+    border: 1.5px solid var(--color-card-border);
+    border-bottom: 5px solid var(--color-primary) !important;
+    border-radius: var(--radius-full); // Nút bấm bo tròn 100% hình viên thuốc
+    padding: 16px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.1s ease;
+    user-select: none;
+    outline: none;
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-primary) 4%, var(--color-card-bg));
+      border-color: var(--color-primary);
+    }
+
+    &:active {
+      transform: translateY(3px);
+      border-bottom-width: 2px !important;
+      margin-bottom: 3px;
+    }
+
+    &-title {
+      font-size: 15px;
+      font-weight: 500; // Không in đậm
+      color: var(--color-primary); // Màu chủ đạo của web
+      font-family: 'Be Vietnam Pro', sans-serif;
+      text-align: start;
+    }
+
+    &-status {
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  &__badge {
+    padding: 4px 12px;
+    border-radius: var(--radius-full); // Huy hiệu trạng thái nhỏ bo tròn 100%
+    font-size: 11px;
+    font-weight: 400; // Làm chữ mỏng, không in đậm
+    text-transform: none; // Bỏ in hoa toàn bộ để tự nhiên và trang nhã hơn
+    display: inline-flex;
+    align-items: center;
+    
+    &--completed {
+      background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+      color: $c-accent;
+      border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    }
+
+    &--inprogress {
+      background-color: color-mix(in srgb, var(--color-text-secondary) 8%, transparent);
+      color: $c-text-body;
+      border: 1px solid color-mix(in srgb, var(--color-text-secondary) 20%, transparent);
+    }
+
+    &--notstarted {
+      background-color: color-mix(in srgb, #FF3B5C 8%, transparent);
+      color: $c-wrong;
+      border: 1px solid color-mix(in srgb, #FF3B5C 20%, transparent);
+    }
+  }
+
+  &__token-list {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-sm;
+    margin-top: $sp-md;
+  }
+
+  &__token-item {
+    background-color: $c-elevated;
+    border: 1px solid $c-border;
+    border-radius: var(--radius-full); // Ô chứa token nhỏ bo tròn 100%
+    padding: 8px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__token-text {
+    font-size: 13px;
+    color: $c-text-muted;
+    font-family: monospace !important;
+  }
+
+  &__token-delete-btn {
+    color: $c-wrong;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $sp-xs;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  // ==========================================
+  // HISTORY TIMELINE VIEW
+  // ==========================================
+  &__history-section {
+    margin-top: $sp-xl;
+  }
+
+  &__history-list {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-sm;
+  }
+
+  &__history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $sp-md 24px;
+    background-color: $c-elevated;
+    border: 1px solid $c-border;
+    border-radius: var(--radius-md); // Khung từng lượt lịch sử bo góc 12px
+    transition: border-color var(--transition-fast);
+
+    &:hover {
+      border-color: var(--color-primary);
+    }
+  }
+}
+
+// ==========================================
+// ANTD SELECT COMPONENT OVERRIDES
+// ==========================================
+.ant-select {
+  .ant-select-selector {
+    background-color: $c-elevated !important;
+    border: 1px solid $c-border-soft !important;
+    color: $c-text !important;
+    border-radius: var(--radius-full) !important; // Ô chọn Select bo tròn 100% hình viên thuốc
+    padding: 0 16px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: none !important;
+
+    &:hover {
+      border-color: $c-accent !important;
+    }
+  }
+
+  &.ant-select-focused .ant-select-selector {
+    border-color: $c-accent !important;
+  }
+
+  .ant-select-arrow {
+    color: $c-accent !important;
+    right: 16px !important;
+  }
+}
+
+.ant-select-dropdown {
+  background-color: $c-surface !important;
+  border: 1px solid $c-border !important;
+  border-radius: var(--radius-md) !important; // Khung menu chọn bo góc card 12px
+  padding: 6px !important;
+  box-shadow: none !important;
+
+  .ant-select-item {
+    border-radius: var(--radius-full) !important; // Các ô lựa chọn bên trong bo tròn 100% hình viên thuốc
+    color: $c-text-body !important;
+    font-size: 13px !important;
+    padding: 6px 16px !important;
+    transition: all 0.2s ease !important;
+
+    &-option-active {
+      background-color: rgba($c-accent, 0.08) !important;
+      color: $c-accent !important;
+    }
+
+    &-option-selected {
+      background-color: rgba($c-accent, 0.08) !important;
+      color: $c-accent !important;
+      font-weight: 600 !important;
+    }
+  }
+}

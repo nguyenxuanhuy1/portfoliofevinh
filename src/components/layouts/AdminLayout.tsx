@@ -9,6 +9,7 @@ import {
   LogoutOutlined,
   TrophyOutlined,
   CalendarOutlined,
+  BookOutlined,
 } from '@ant-design/icons';
 import { routeConfig } from '../../router/routeConfig';
 import { useAuthStore } from '../../store/authStore';
@@ -24,6 +25,7 @@ const iconMap: Record<string, ReactNode> = {
   '/admin/skills': <TrophyOutlined />,
   '/admin/experience': <CalendarOutlined />,
   '/admin/contacts': <ContactsOutlined />,
+  '/admin/topics': <BookOutlined />,
 };
 
 type Props = {

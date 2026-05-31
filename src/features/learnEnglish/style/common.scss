@@ -1,0 +1,52 @@
+@import './variables.scss';
+
+// ==========================================
+// MAIN COMPONENT WRAPPER & RESETS
+// ==========================================
+.learn-english {
+  --le-completed: #{$c-accent};
+  --le-inprogress: #{$c-text-sub};
+  --le-notstarted: #{$c-wrong};
+  
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $screen-py $screen-px;
+  background-color: transparent;
+  color: $c-text;
+  font-family: 'Be Vietnam Pro', sans-serif !important;
+
+  * {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    box-shadow: none !important; // Absolute ban on box shadows
+  }
+
+  // ==========================================
+  // TYPOGRAPHY & UTILITIES
+  // ==========================================
+  &__title {
+    font-size: 22px;
+    font-weight: 400; // Làm chữ mỏng hơn, không in đậm
+    color: $c-text;
+    letter-spacing: -0.5px;
+    margin-bottom: $sp-xs;
+  }
+
+  &__accent-line {
+    display: none; // Bỏ gạch chân hoàn toàn dưới tiêu đề
+  }
+
+  &__section-label {
+    font-size: 11px;
+    color: $c-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: $sp-sm;
+  }
+
+  &__body-text {
+    font-size: 13px;
+    color: $c-text-body;
+    line-height: 22px;
+  }
+}

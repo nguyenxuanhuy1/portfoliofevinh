@@ -65,14 +65,14 @@ export function RouteGuard({ route, children }: Props) {
   // - 2. Đăng ký tài khoản mới qua Google: Khi user đăng nhập bằng Google lần đầu, vai trò mặc định của họ là gì?
   //      Cần đảm bảo backend định cấu hình đúng vai trò mặc định (ví dụ: 'USER') để tránh việc tài khoản thường 
   //      đột nhập vào giao diện Admin.
-  if (role !== 'ADMIN') {
+  if (route.roles && !route.roles.includes(role || '')) {
     return <Navigate to="/" replace />;
   }
 
   // =========================================================================
   // TRƯỜNG HỢP 4: Hợp lệ tuyệt đối (Authorized)
   // =========================================================================
-  // - Thỏa mãn tất cả các điều kiện: Đã đăng nhập + Vai trò chính xác là 'ADMIN'.
-  // - Cho phép render và hiển thị nội dung các trang quản trị.
+  // - Thỏa mãn tất cả các điều kiện: Đã đăng nhập + Vai trò chính xác.
+  // - Cho phép render và hiển thị nội dung các trang quản trị hoặc học tập riêng tư.
   return <>{children}</>;
 }

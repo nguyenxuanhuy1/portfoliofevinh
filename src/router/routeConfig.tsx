@@ -19,6 +19,12 @@ const AdminSkillsPage = lazy(() => import('../features/admin/skills'))
 const AdminExperiencePage = lazy(() => import('../features/admin/experience'))
 const AdminProjectsPage = lazy(() => import('../features/admin/project'))
 const AdminContactPage = lazy(() => import('../features/admin/contact'))
+const AdminTopicPage = lazy(() => import('../features/admin/topic'))
+
+// Client-facing English Pages
+const LearnEnglishListPage = lazy(() => import('../features/learnEnglish'))
+const LearnEnglishDetailPage = lazy(() => import('../features/learnEnglish/page/LearnEnglishDetailPage'))
+const LearnEnglishHistoryPage = lazy(() => import('../features/learnEnglish/page/LearnEnglishHistoryPage'))
 
 // Fallback Page
 const NotFoundPage = lazy(() => import('../features/notFound'))
@@ -54,6 +60,31 @@ export const routeConfig: AppRoute[] = [
     },
     showInMenu: true,
     layout: 'main',
+  },
+  {
+    path: '/learn-english',
+    element: <LearnEnglishListPage />,
+    public: false,
+    label: { 
+      vi: 'Học tiếng Anh', 
+      en: 'Learn English' 
+    },
+    showInMenu: false,
+    layout: 'auth',
+  },
+  {
+    path: '/learn-english/history',
+    element: <LearnEnglishHistoryPage />,
+    public: false,
+    showInMenu: false,
+    layout: 'auth',
+  },
+  {
+    path: '/learn-english/:id',
+    element: <LearnEnglishDetailPage />,
+    public: false,
+    showInMenu: false,
+    layout: 'auth',
   },
 
   // ----------------------------------------------------
@@ -115,6 +146,18 @@ export const routeConfig: AppRoute[] = [
     label: { 
       vi: 'Liên hệ', 
       en: 'Contacts' 
+    },
+    showInMenu: true,
+    layout: 'admin',
+  },
+  {
+    path: '/admin/topics',
+    element: <AdminTopicPage />,
+    public: false,
+    roles: ['ADMIN'],
+    label: { 
+      vi: 'Chủ đề học', 
+      en: 'English Topics' 
     },
     showInMenu: true,
     layout: 'admin',
