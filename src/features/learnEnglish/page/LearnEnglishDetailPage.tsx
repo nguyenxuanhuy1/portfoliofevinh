@@ -10,7 +10,7 @@ import { Modal, message } from 'antd'
 import { useLearnTopicByIdQuery } from '../../../hooks/useLearnTopicQuery'
 import learnTopicService from '../../admin/topic/service/learnTopicService'
 import Skeleton from '../../../components/ui/Skeleton'
-import type { ExerciseType, GradingResult } from '../../../types/LearnEnglish'
+import type { ExerciseType, GradingResult, Exercise } from '../../../types/LearnEnglish'
 import '../style/index.scss'
 
 export default function LearnEnglishDetailPage() {
@@ -186,7 +186,7 @@ export default function LearnEnglishDetailPage() {
 
     try {
       const dataObj = typeof topic.data === 'string' ? JSON.parse(topic.data) : topic.data
-      const finalAnswers = (dataObj.exercises || []).map((ex) => {
+      const finalAnswers = (dataObj.exercises || []).map((ex: Exercise) => {
         const existing = userAnswers.find((item) => item.type === ex.type)
         const qAnswers: Record<string, string> = {}
         

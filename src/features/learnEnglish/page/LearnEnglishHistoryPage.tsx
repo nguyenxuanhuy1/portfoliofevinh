@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  HistoryOutlined,
   DeleteOutlined,
   ArrowLeftOutlined
 } from '@ant-design/icons'
