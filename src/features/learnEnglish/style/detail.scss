@@ -12,6 +12,7 @@
   border: 1.5px solid $c-border;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .tab-bar {
@@ -36,7 +37,7 @@
 }
 
 .screen {
-  padding: 20px;
+  padding: 20px 20px calc(76px + env(safe-area-inset-bottom, 0px)) !important;
   min-height: 520px;
   display: none;
   flex-direction: column;
@@ -44,6 +45,30 @@
   &.active {
     display: flex;
   }
+}
+
+.bottom-nav-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: color-mix(in srgb, var(--color-background) 70%, transparent) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border-top: 1px solid $c-border;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 100;
+
+  .next-btn {
+    margin-top: 0 !important;
+  }
+
+  // Safe area bottom padding for notch screens on mobile
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
 }
 
 // ==========================================
@@ -426,33 +451,129 @@
 // ==========================================
 // TRAN VIEN DETAIL (EDGE-TO-EDGE FULLSCREEN OVERRIDES)
 // ==========================================
-.learn-english--detail {
-  padding: 0 !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  height: 100vh !important;
-  min-height: 100vh !important;
-  display: flex !important;
-  flex-direction: column !important;
-
-  .phone {
-    width: 100% !important;
+@media (max-width: 767px) {
+  .learn-english--detail {
+    padding: 0 !important;
     max-width: 100% !important;
-    height: 100% !important;
+    width: 100% !important;
+    height: 100vh !important;
     min-height: 100vh !important;
-    border-radius: 0 !important;
-    border: none !important;
-    margin: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    flex: 1 !important;
-  }
 
-  .screen {
-    flex: 1 !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    overflow-y: auto !important;
+    .phone {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 100% !important;
+      min-height: 100vh !important;
+      border-radius: 0 !important;
+      border: none !important;
+      margin: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 !important;
+    }
+
+    .screen {
+      flex: 1 !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      overflow-y: auto !important;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .learn-english--detail {
+    max-width: 900px !important;
+    width: 100% !important;
+    margin: 0.5vh auto !important;
+    padding: 0 !important;
+    height: 99vh !important;
+    min-height: 99vh !important;
+    max-height: 99vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: var(--color-card-bg) !important;
+    border: 1px solid var(--color-card-border) !important;
+    border-radius: var(--radius-lg) !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow-md) !important;
+    backdrop-filter: blur(8px);
+
+    .phone {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 100% !important;
+      border-radius: 0 !important;
+      border: none !important;
+      margin: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .screen {
+      flex: 1 !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      overflow-y: auto !important;
+      padding: 32px 40px 96px !important;
+    }
+
+    .bottom-nav-bar {
+      padding: 16px 40px !important;
+    }
+
+    // Grid layout for vocabulary cards on desktop
+    .vocab-list {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 16px !important;
+      margin-bottom: 24px !important;
+    }
+
+    // Grid layouts for exercise options on desktop
+    .mcq-opts {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+    }
+
+    .options {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+    }
+
+    // Optimize Dictionary Quick Translate side-by-side Layout on desktop
+    .drawer-body.active {
+      display: flex !important;
+      gap: 20px !important;
+      align-items: flex-start !important;
+      padding: 16px 32px !important;
+      
+      .drawer-input {
+        flex: 2 !important;
+      }
+      
+      #drawer-result {
+        flex: 3 !important;
+        margin-top: 0 !important;
+        padding: 10px 16px !important;
+        background: var(--color-background) !important;
+        border: 1px solid var(--color-card-border) !important;
+        border-radius: var(--radius-md) !important;
+        display: block !important;
+      }
+      
+      .drawer-word {
+        margin-top: 0 !important;
+        font-size: 16px !important;
+      }
+    }
   }
 }
 

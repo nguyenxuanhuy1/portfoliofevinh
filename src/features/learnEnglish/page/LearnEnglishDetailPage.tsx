@@ -430,10 +430,6 @@ export default function LearnEnglishDetailPage() {
                   ) : (
                     <p style={{ color: '#555555', fontStyle: 'italic' }}>Không có nội dung bài đọc.</p>
                   )}
-
-                  <button className="next-btn" onClick={() => setCurrentStep(1)}>
-                    Tiếp theo →
-                  </button>
                 </div>
               )}
 
@@ -455,24 +451,6 @@ export default function LearnEnglishDetailPage() {
                         {vocab.example && <div className="vocab-ex">"{vocab.example}"</div>}
                       </div>
                     ))}
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-                    <button 
-                      className="next-btn" 
-                      style={{ 
-                        flex: 1, 
-                        background: 'var(--color-card-bg)', 
-                        color: 'var(--color-primary)', 
-                        border: '1px solid var(--color-primary)' 
-                      }}
-                      onClick={() => setCurrentStep(0)}
-                    >
-                      ←
-                    </button>
-                    <button className="next-btn" style={{ flex: 3 }} onClick={() => setCurrentStep(2)}>
-                      Làm bài tập →
-                    </button>
                   </div>
                 </div>
               )}
@@ -690,61 +668,6 @@ export default function LearnEnglishDetailPage() {
                       })}
                     </div>
 
-                    {/* NAVIGATION CONTROL BUTTON PANEL */}
-                    <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-                      {currentStep > 0 && (
-                        <button 
-                          className="next-btn" 
-                          style={{ 
-                            flex: 1, 
-                            background: 'var(--color-card-bg)', 
-                            color: 'var(--color-primary)', 
-                            border: '1px solid var(--color-primary)' 
-                          }}
-                          onClick={() => setCurrentStep(prev => prev - 1)}
-                        >
-                          ←
-                        </button>
-                      )}
-
-                      {currentStep < totalSteps - 1 ? (
-                        <button 
-                          className="next-btn"
-                          style={{ flex: 3 }}
-                          onClick={() => setCurrentStep(prev => prev + 1)}
-                        >
-                          Tiếp theo →
-                        </button>
-                      ) : (
-                        <div style={{ flex: 3 }}>
-                          {status !== 'COMPLETED' ? (
-                            <button 
-                              className="next-btn"
-                              style={{ width: '100%' }}
-                              disabled={isSubmitting}
-                              onClick={handleSubmitGrading}
-                            >
-                              {isSubmitting ? (
-                                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                                  <span>Chấm điểm</span>
-                                  <span style={{ display: 'inline-block', width: '20px', textAlign: 'left', marginLeft: '2px' }}>{dots}</span>
-                                </span>
-                              ) : 'Nộp bài ngay'}
-                            </button>
-                          ) : (
-                            <button 
-                              className="next-btn"
-                              style={{ width: '100%', background: 'var(--color-card-bg)', color: 'var(--color-primary)', border: '1px solid var(--color-primary)' }}
-                              onClick={() => {
-                                message.info(`Tổng điểm bài làm của bạn đạt ${score}/100`)
-                              }}
-                            >
-                              Điểm của bạn: {score}
-                            </button>
-                          )}
-                        </div>
-                      )}
-                    </div>
 
                     {submitError && (
                       <p style={{ color: '#FF3B5C', fontSize: '11px', margin: '8px 0 0 0', textAlign: 'center' }}>
@@ -834,6 +757,96 @@ export default function LearnEnglishDetailPage() {
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {/* ELEGANT FIXED BOTTOM NAVIGATION BAR */}
+          {activeTab === 'wizard' && (
+            <div className="bottom-nav-bar">
+              {currentStep === 0 && (
+                <button className="next-btn" style={{ margin: 0 }} onClick={() => setCurrentStep(1)}>
+                  Tiếp theo →
+                </button>
+              )}
+
+              {currentStep === 1 && (
+                <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
+                  <button 
+                    className="next-btn" 
+                    style={{ 
+                      flex: 1, 
+                      margin: 0,
+                      background: 'var(--color-card-bg)', 
+                      color: 'var(--color-primary)', 
+                      border: '1px solid var(--color-primary)' 
+                    }}
+                    onClick={() => setCurrentStep(0)}
+                  >
+                    ←
+                  </button>
+                  <button className="next-btn" style={{ flex: 3, margin: 0 }} onClick={() => setCurrentStep(2)}>
+                    Làm bài tập →
+                  </button>
+                </div>
+              )}
+
+              {currentStep >= 2 && (
+                <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
+                  {currentStep > 0 && (
+                    <button 
+                      className="next-btn" 
+                      style={{ 
+                        flex: 1, 
+                        margin: 0,
+                        background: 'var(--color-card-bg)', 
+                        color: 'var(--color-primary)', 
+                        border: '1px solid var(--color-primary)' 
+                      }}
+                      onClick={() => setCurrentStep(prev => prev - 1)}
+                    >
+                      ←
+                    </button>
+                  )}
+
+                  {currentStep < totalSteps - 1 ? (
+                    <button 
+                      className="next-btn"
+                      style={{ flex: 3, margin: 0 }}
+                      onClick={() => setCurrentStep(prev => prev + 1)}
+                    >
+                      Tiếp theo →
+                    </button>
+                  ) : (
+                    <div style={{ flex: 3 }}>
+                      {status !== 'COMPLETED' ? (
+                        <button 
+                          className="next-btn"
+                          style={{ width: '100%', margin: 0 }}
+                          disabled={isSubmitting}
+                          onClick={handleSubmitGrading}
+                        >
+                          {isSubmitting ? (
+                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <span>Chấm điểm</span>
+                              <span style={{ display: 'inline-block', width: '20px', textAlign: 'left', marginLeft: '2px' }}>{dots}</span>
+                            </span>
+                          ) : 'Nộp bài ngay'}
+                        </button>
+                      ) : (
+                        <button 
+                          className="next-btn"
+                          style={{ width: '100%', margin: 0, background: 'var(--color-card-bg)', color: 'var(--color-primary)', border: '1px solid var(--color-primary)' }}
+                          onClick={() => {
+                            message.info(`Tổng điểm bài làm của bạn đạt ${score}/100`)
+                          }}
+                        >
+                          Điểm của bạn: {score}
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
