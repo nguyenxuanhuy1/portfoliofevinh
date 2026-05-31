@@ -225,7 +225,7 @@ export default function ExercisesSection({
               {status === 'COMPLETED' && qGraded && (
                 <div style={{ marginTop: '8px', borderTop: '1px dashed #222222', paddingTop: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span className={isCorrect ? 'highlight' : ''} style={{ fontSize: '12px', fontWeight: 600, color: isCorrect ? 'var(--color-primary)' : '#FF3B5C' }}>
+                    <span className={isCorrect ? 'highlight' : ''} style={{ fontSize: '12px', fontWeight: 600, color: isCorrect ? '#52C41A' : '#FF3B5C' }}>
                       {isCorrect ? '✓ Đúng' : `✗ Sai - Đáp án: ${qGraded.correct_answer}`}
                     </span>
                   </div>
