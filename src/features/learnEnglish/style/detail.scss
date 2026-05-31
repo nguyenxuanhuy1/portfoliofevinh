@@ -51,9 +51,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  background: color-mix(in srgb, var(--color-background) 70%, transparent) !important;
-  backdrop-filter: blur(12px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  background: $c-surface !important;
   border-top: 1px solid $c-border;
   padding: 12px 20px;
   display: flex;

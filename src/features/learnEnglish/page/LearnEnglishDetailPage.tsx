@@ -11,6 +11,10 @@ import { useLearnTopicByIdQuery } from '../../../hooks/useLearnTopicQuery'
 import learnTopicService from '../../admin/topic/service/learnTopicService'
 import Skeleton from '../../../components/ui/Skeleton'
 import type { ExerciseType, GradingResult, Exercise } from '../../../types/LearnEnglish'
+import GeminiTokenConfig from '../components/GeminiTokenConfig'
+import ReadingSection from '../components/ReadingSection'
+import VocabularySection from '../components/VocabularySection'
+import ExercisesSection from '../components/ExercisesSection'
 import '../style/index.scss'
 
 export default function LearnEnglishDetailPage() {
@@ -413,351 +417,51 @@ export default function LearnEnglishDetailPage() {
             <>
               {/* SCREEN STEP 0: READING */}
               {currentStep === 0 && (
-                <div className="screen active">
-                  <div className="progress-row" style={{ marginBottom: '16px' }}>
-                    <span className="progress-text">{currentStep + 1} / {totalSteps}</span>
-                    <div className="progress-bar">
-                      <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
-                    </div>
-                  </div>
-                  
-                  {tData.reading_passage ? (
-                    <div className="reading-card">
-                      <p className="reading-text" dangerouslySetInnerHTML={{
-                        __html: tData.reading_passage.content.replace(/\*\*(.*?)\*\*/g, '<span class="highlight">$1</span>')
-                      }} />
-                    </div>
-                  ) : (
-                    <p style={{ color: '#555555', fontStyle: 'italic' }}>Không có nội dung bài đọc.</p>
-                  )}
-                </div>
+                <ReadingSection
+                  currentStep={currentStep}
+                  totalSteps={totalSteps}
+                  progressPercentage={progressPercentage}
+                  readingPassage={tData.reading_passage}
+                />
               )}
 
               {/* SCREEN STEP 1: VOCABULARY */}
               {currentStep === 1 && (
-                <div className="screen active">
-                  <div className="progress-row" style={{ marginBottom: '16px' }}>
-                    <span className="progress-text">{currentStep + 1} / {totalSteps}</span>
-                    <div className="progress-bar">
-                      <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
-                    </div>
-                  </div>
-
-                  <div className="vocab-list">
-                    {tData.vocabulary?.map((vocab: any, vIdx: number) => (
-                      <div key={vIdx} className="vocab-card">
-                        <div className="vocab-word">{vocab.word}</div>
-                        <div className="vocab-viet">{vocab.vietnamese}</div>
-                        {vocab.example && <div className="vocab-ex">"{vocab.example}"</div>}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <VocabularySection
+                  currentStep={currentStep}
+                  totalSteps={totalSteps}
+                  progressPercentage={progressPercentage}
+                  vocabulary={tData.vocabulary}
+                />
               )}
 
               {/* SCREEN STEP >= 2: EXERCISES */}
-              {currentStep >= 2 && (() => {
-                const ex = exercisesList[currentStep - 2]
-                if (!ex) return null
-
-                return (
-                  <div className="screen active" style={{ display: 'flex', flexDirection: 'column', height: '100%', maxHeight: '520px' }}>
-                    <div className="progress-row">
-                      <span className="progress-text">{currentStep + 1} / {totalSteps}</span>
-                      <div className="progress-bar">
-                        <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
-                      </div>
-                    </div>
-
-                    <div className="ex-instruction">
-                      {ex.instruction || 'Hoàn thành các câu hỏi sau'}
-                    </div>
-
-                    <div className="counter" style={{ marginBottom: '8px' }}>
-                      Dạng bài {currentStep - 1} / {exercisesList.length}
-                    </div>
-
-                    <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px', paddingRight: '4px', marginBottom: '8px' }}>
-                      {ex.questions.map((q: any, qIdx: number) => {
-                        const gradeEx = gradingResult?.exercises?.find((item) => item.type === ex.type)
-                        const qGraded = gradeEx?.questions?.find((item) => item.id === q.id)
-                        const isCorrect = qGraded?.correct
-
-                        return (
-                          <div key={q.id || qIdx} style={{ display: 'flex', flexDirection: 'column', gap: '8px', borderBottom: qIdx < ex.questions.length - 1 ? '1px dashed #222' : 'none', paddingBottom: qIdx < ex.questions.length - 1 ? '16px' : '0' }}>
-
-                            {/* MATCHING EXERCISE */}
-                            {ex.type === 'matching' && (
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <div style={{ fontSize: '14px', color: 'var(--color-text)', marginBottom: '4px', paddingLeft: '4px' }}>
-                                  Câu {qIdx + 1}: {q.word}
-                                </div>
-                                <div className="options">
-                                  {q.options?.map((opt: string, oIdx: number) => {
-                                    const isSelected = getAnswerValue('matching', q.id) === opt
-                                    const showCorrect = status === 'COMPLETED' && q.answer === opt
-                                    const showWrong = status === 'COMPLETED' && isSelected && q.answer !== opt
-
-                                    let optClass = 'option'
-                                    if (isSelected) optClass += ' selected'
-                                    if (showCorrect) optClass += ' correct'
-                                    else if (showWrong) optClass += ' wrong'
-
-                                    return (
-                                      <button
-                                        key={oIdx}
-                                        className={optClass}
-                                        disabled={status === 'COMPLETED'}
-                                        onClick={() => handleAnswerChange('matching', q.id, opt)}
-                                      >
-                                        {opt}
-                                      </button>
-                                    )
-                                  })}
-                                </div>
-                              </div>
-                            )}
-
-                            {/* MULTIPLE CHOICE EXERCISE */}
-                            {ex.type === 'multiple_choice' && (
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <div className="mcq-q">
-                                  Câu {qIdx + 1}: {q.question}
-                                </div>
-                                <div className="mcq-opts">
-                                  {Object.entries(q.options || {}).map(([key, val]: [string, any], oIdx: number) => {
-                                    const isSelected = getAnswerValue('multiple_choice', q.id) === key
-                                    const showCorrect = status === 'COMPLETED' && q.answer === key
-                                    const showWrong = status === 'COMPLETED' && isSelected && q.answer !== key
-
-                                    let optClass = 'mcq-opt'
-                                    if (isSelected) optClass += ' selected'
-                                    if (showCorrect) optClass += ' correct-opt'
-                                    else if (showWrong) optClass += ' wrong-opt'
-
-                                    return (
-                                      <div
-                                        key={oIdx}
-                                        className={optClass}
-                                        onClick={() => {
-                                          if (status === 'COMPLETED') return
-                                          handleAnswerChange('multiple_choice', q.id, key)
-                                        }}
-                                      >
-                                        <div className="key">{key}</div>
-                                        <div className="opt-text">{val}</div>
-                                      </div>
-                                    )
-                                  })}
-                                </div>
-                              </div>
-                            )}
-
-                            {/* FILL WITH BANK EXERCISE */}
-                            {ex.type === 'fill_with_bank' && (
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
-                                  {ex.word_bank?.map((w: string, wIdx: number) => (
-                                    <span
-                                      key={wIdx}
-                                      className="tag"
-                                      onClick={() => {
-                                        if (status === 'COMPLETED') return
-                                        handleAnswerChange('fill_with_bank', q.id, w)
-                                      }}
-                                    >
-                                      {w}
-                                    </span>
-                                  ))}
-                                </div>
-                                <div className="fill-sentence" style={{ paddingLeft: '4px' }}>
-                                  {(() => {
-                                    const parts = (q.sentence || '').split('___')
-                                    const currentAns = getAnswerValue('fill_with_bank', q.id)
-                                    return (
-                                      <>
-                                        Câu {qIdx + 1}: {parts[0]}
-                                        <span className="blank">{currentAns || '___'}</span>
-                                        {parts[1]}
-                                      </>
-                                    )
-                                  })()}
-                                </div>
-                              </div>
-                            )}
-
-                            {/* TRANSLATE / DEFINITION EXERCISE */}
-                            {['translate_to_english', 'definition_to_word'].includes(ex.type) && (
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
-                                  Câu {qIdx + 1}: {q.vietnamese || q.definition}
-                                </div>
-                                <input
-                                  className="drawer-input"
-                                  placeholder="Nhập câu trả lời của bạn..."
-                                  value={getAnswerValue(ex.type, q.id)}
-                                  disabled={status === 'COMPLETED'}
-                                  onChange={(e) => handleAnswerChange(ex.type, q.id, e.target.value)}
-                                />
-                                {q.hint && (
-                                  <div style={{ marginTop: '4px' }}>
-                                    <button
-                                      onClick={() => setShownHints(prev => ({ ...prev, [q.id]: !prev[q.id] }))}
-                                      style={{ background: 'none', border: '1px dashed #222', color: '#555', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', cursor: 'pointer' }}
-                                    >
-                                      {shownHints[q.id] ? 'Ẩn gợi ý' : 'Gợi ý từ AI'}
-                                    </button>
-                                    {shownHints[q.id] && (
-                                      <p style={{ color: '#888888', fontSize: '11px', marginTop: '6px', fontStyle: 'italic' }}>
-                                        Hint: {q.hint}
-                                      </p>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
-                            )}
-
-                            {/* ERROR CORRECTION EXERCISE */}
-                            {ex.type === 'error_correction' && (
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <div className="mcq-q" style={{ textDecoration: 'line-through', color: '#FF3B5C', borderColor: '#FF3B5C' }}>
-                                  Câu {qIdx + 1}: {q.wrong_sentence}
-                                </div>
-                                <input
-                                  className="drawer-input"
-                                  placeholder="Sửa lại câu đúng..."
-                                  value={getAnswerValue('error_correction', q.id)}
-                                  disabled={status === 'COMPLETED'}
-                                  onChange={(e) => handleAnswerChange('error_correction', q.id, e.target.value)}
-                                />
-                              </div>
-                            )}
-
-                            {/* OPEN ENDED EXERCISE */}
-                            {ex.type === 'open_ended' && (
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <div className="mcq-q">
-                                  Câu {qIdx + 1}: {q.question}
-                                </div>
-                                <textarea
-                                  className="drawer-input"
-                                  style={{ minHeight: '80px', resize: 'vertical', width: '100%' }}
-                                  placeholder="Viết đoạn trả lời tự do..."
-                                  value={getAnswerValue('open_ended', q.id)}
-                                  disabled={status === 'COMPLETED'}
-                                  onChange={(e) => handleAnswerChange('open_ended', q.id, e.target.value)}
-                                />
-                              </div>
-                            )}
-
-                            {/* GRADING RESULTS & AI FEEDBACK IN-PLACE */}
-                            {status === 'COMPLETED' && qGraded && (
-                              <div style={{ marginTop: '8px', borderTop: '1px dashed #222222', paddingTop: '8px' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                  <span className={isCorrect ? 'highlight' : ''} style={{ fontSize: '12px', fontWeight: 600, color: isCorrect ? 'var(--color-primary)' : '#FF3B5C' }}>
-                                    {isCorrect ? '✓ Đúng' : `✗ Sai - Đáp án: ${qGraded.correct_answer}`}
-                                  </span>
-                                </div>
-                                <p style={{ color: '#888888', fontSize: '11px', marginTop: '4px', lineHeight: '16px', margin: '4px 0 0 0' }}>
-                                  Feedback: {qGraded.feedback}
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        )
-                      })}
-                    </div>
-
-
-                    {submitError && (
-                      <p style={{ color: '#FF3B5C', fontSize: '11px', margin: '8px 0 0 0', textAlign: 'center' }}>
-                        {submitError}
-                      </p>
-                    )}
-
-                  </div>
-                )
-              })()}
+              {currentStep >= 2 && (
+                <ExercisesSection
+                  currentStep={currentStep}
+                  totalSteps={totalSteps}
+                  progressPercentage={progressPercentage}
+                  exercisesList={exercisesList}
+                  status={status}
+                  gradingResult={gradingResult}
+                  getAnswerValue={getAnswerValue}
+                  handleAnswerChange={handleAnswerChange}
+                  shownHints={shownHints}
+                  setShownHints={setShownHints}
+                  submitError={submitError}
+                />
+              )}
             </>
           )}
 
-          {/* TAB TOKEN: CONFIGURATION AND API KEY MANAGER (Heading and accent line removed) */}
+          {/* TAB TOKEN: CONFIGURATION AND API KEY MANAGER */}
           {activeTab === 'token' && (
-            <div className="screen active">
-              <div className="vocab-list" style={{ gap: '12px', marginTop: '16px' }}>
-                <p className="drawer-muted" style={{ fontSize: '11px', color: '#555555', lineHeight: '16px', margin: 0 }}>
-                  Lưu trữ khóa API Gemini cá nhân trong thiết bị của bạn để gửi yêu cầu chấm bài làm trực tiếp bằng mô hình AI.
-                </p>
-
-                <input 
-                  type="password"
-                  className="drawer-input"
-                  placeholder="Nhập API Key (AIzaSy...)"
-                  value={newToken}
-                  onChange={(e) => setNewToken(e.target.value)}
-                />
-
-                <button 
-                  className="next-btn"
-                  style={{ marginTop: '4px' }}
-                  onClick={() => {
-                    if (!newToken.trim()) return
-                    const val = newToken.trim()
-                    const newT = { id: Date.now().toString(), value: val }
-                    const updated = [...tokens, newT]
-                    setTokens(updated)
-                    localStorage.setItem('learn_tokens', JSON.stringify(updated))
-                    setNewToken('')
-                    message.success('Đã lưu khóa API thành công!')
-                  }}
-                >
-                  Lưu Key mới
-                </button>
-
-                {tokens.length > 0 && (
-                  <div style={{ marginTop: '16px', borderTop: '1px solid #1a1a1a', paddingTop: '12px' }}>
-                    <div className="ex-instruction" style={{ marginBottom: '8px' }}>Khóa đang lưu</div>
-                    {tokens.map((tok) => (
-                      <div key={tok.id} style={{ 
-                        display: 'flex', 
-                        justifyContent: 'space-between', 
-                        alignItems: 'center', 
-                        background: 'var(--color-card-bg)', 
-                        padding: '10px 14px', 
-                        borderRadius: 'var(--radius-md)', // Đồng bộ bo góc 12px giống câu hỏi/input khác
-                        border: '1px solid var(--color-card-border)', 
-                        width: '100%',
-                        boxSizing: 'border-box',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '13px', color: 'var(--color-text-secondary)', fontFamily: 'monospace' }}>
-                          ••••••••{tok.value.slice(-8)}
-                        </span>
-                        <button 
-                          onClick={() => {
-                            const updated = tokens.filter((t) => t.id !== tok.id)
-                            setTokens(updated)
-                            localStorage.setItem('learn_tokens', JSON.stringify(updated))
-                            message.success('Đã gỡ API Key thành công!')
-                          }}
-                          style={{ 
-                            background: 'none', 
-                            border: 'none', 
-                            color: '#FF3B5C', 
-                            cursor: 'pointer', 
-                            fontSize: '12px',
-                            padding: 0,
-                            fontWeight: 500
-                          }}
-                        >
-                          Xóa
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+            <GeminiTokenConfig
+              newToken={newToken}
+              setNewToken={setNewToken}
+              tokens={tokens}
+              setTokens={setTokens}
+            />
           )}
 
           {/* ELEGANT FIXED BOTTOM NAVIGATION BAR */}
