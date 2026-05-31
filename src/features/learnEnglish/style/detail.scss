@@ -458,6 +458,7 @@
     min-height: 100vh !important;
     display: flex !important;
     flex-direction: column !important;
+    overflow: hidden !important; // Ngăn chặn kéo cuộn ở cấp độ trang
 
     .phone {
       width: 100% !important;
@@ -477,6 +478,15 @@
       min-height: 0 !important;
       max-height: none !important;
       overflow-y: auto !important;
+    }
+
+    .bottom-nav-bar {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100vw !important;
+      z-index: 1000 !important;
     }
   }
 }
