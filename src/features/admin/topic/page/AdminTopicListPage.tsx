@@ -21,7 +21,7 @@ export default function AdminTopicListPage() {
 
   const [modalOpen, setModalOpen] = useState(false)
   const [editTarget, setEditTarget] = useState<LearnTopic | null>(null)
-  
+
   const [saving, setSaving] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -122,6 +122,7 @@ export default function AdminTopicListPage() {
       render: (_: any, record: LearnTopic) => (
         <Space size="middle">
           <Button
+            style={{ color: 'blue' }}
             variant="secondary"
             size="sm"
             icon={<EditOutlined />}
@@ -137,6 +138,7 @@ export default function AdminTopicListPage() {
             cancelText="Hủy"
           >
             <Button
+              style={{ color: 'red' }}
               variant="danger"
               size="sm"
               loading={deletingId === record.id}
