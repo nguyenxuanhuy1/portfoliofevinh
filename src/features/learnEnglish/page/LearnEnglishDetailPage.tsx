@@ -414,7 +414,7 @@ export default function LearnEnglishDetailPage() {
             className={`tab ${activeTab === 'wizard' && currentStep >= 2 ? 'active' : ''}`}
             onClick={() => { setActiveTab('wizard'); if (currentStep < 2) setCurrentStep(2); }}
           >
-            {currentStep >= 2 && exercisesList[currentStep - 2]?.type === 'matching' ? 'Matching' : 'Bài tập'}
+            {currentStep >= 2 && exercisesList[currentStep - 2]?.type === 'matching' ? 'Bài tập' : 'Bài tập'}
           </div>
           <div
             className={`tab ${activeTab === 'token' ? 'active' : ''}`}
