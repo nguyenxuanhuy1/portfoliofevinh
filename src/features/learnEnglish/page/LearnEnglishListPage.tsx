@@ -92,10 +92,13 @@ export default function LearnEnglishListPage() {
 
       {loading ? (
         <div className="learn-english__list">
-          {Array.from({ length: 4 }).map((_, idx) => (
+          {Array.from({ length: 1 }).map((_, idx) => (
             <div key={idx} className="learn-english__btn-3d" style={{ opacity: 0.6, cursor: 'default' }}>
-              <Skeleton variant="text" width="40%" height="20px" />
-              <Skeleton variant="rect" width="100px" height="22px" borderRadius="var(--radius-full)" />
+              <Skeleton
+                title={false}
+                paragraph={false}
+                height="20px"
+              />
             </div>
           ))}
         </div>
