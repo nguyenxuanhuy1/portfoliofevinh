@@ -64,7 +64,7 @@ export const routeConfig: AppRoute[] = [
   {
     path: '/learn-english',
     element: <LearnEnglishListPage />,
-    public: false,
+    public: true,
     label: { 
       vi: 'Học tiếng Anh', 
       en: 'Learn English' 
@@ -75,14 +75,14 @@ export const routeConfig: AppRoute[] = [
   {
     path: '/learn-english/history',
     element: <LearnEnglishHistoryPage />,
-    public: false,
+    public: true,
     showInMenu: false,
     layout: 'auth',
   },
   {
     path: '/learn-english/:id',
     element: <LearnEnglishDetailPage />,
-    public: false,
+    public: true,
     showInMenu: false,
     layout: 'auth',
   },
