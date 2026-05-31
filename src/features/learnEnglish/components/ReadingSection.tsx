@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface ReadingSectionProps {
   currentStep: number;
   totalSteps: number;
