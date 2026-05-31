@@ -60,7 +60,7 @@ export default function ExercisesSection({
               {/* MATCHING EXERCISE */}
               {ex.type === 'matching' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontSize: '14px', color: 'var(--color-text)', marginBottom: '4px', paddingLeft: '4px' }}>
+                  <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
                     Câu {qIdx + 1}: {q.word}
                   </div>
                   <div className="options">
@@ -92,7 +92,7 @@ export default function ExercisesSection({
               {/* MULTIPLE CHOICE EXERCISE */}
               {ex.type === 'multiple_choice' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div className="mcq-q">
+                  <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
                     Câu {qIdx + 1}: {q.question}
                   </div>
                   <div className="mcq-opts">
@@ -141,7 +141,7 @@ export default function ExercisesSection({
                       </span>
                     ))}
                   </div>
-                  <div className="fill-sentence" style={{ paddingLeft: '4px' }}>
+                  <div className="fill-sentence" style={{ fontSize: '13px', color: 'var(--color-text-secondary)', paddingLeft: '4px', lineHeight: '18px', marginBottom: '8px' }}>
                     {(() => {
                       const parts = (q.sentence || '').split('___')
                       const currentAns = getAnswerValue('fill_with_bank', q.id)
@@ -191,7 +191,7 @@ export default function ExercisesSection({
               {/* ERROR CORRECTION EXERCISE */}
               {ex.type === 'error_correction' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div className="mcq-q" style={{ textDecoration: 'line-through', color: '#FF3B5C', borderColor: '#FF3B5C' }}>
+                  <div style={{ fontSize: '13px', color: '#FF3B5C', textDecoration: 'line-through', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
                     Câu {qIdx + 1}: {q.wrong_sentence}
                   </div>
                   <input
@@ -207,7 +207,7 @@ export default function ExercisesSection({
               {/* OPEN ENDED EXERCISE */}
               {ex.type === 'open_ended' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div className="mcq-q">
+                  <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
                     Câu {qIdx + 1}: {q.question}
                   </div>
                   <textarea
