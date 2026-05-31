@@ -25,11 +25,11 @@ export default function LearnEnglishDetailPage() {
   const [activeTab, setActiveTab] = useState<'wizard' | 'token'>('wizard')
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [userAnswers, setUserAnswers] = useState<Array<{ type: ExerciseType; answers: Record<string, string> }>>([])
-  
+
   const [status, setStatus] = useState<'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED'>('NOT_STARTED')
   const [score, setScore] = useState<number | null>(null)
   const [gradingResult, setGradingResult] = useState<GradingResult | null>(null)
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [dots, setDots] = useState('...')
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -60,7 +60,7 @@ export default function LearnEnglishDetailPage() {
 
   // Token management states
   const [newToken, setNewToken] = useState('')
-  const [tokens, setTokens] = useState<Array<{ id: string; value: string }>>(() => 
+  const [tokens, setTokens] = useState<Array<{ id: string; value: string }>>(() =>
     JSON.parse(localStorage.getItem('learn_tokens') || '[]')
   )
 
@@ -77,7 +77,7 @@ export default function LearnEnglishDetailPage() {
         if (parsed.answers && Array.isArray(parsed.answers)) {
           setUserAnswers(parsed.answers)
         }
-        
+
         if (parsed.status === 'COMPLETED') {
           setActiveTab('wizard')
           // Auto go to last step (Practice/Grading review step)
@@ -98,7 +98,7 @@ export default function LearnEnglishDetailPage() {
     const cleanQuery = val.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "")
     const dataObj = typeof topic.data === 'string' ? JSON.parse(topic.data) : topic.data
     const vocabList = dataObj?.vocabulary || []
-    
+
     const matchedVocab = vocabList.find(
       (v: any) => {
         const wordLower = v.word?.toLowerCase() || ''
@@ -163,13 +163,13 @@ export default function LearnEnglishDetailPage() {
     if (!topic || !id) return
     const historyRaw = localStorage.getItem('learn_history')
     let historyList = []
-    
+
     if (historyRaw) {
       try {
         historyList = JSON.parse(historyRaw)
-      } catch {}
+      } catch { }
     }
-    
+
     const newRecord = {
       id: Math.random().toString(36).substring(2, 9),
       topicId: id,
@@ -177,7 +177,7 @@ export default function LearnEnglishDetailPage() {
       submittedAt: new Date().toISOString(),
       score: finalScore
     }
-    
+
     historyList.push(newRecord)
     localStorage.setItem('learn_history', JSON.stringify(historyList))
   }
@@ -193,7 +193,7 @@ export default function LearnEnglishDetailPage() {
       const finalAnswers = (dataObj.exercises || []).map((ex: Exercise) => {
         const existing = userAnswers.find((item) => item.type === ex.type)
         const qAnswers: Record<string, string> = {}
-        
+
         ex.questions.forEach((q: any) => {
           const qId = q.id.toString()
           qAnswers[qId] = existing?.answers[qId] || ''
@@ -206,7 +206,7 @@ export default function LearnEnglishDetailPage() {
       })
 
       const result = await learnTopicService.grade(id, finalAnswers)
-      
+
       setGradingResult(result)
       setScore(result.total_score)
       setStatus('COMPLETED')
@@ -274,8 +274,8 @@ export default function LearnEnglishDetailPage() {
     return (
       <div className="learn-english" style={{ textAlign: 'center', padding: '48px 0' }}>
         <h2 style={{ color: '#555555' }}>Chủ đề học không tồn tại</h2>
-        <button 
-          onClick={() => navigate('/learn-english')} 
+        <button
+          onClick={() => navigate('/learn-english')}
           style={{ marginTop: '16px', padding: '8px 16px', background: '#111', border: '1px solid #222', color: '#fff', borderRadius: '4px', cursor: 'pointer' }}
         >
           Quay lại danh sách
@@ -293,7 +293,7 @@ export default function LearnEnglishDetailPage() {
     <div className="learn-english learn-english--detail">
       {/* PHONE SIMULATION CONTAINER */}
       <div className="phone">
-        
+
         {/* INTEGRATED TOP NAVIGATION BAR */}
         <div style={{
           display: 'flex',
@@ -303,8 +303,8 @@ export default function LearnEnglishDetailPage() {
           borderBottom: '1px solid var(--color-card-border)',
           background: 'var(--color-card-bg)',
         }}>
-          <button 
-            onClick={() => navigate('/learn-english')} 
+          <button
+            onClick={() => navigate('/learn-english')}
             style={{
               background: 'none',
               border: 'none',
@@ -338,225 +338,239 @@ export default function LearnEnglishDetailPage() {
                 gap: '4px',
                 padding: 0,
                 fontSize: '12px',
-                fontWeight: 400 // Làm chữ mỏng, không in đậm
+                fontWeight: 400
               }}
             >
               <ReloadOutlined />
             </button>
           ) : (
-            <div style={{ width: '65px' }} />
+            <button
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'transparent',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                padding: 0,
+                fontSize: '12px',
+                fontWeight: 400
+              }}
+            >
+              <ReloadOutlined />
+            </button>
           )}
         </div>
-          
-          {/* TRA TỪ DIỂN DRAWER */}
-          <div className="drawer-bar" onClick={() => setDictOpen(!dictOpen)}>
-            <span className="drawer-label">
-              <GlobalOutlined className="drawer-icon" /> Tra từ nhanh
-            </span>
-            <span style={{ fontSize: '10px', color: '#555555' }}>
-              {dictOpen ? '▲ Close' : '▼ Open'}
-            </span>
-          </div>
 
-          <div className={`drawer-body ${dictOpen ? 'active' : ''}`}>
-            <input 
-              className="drawer-input" 
-              placeholder="Nhập từ cần dịch..." 
-              value={dictQuery}
-              onChange={(e) => handleDictSearch(e.target.value)}
-            />
-            {dictResult ? (
-              <div id="drawer-result" style={{ display: 'block' }}>
-                <div className="drawer-word">{dictResult.word}</div>
-                <div className="drawer-muted">{dictResult.meaning}</div>
-                {dictResult.example && (
-                  <div className="drawer-muted" style={{ fontStyle: 'italic', marginTop: '3px' }}>
-                    {dictResult.example}
-                  </div>
-                )}
-              </div>
-            ) : dictQuery.trim() ? (
-              <div id="drawer-result" style={{ display: 'block', padding: '6px 0' }}>
-                <div className="drawer-muted" style={{ fontStyle: 'italic' }}>Không tìm thấy từ này trong từ vựng bài học.</div>
-              </div>
-            ) : null}
-          </div>
+        {/* TRA TỪ DIỂN DRAWER */}
+        <div className="drawer-bar" onClick={() => setDictOpen(!dictOpen)}>
+          <span className="drawer-label">
+            <GlobalOutlined className="drawer-icon" /> Tra từ nhanh
+          </span>
+          <span style={{ fontSize: '10px', color: '#555555' }}>
+            {dictOpen ? '▲ Close' : '▼ Open'}
+          </span>
+        </div>
 
-          {/* TAB BAR (Strictly matches the 4-mode layout specs) */}
-          <div className="tab-bar">
-            <div 
-              className={`tab ${activeTab === 'wizard' && currentStep === 0 ? 'active' : ''}`}
-              onClick={() => { setActiveTab('wizard'); setCurrentStep(0); }}
-            >
-              Bài đọc
-            </div>
-            <div 
-              className={`tab ${activeTab === 'wizard' && currentStep === 1 ? 'active' : ''}`}
-              onClick={() => { setActiveTab('wizard'); setCurrentStep(1); }}
-            >
-              Từ vựng
-            </div>
-            <div 
-              className={`tab ${activeTab === 'wizard' && currentStep >= 2 ? 'active' : ''}`}
-              onClick={() => { setActiveTab('wizard'); if (currentStep < 2) setCurrentStep(2); }}
-            >
-              {currentStep >= 2 && exercisesList[currentStep - 2]?.type === 'matching' ? 'Matching' : 'Bài tập'}
-            </div>
-            <div 
-              className={`tab ${activeTab === 'token' ? 'active' : ''}`}
-              onClick={() => setActiveTab('token')}
-            >
-              Cấu hình
-            </div>
-          </div>
-
-          {/* SCREEN ACTIVE CONTAINER */}
-          
-          {/* TAB WIZARD: MAIN PATHWAYS */}
-          {activeTab === 'wizard' && (
-            <>
-              {/* SCREEN STEP 0: READING */}
-              {currentStep === 0 && (
-                <ReadingSection
-                  currentStep={currentStep}
-                  totalSteps={totalSteps}
-                  progressPercentage={progressPercentage}
-                  readingPassage={tData.reading_passage}
-                />
-              )}
-
-              {/* SCREEN STEP 1: VOCABULARY */}
-              {currentStep === 1 && (
-                <VocabularySection
-                  currentStep={currentStep}
-                  totalSteps={totalSteps}
-                  progressPercentage={progressPercentage}
-                  vocabulary={tData.vocabulary}
-                />
-              )}
-
-              {/* SCREEN STEP >= 2: EXERCISES */}
-              {currentStep >= 2 && (
-                <ExercisesSection
-                  currentStep={currentStep}
-                  totalSteps={totalSteps}
-                  progressPercentage={progressPercentage}
-                  exercisesList={exercisesList}
-                  status={status}
-                  gradingResult={gradingResult}
-                  getAnswerValue={getAnswerValue}
-                  handleAnswerChange={handleAnswerChange}
-                  shownHints={shownHints}
-                  setShownHints={setShownHints}
-                  submitError={submitError}
-                />
-              )}
-            </>
-          )}
-
-          {/* TAB TOKEN: CONFIGURATION AND API KEY MANAGER */}
-          {activeTab === 'token' && (
-            <GeminiTokenConfig
-              newToken={newToken}
-              setNewToken={setNewToken}
-              tokens={tokens}
-              setTokens={setTokens}
-            />
-          )}
-
-          {/* ELEGANT FIXED BOTTOM NAVIGATION BAR */}
-          {activeTab === 'wizard' && (
-            <div className="bottom-nav-bar">
-              {currentStep === 0 && (
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <button className="next-btn" style={{ width: '100%', margin: 0 }} onClick={() => setCurrentStep(1)}>
-                    Tiếp theo →
-                  </button>
+        <div className={`drawer-body ${dictOpen ? 'active' : ''}`}>
+          <input
+            className="drawer-input"
+            placeholder="Nhập từ cần dịch..."
+            value={dictQuery}
+            onChange={(e) => handleDictSearch(e.target.value)}
+          />
+          {dictResult ? (
+            <div id="drawer-result" style={{ display: 'block' }}>
+              <div className="drawer-word">{dictResult.word}</div>
+              <div className="drawer-muted">{dictResult.meaning}</div>
+              {dictResult.example && (
+                <div className="drawer-muted" style={{ fontStyle: 'italic', marginTop: '3px' }}>
+                  {dictResult.example}
                 </div>
               )}
+            </div>
+          ) : dictQuery.trim() ? (
+            <div id="drawer-result" style={{ display: 'block', padding: '6px 0' }}>
+              <div className="drawer-muted" style={{ fontStyle: 'italic' }}>Không tìm thấy từ này trong từ vựng bài học.</div>
+            </div>
+          ) : null}
+        </div>
 
-              {currentStep === 1 && (
-                <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
-                  <button 
-                    className="next-btn" 
-                    style={{ 
-                      flex: 1, 
+        {/* TAB BAR (Strictly matches the 4-mode layout specs) */}
+        <div className="tab-bar">
+          <div
+            className={`tab ${activeTab === 'wizard' && currentStep === 0 ? 'active' : ''}`}
+            onClick={() => { setActiveTab('wizard'); setCurrentStep(0); }}
+          >
+            Bài đọc
+          </div>
+          <div
+            className={`tab ${activeTab === 'wizard' && currentStep === 1 ? 'active' : ''}`}
+            onClick={() => { setActiveTab('wizard'); setCurrentStep(1); }}
+          >
+            Từ vựng
+          </div>
+          <div
+            className={`tab ${activeTab === 'wizard' && currentStep >= 2 ? 'active' : ''}`}
+            onClick={() => { setActiveTab('wizard'); if (currentStep < 2) setCurrentStep(2); }}
+          >
+            {currentStep >= 2 && exercisesList[currentStep - 2]?.type === 'matching' ? 'Matching' : 'Bài tập'}
+          </div>
+          <div
+            className={`tab ${activeTab === 'token' ? 'active' : ''}`}
+            onClick={() => setActiveTab('token')}
+          >
+            Cấu hình
+          </div>
+        </div>
+
+        {/* SCREEN ACTIVE CONTAINER */}
+
+        {/* TAB WIZARD: MAIN PATHWAYS */}
+        {activeTab === 'wizard' && (
+          <>
+            {/* SCREEN STEP 0: READING */}
+            {currentStep === 0 && (
+              <ReadingSection
+                currentStep={currentStep}
+                totalSteps={totalSteps}
+                progressPercentage={progressPercentage}
+                readingPassage={tData.reading_passage}
+              />
+            )}
+
+            {/* SCREEN STEP 1: VOCABULARY */}
+            {currentStep === 1 && (
+              <VocabularySection
+                currentStep={currentStep}
+                totalSteps={totalSteps}
+                progressPercentage={progressPercentage}
+                vocabulary={tData.vocabulary}
+              />
+            )}
+
+            {/* SCREEN STEP >= 2: EXERCISES */}
+            {currentStep >= 2 && (
+              <ExercisesSection
+                currentStep={currentStep}
+                totalSteps={totalSteps}
+                progressPercentage={progressPercentage}
+                exercisesList={exercisesList}
+                status={status}
+                gradingResult={gradingResult}
+                getAnswerValue={getAnswerValue}
+                handleAnswerChange={handleAnswerChange}
+                shownHints={shownHints}
+                setShownHints={setShownHints}
+                submitError={submitError}
+              />
+            )}
+          </>
+        )}
+
+        {/* TAB TOKEN: CONFIGURATION AND API KEY MANAGER */}
+        {activeTab === 'token' && (
+          <GeminiTokenConfig
+            newToken={newToken}
+            setNewToken={setNewToken}
+            tokens={tokens}
+            setTokens={setTokens}
+          />
+        )}
+
+        {/* ELEGANT FIXED BOTTOM NAVIGATION BAR */}
+        {activeTab === 'wizard' && (
+          <div className="bottom-nav-bar">
+            {currentStep === 0 && (
+              <div style={{ display: 'flex', width: '100%' }}>
+                <button className="next-btn" style={{ width: '100%', margin: 0 }} onClick={() => setCurrentStep(1)}>
+                  Tiếp theo →
+                </button>
+              </div>
+            )}
+
+            {currentStep === 1 && (
+              <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
+                <button
+                  className="next-btn"
+                  style={{
+                    flex: 1,
+                    margin: 0,
+                    background: 'var(--color-card-bg)',
+                    color: 'var(--color-primary)',
+                    border: '1px solid var(--color-primary)'
+                  }}
+                  onClick={() => setCurrentStep(0)}
+                >
+                  ←
+                </button>
+                <button className="next-btn" style={{ flex: 3, margin: 0 }} onClick={() => setCurrentStep(2)}>
+                  Làm bài tập →
+                </button>
+              </div>
+            )}
+
+            {currentStep >= 2 && (
+              <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
+                {currentStep > 0 && (
+                  <button
+                    className="next-btn"
+                    style={{
+                      flex: 1,
                       margin: 0,
-                      background: 'var(--color-card-bg)', 
-                      color: 'var(--color-primary)', 
-                      border: '1px solid var(--color-primary)' 
+                      background: 'var(--color-card-bg)',
+                      color: 'var(--color-primary)',
+                      border: '1px solid var(--color-primary)'
                     }}
-                    onClick={() => setCurrentStep(0)}
+                    onClick={() => setCurrentStep(prev => prev - 1)}
                   >
                     ←
                   </button>
-                  <button className="next-btn" style={{ flex: 3, margin: 0 }} onClick={() => setCurrentStep(2)}>
-                    Làm bài tập →
+                )}
+
+                {currentStep < totalSteps - 1 ? (
+                  <button
+                    className="next-btn"
+                    style={{ flex: 3, margin: 0 }}
+                    onClick={() => setCurrentStep(prev => prev + 1)}
+                  >
+                    Tiếp theo →
                   </button>
-                </div>
-              )}
+                ) : (
+                  <div style={{ flex: 3 }}>
+                    {status !== 'COMPLETED' ? (
+                      <button
+                        className="next-btn"
+                        style={{ width: '100%', margin: 0 }}
+                        disabled={isSubmitting}
+                        onClick={handleSubmitGrading}
+                      >
+                        {isSubmitting ? (
+                          <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <span>Chấm điểm</span>
+                            <span style={{ display: 'inline-block', width: '20px', textAlign: 'left', marginLeft: '2px' }}>{dots}</span>
+                          </span>
+                        ) : 'Nộp bài ngay'}
+                      </button>
+                    ) : (
+                      <button
+                        className="next-btn"
+                        style={{ width: '100%', margin: 0, background: 'var(--color-card-bg)', color: 'var(--color-primary)', border: '1px solid var(--color-primary)' }}
+                        onClick={() => {
+                          message.info(`Tổng điểm bài làm của bạn đạt ${score}/100`)
+                        }}
+                      >
+                        Điểm của bạn: {score}
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
-              {currentStep >= 2 && (
-                <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
-                  {currentStep > 0 && (
-                    <button 
-                      className="next-btn" 
-                      style={{ 
-                        flex: 1, 
-                        margin: 0,
-                        background: 'var(--color-card-bg)', 
-                        color: 'var(--color-primary)', 
-                        border: '1px solid var(--color-primary)' 
-                      }}
-                      onClick={() => setCurrentStep(prev => prev - 1)}
-                    >
-                      ←
-                    </button>
-                  )}
-
-                  {currentStep < totalSteps - 1 ? (
-                    <button 
-                      className="next-btn"
-                      style={{ flex: 3, margin: 0 }}
-                      onClick={() => setCurrentStep(prev => prev + 1)}
-                    >
-                      Tiếp theo →
-                    </button>
-                  ) : (
-                    <div style={{ flex: 3 }}>
-                      {status !== 'COMPLETED' ? (
-                        <button 
-                          className="next-btn"
-                          style={{ width: '100%', margin: 0 }}
-                          disabled={isSubmitting}
-                          onClick={handleSubmitGrading}
-                        >
-                          {isSubmitting ? (
-                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <span>Chấm điểm</span>
-                              <span style={{ display: 'inline-block', width: '20px', textAlign: 'left', marginLeft: '2px' }}>{dots}</span>
-                            </span>
-                          ) : 'Nộp bài ngay'}
-                        </button>
-                      ) : (
-                        <button 
-                          className="next-btn"
-                          style={{ width: '100%', margin: 0, background: 'var(--color-card-bg)', color: 'var(--color-primary)', border: '1px solid var(--color-primary)' }}
-                          onClick={() => {
-                            message.info(`Tổng điểm bài làm của bạn đạt ${score}/100`)
-                          }}
-                        >
-                          Điểm của bạn: {score}
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-        </div>
       </div>
+    </div>
   )
 }
