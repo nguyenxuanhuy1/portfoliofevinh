@@ -15,6 +15,7 @@ import GeminiTokenConfig from '../components/GeminiTokenConfig'
 import ReadingSection from '../components/ReadingSection'
 import VocabularySection from '../components/VocabularySection'
 import ExercisesSection from '../components/ExercisesSection'
+import ResultsSummarySection from '../components/ResultsSummarySection'
 import '../style/index.scss'
 
 export default function LearnEnglishDetailPage() {
@@ -33,6 +34,7 @@ export default function LearnEnglishDetailPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [dots, setDots] = useState('...')
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [showResultsScreen, setShowResultsScreen] = useState(false)
 
   // Cycle dots for loading animation
   useEffect(() => {
@@ -80,7 +82,7 @@ export default function LearnEnglishDetailPage() {
 
         if (parsed.status === 'COMPLETED') {
           setActiveTab('wizard')
-          // Auto go to last step (Practice/Grading review step)
+          setShowResultsScreen(true)
         }
       } catch (err) {
         console.error('Lỗi load progress từ localStorage:', err)
@@ -210,6 +212,7 @@ export default function LearnEnglishDetailPage() {
       setGradingResult(result)
       setScore(result.total_score)
       setStatus('COMPLETED')
+      setShowResultsScreen(true)
 
       localStorage.setItem(`learn_progress_${id}`, JSON.stringify({
         topicId: id,
@@ -249,6 +252,7 @@ export default function LearnEnglishDetailPage() {
         setCurrentStep(0)
         setActiveTab('wizard')
         setShownHints({})
+        setShowResultsScreen(false)
         message.success('Đã reset bài làm thành công!')
       }
     })
@@ -399,26 +403,26 @@ export default function LearnEnglishDetailPage() {
         {/* TAB BAR (Strictly matches the 4-mode layout specs) */}
         <div className="tab-bar">
           <div
-            className={`tab ${activeTab === 'wizard' && currentStep === 0 ? 'active' : ''}`}
-            onClick={() => { setActiveTab('wizard'); setCurrentStep(0); }}
+            className={`tab ${activeTab === 'wizard' && currentStep === 0 && (!showResultsScreen || status !== 'COMPLETED') ? 'active' : ''}`}
+            onClick={() => { setActiveTab('wizard'); setCurrentStep(0); setShowResultsScreen(false); }}
           >
             Bài đọc
           </div>
           <div
-            className={`tab ${activeTab === 'wizard' && currentStep === 1 ? 'active' : ''}`}
-            onClick={() => { setActiveTab('wizard'); setCurrentStep(1); }}
+            className={`tab ${activeTab === 'wizard' && currentStep === 1 && (!showResultsScreen || status !== 'COMPLETED') ? 'active' : ''}`}
+            onClick={() => { setActiveTab('wizard'); setCurrentStep(1); setShowResultsScreen(false); }}
           >
             Từ vựng
           </div>
           <div
-            className={`tab ${activeTab === 'wizard' && currentStep >= 2 ? 'active' : ''}`}
-            onClick={() => { setActiveTab('wizard'); if (currentStep < 2) setCurrentStep(2); }}
+            className={`tab ${activeTab === 'wizard' && currentStep >= 2 && (!showResultsScreen || status !== 'COMPLETED') ? 'active' : ''}`}
+            onClick={() => { setActiveTab('wizard'); if (currentStep < 2) setCurrentStep(2); setShowResultsScreen(false); }}
           >
             {currentStep >= 2 && exercisesList[currentStep - 2]?.type === 'matching' ? 'Bài tập' : 'Bài tập'}
           </div>
           <div
             className={`tab ${activeTab === 'token' ? 'active' : ''}`}
-            onClick={() => setActiveTab('token')}
+            onClick={() => { setActiveTab('token'); setShowResultsScreen(false); }}
           >
             Cấu hình
           </div>
@@ -429,41 +433,54 @@ export default function LearnEnglishDetailPage() {
         {/* TAB WIZARD: MAIN PATHWAYS */}
         {activeTab === 'wizard' && (
           <>
-            {/* SCREEN STEP 0: READING */}
-            {currentStep === 0 && (
-              <ReadingSection
-                currentStep={currentStep}
-                totalSteps={totalSteps}
-                progressPercentage={progressPercentage}
-                readingPassage={tData.reading_passage}
-              />
-            )}
-
-            {/* SCREEN STEP 1: VOCABULARY */}
-            {currentStep === 1 && (
-              <VocabularySection
-                currentStep={currentStep}
-                totalSteps={totalSteps}
-                progressPercentage={progressPercentage}
-                vocabulary={tData.vocabulary}
-              />
-            )}
-
-            {/* SCREEN STEP >= 2: EXERCISES */}
-            {currentStep >= 2 && (
-              <ExercisesSection
-                currentStep={currentStep}
-                totalSteps={totalSteps}
-                progressPercentage={progressPercentage}
-                exercisesList={exercisesList}
-                status={status}
+            {status === 'COMPLETED' && showResultsScreen && gradingResult ? (
+              <ResultsSummarySection
                 gradingResult={gradingResult}
-                getAnswerValue={getAnswerValue}
-                handleAnswerChange={handleAnswerChange}
-                shownHints={shownHints}
-                setShownHints={setShownHints}
-                submitError={submitError}
+                exercisesList={exercisesList}
+                onReview={(stepStep) => {
+                  setShowResultsScreen(false)
+                  setCurrentStep(stepStep !== undefined ? stepStep : 2)
+                }}
               />
+            ) : (
+              <>
+                {/* SCREEN STEP 0: READING */}
+                {currentStep === 0 && (
+                  <ReadingSection
+                    currentStep={currentStep}
+                    totalSteps={totalSteps}
+                    progressPercentage={progressPercentage}
+                    readingPassage={tData.reading_passage}
+                  />
+                )}
+
+                {/* SCREEN STEP 1: VOCABULARY */}
+                {currentStep === 1 && (
+                  <VocabularySection
+                    currentStep={currentStep}
+                    totalSteps={totalSteps}
+                    progressPercentage={progressPercentage}
+                    vocabulary={tData.vocabulary}
+                  />
+                )}
+
+                {/* SCREEN STEP >= 2: EXERCISES */}
+                {currentStep >= 2 && (
+                  <ExercisesSection
+                    currentStep={currentStep}
+                    totalSteps={totalSteps}
+                    progressPercentage={progressPercentage}
+                    exercisesList={exercisesList}
+                    status={status}
+                    gradingResult={gradingResult}
+                    getAnswerValue={getAnswerValue}
+                    handleAnswerChange={handleAnswerChange}
+                    shownHints={shownHints}
+                    setShownHints={setShownHints}
+                    submitError={submitError}
+                  />
+                )}
+              </>
             )}
           </>
         )}
@@ -479,7 +496,7 @@ export default function LearnEnglishDetailPage() {
         )}
 
         {/* ELEGANT FIXED BOTTOM NAVIGATION BAR */}
-        {activeTab === 'wizard' && (
+        {activeTab === 'wizard' && !showResultsScreen && (
           <div className="bottom-nav-bar">
             {currentStep === 0 && (
               <div style={{ display: 'flex', width: '100%' }}>
@@ -557,10 +574,10 @@ export default function LearnEnglishDetailPage() {
                         className="next-btn"
                         style={{ width: '100%', margin: 0, background: 'var(--color-card-bg)', color: 'var(--color-primary)', border: '1px solid var(--color-primary)' }}
                         onClick={() => {
-                          message.info(`Tổng điểm bài làm của bạn đạt ${score}/100`)
+                          setShowResultsScreen(true)
                         }}
                       >
-                        Điểm của bạn: {score}
+                        Xem tổng kết điểm: {score}
                       </button>
                     )}
                   </div>
@@ -571,6 +588,15 @@ export default function LearnEnglishDetailPage() {
         )}
 
       </div>
+
+      {isSubmitting && (
+        <div className="fullscreen-overlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.45)', backdropFilter: 'blur(8px)', pointerEvents: 'all' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px', color: 'var(--color-primary)', fontSize: '20px', fontWeight: 500, fontFamily: 'sans-serif' }}>
+            <span>Đang chấm điểm</span>
+            <span style={{ width: '20px', display: 'inline-block', textAlign: 'left', fontFamily: 'monospace' }}>{dots}</span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
