@@ -327,7 +327,8 @@ export default function LearnEnglishDetailPage() {
   const totalQuestions = exercisesList.reduce((acc: number, ex: any) => acc + (ex.questions?.length || 0), 0) || 0
 
   return (
-    <div className="learn-english learn-english--detail">
+    <>
+      <div className="learn-english learn-english--detail">
       {/* PHONE SIMULATION CONTAINER */}
       <div className="phone">
 
@@ -621,12 +622,13 @@ export default function LearnEnglishDetailPage() {
         )}
 
       </div>
-
-      {isSubmitting && (
-        <div className="fullscreen-overlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.45)', backdropFilter: 'blur(8px)', pointerEvents: 'all' }}>
-          <GradingLoadingScreen totalQuestions={totalQuestions} />
-        </div>
-      )}
     </div>
-  )
+
+    {isSubmitting && (
+      <div className="fullscreen-overlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.45)', backdropFilter: 'blur(8px)', pointerEvents: 'all' }}>
+        <GradingLoadingScreen totalQuestions={totalQuestions} />
+      </div>
+    )}
+  </>
+)
 }
