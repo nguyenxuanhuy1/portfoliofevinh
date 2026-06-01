@@ -51,7 +51,7 @@ export default function ExercisesSection({
       <div className="vocab-list">
         {ex.questions.map((q: any, qIdx: number) => {
           const gradeEx = gradingResult?.exercises?.find((item) => item.type === ex.type)
-          const qGraded = gradeEx?.questions?.find((item) => item.id === q.id)
+          const qGraded = gradeEx?.questions?.find((item) => item.id?.toString() === q.id?.toString())
           const isCorrect = qGraded?.correct
 
           return (
