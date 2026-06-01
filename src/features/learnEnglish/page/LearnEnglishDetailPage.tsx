@@ -16,6 +16,7 @@ import ReadingSection from '../components/ReadingSection'
 import VocabularySection from '../components/VocabularySection'
 import ExercisesSection from '../components/ExercisesSection'
 import ResultsSummarySection from '../components/ResultsSummarySection'
+import GradingLoadingScreen from '../components/GradingLoadingScreen'
 import '../style/index.scss'
 
 export default function LearnEnglishDetailPage() {
@@ -36,6 +37,12 @@ export default function LearnEnglishDetailPage() {
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [showResultsScreen, setShowResultsScreen] = useState(false)
 
+  const [pendingResult, setPendingResult] = useState<{
+    result: GradingResult
+    finalAnswers: any
+  } | null>(null)
+  const [animationDone, setAnimationDone] = useState(false)
+
   // Cycle dots for loading animation
   useEffect(() => {
     if (!isSubmitting) return
@@ -51,6 +58,45 @@ export default function LearnEnglishDetailPage() {
       clearInterval(interval)
     }
   }, [isSubmitting])
+
+  // Listen to grading:done custom event
+  useEffect(() => {
+    const handleGradingDone = () => {
+      setAnimationDone(true)
+    }
+
+    document.addEventListener('grading:done', handleGradingDone)
+    return () => {
+      document.removeEventListener('grading:done', handleGradingDone)
+    }
+  }, [])
+
+  // Process completed grading once both API and animation are complete
+  useEffect(() => {
+    if (pendingResult && animationDone) {
+      const { result, finalAnswers } = pendingResult
+
+      setGradingResult(result)
+      setScore(result.total_score)
+      setStatus('COMPLETED')
+      setShowResultsScreen(true)
+
+      localStorage.setItem(`learn_progress_${id}`, JSON.stringify({
+        topicId: id,
+        status: 'COMPLETED',
+        answers: finalAnswers,
+        score: result.total_score,
+        gradingResult: result
+      }))
+
+      saveToHistory(result.total_score)
+      message.success('Bài làm đã được chấm điểm tự động thành công!')
+
+      setIsSubmitting(false)
+      setPendingResult(null)
+      setAnimationDone(false)
+    }
+  }, [pendingResult, animationDone, id])
 
   // Drawer dictionary states
   const [dictOpen, setDictOpen] = useState(false)
@@ -189,6 +235,8 @@ export default function LearnEnglishDetailPage() {
     if (!id || !topic) return
     setIsSubmitting(true)
     setSubmitError(null)
+    setPendingResult(null)
+    setAnimationDone(false)
 
     try {
       const dataObj = typeof topic.data === 'string' ? JSON.parse(topic.data) : topic.data
@@ -208,27 +256,11 @@ export default function LearnEnglishDetailPage() {
       })
 
       const result = await learnTopicService.grade(id, finalAnswers)
-
-      setGradingResult(result)
-      setScore(result.total_score)
-      setStatus('COMPLETED')
-      setShowResultsScreen(true)
-
-      localStorage.setItem(`learn_progress_${id}`, JSON.stringify({
-        topicId: id,
-        status: 'COMPLETED',
-        answers: finalAnswers,
-        score: result.total_score,
-        gradingResult: result
-      }))
-
-      saveToHistory(result.total_score)
-      message.success('Bài làm đã được chấm điểm tự động thành công!')
+      setPendingResult({ result, finalAnswers })
     } catch (err: any) {
       console.error('Lỗi chấm điểm:', err)
       setSubmitError(err.message || 'Lỗi kết nối máy chủ AI.')
       message.error('Chấm điểm thất bại, vui lòng kiểm tra API Key.')
-    } finally {
       setIsSubmitting(false)
     }
   }
@@ -292,6 +324,7 @@ export default function LearnEnglishDetailPage() {
   const exercisesList = tData.exercises || []
   const totalSteps = 2 + exercisesList.length
   const progressPercentage = Math.round((currentStep / (totalSteps - 1)) * 100)
+  const totalQuestions = exercisesList.reduce((acc: number, ex: any) => acc + (ex.questions?.length || 0), 0) || 0
 
   return (
     <div className="learn-english learn-english--detail">
@@ -591,10 +624,7 @@ export default function LearnEnglishDetailPage() {
 
       {isSubmitting && (
         <div className="fullscreen-overlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.45)', backdropFilter: 'blur(8px)', pointerEvents: 'all' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px', color: 'var(--color-primary)', fontSize: '20px', fontWeight: 500, fontFamily: 'sans-serif' }}>
-            <span>Đang chấm điểm</span>
-            <span style={{ width: '20px', display: 'inline-block', textAlign: 'left', fontFamily: 'monospace' }}>{dots}</span>
-          </div>
+          <GradingLoadingScreen totalQuestions={totalQuestions} />
         </div>
       )}
     </div>
