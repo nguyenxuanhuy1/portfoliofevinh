@@ -5,13 +5,16 @@ import {
   ReloadOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  EditOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons'
 
 import { useContactQuery } from '../../../../hooks/useContactQuery'
 import { useContact } from '../hook/useContact'
-import { ContactCard } from '../components/ContactCard'
-import { ContactModal } from '../components/ContactModal'
+import { ContactModal } from '../ui/ContactModal'
 import Button from '../../../../components/ui/Button/Button'
+import Table from '../../../../components/ui/Table'
+import Modal from '../../ui/Modal'
 import type { Contact, ContactFormData } from '../../../../types/Contact'
 
 export default function AdminContactPage() {
@@ -34,6 +37,7 @@ export default function AdminContactPage() {
 
   const [modalOpen, setModalOpen] = useState(false)
   const [editTarget, setEditTarget] = useState<Contact | null>(null)
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null)
 
   const handleOpenCreate = () => {
     setEditTarget(null)
@@ -60,10 +64,54 @@ export default function AdminContactPage() {
     if (success) handleClose()
   }
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Bạn có chắc muốn xóa liên hệ này?')) return
-    await deleteContact(id)
+  const handleDelete = (id: string) => {
+    setDeleteTargetId(id)
   }
+
+  const columns = [
+    {
+      title: 'Tên liên hệ',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string) => <span style={{ fontWeight: 600 }}>{text}</span>
+    },
+    {
+      title: 'Đường dẫn / Liên kết',
+      dataIndex: 'link',
+      key: 'link',
+      render: (text: string) => (
+        <a href={text} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary)' }}>
+          {text}
+        </a>
+      )
+    },
+    {
+      title: 'Hành động',
+      key: 'action',
+      render: (_: any, record: Contact) => (
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={<EditOutlined />}
+            onClick={() => handleOpenEdit(record)}
+          >
+            Sửa
+          </Button>
+
+          <Button
+            variant="danger"
+            size="sm"
+            loading={deleting === record.id}
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record.id)}
+          >
+            Xóa
+          </Button>
+        </div>
+      )
+    }
+  ]
 
   return (
     <div className="admin-contact-page">
@@ -98,7 +146,7 @@ export default function AdminContactPage() {
             icon={<PlusOutlined />}
             onClick={handleOpenCreate}
           >
-            Thêm Liên Hệ
+            Thêm Liên Hế
           </Button>
         </div>
       </div>
@@ -140,17 +188,13 @@ export default function AdminContactPage() {
         <>
           <p className="admin-contact-page__count">{contacts.length} liên hệ</p>
 
-          <div className="admin-contact-page__list">
-            {contacts.map((contact) => (
-              <ContactCard
-                key={contact.id}
-                contact={contact}
-                deleting={deleting === contact.id}
-                onEdit={handleOpenEdit}
-                onDelete={handleDelete}
-              />
-            ))}
-          </div>
+          <Table
+            dataSource={contacts}
+            columns={columns}
+            rowKey="id"
+            pagination={{ pageSize: 8 }}
+            style={{ marginTop: '20px' }}
+          />
         </>
       )}
 
@@ -161,6 +205,41 @@ export default function AdminContactPage() {
         onClose={handleClose}
         onSubmit={handleSubmit}
       />
+
+      <Modal
+        open={!!deleteTargetId}
+        title="Xác nhận xóa"
+        onCancel={() => setDeleteTargetId(null)}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+            <Button
+              key="cancel"
+              variant="secondary"
+              onClick={() => setDeleteTargetId(null)}
+              disabled={deleting !== null}
+            >
+              Hủy
+            </Button>
+            <Button
+              key="confirm"
+              variant="danger"
+              onClick={async () => {
+                if (deleteTargetId) {
+                  await deleteContact(deleteTargetId)
+                  setDeleteTargetId(null)
+                }
+              }}
+              loading={deleting === deleteTargetId}
+            >
+              Xóa
+            </Button>
+          </div>
+        }
+      >
+        <p style={{ margin: 0, padding: '16px 0', color: 'var(--color-text)' }}>
+          Bạn có chắc chắn muốn xóa liên hệ này? Hành động này không thể hoàn tác.
+        </p>
+      </Modal>
     </div>
   )
 }

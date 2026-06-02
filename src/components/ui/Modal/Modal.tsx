@@ -41,4 +41,12 @@ const Modal = ({
   )
 }
 
+Modal.info = AntModal.info
+Modal.success = AntModal.success
+Modal.error = AntModal.error
+Modal.warning = AntModal.warning
+Modal.confirm = AntModal.confirm
+Modal.config = AntModal.config
+Modal.destroyAll = AntModal.destroyAll
+
 export default Modal

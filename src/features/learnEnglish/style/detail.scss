@@ -143,7 +143,7 @@
   background: $c-surface;
   border-radius: var(--radius-md); // Giữ bo góc card trung bình 12px
   padding: 12px 16px;
-  border: 1px solid $c-elevated;
+  border: 1px solid $c-border;
 }
 
 .vocab-word {
@@ -181,6 +181,11 @@
   transition: all 200ms ease;
   font-size: 14px;
   flex-shrink: 0;
+
+  &:hover {
+    background: transparent !important;
+    color: $c-text !important;
+  }
 
   &.speaking {
     color: $c-text;
@@ -245,32 +250,32 @@
   border: 1px solid $c-border;
   cursor: pointer;
   font-size: 14px;
-  color: $c-text-body;
+  color: $c-text;
   text-align: left;
   width: 100%;
   transition: all 150ms;
 
   &:hover {
     border-color: $c-border-soft;
-    color: $c-text;
+    background: $c-surface !important;
   }
 
   &.selected {
     border-color: $c-accent;
-    background: color-mix(in srgb, var(--color-primary) 7%, transparent);
+    background: color-mix(in srgb, var(--color-primary) 7%, var(--color-card-bg)) !important;
     color: $c-accent;
   }
 
   &.correct {
     border-color: $c-accent;
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-card-bg)) !important;
     color: $c-accent;
     font-weight: 600;
   }
 
   &.wrong {
     border-color: $c-wrong;
-    background: color-mix(in srgb, #FF3B5C 8%, transparent);
+    background: color-mix(in srgb, #FF3B5C 8%, var(--color-card-bg)) !important;
     color: $c-wrong;
   }
 }
@@ -306,21 +311,56 @@
 
   &:hover {
     border-color: $c-border-soft;
+    background: $c-surface !important;
   }
 
-  &.selected .key {
-    background: $c-accent;
-    color: #ffffff;
+  &.selected {
     border-color: $c-accent;
-    font-weight: 600;
+    background: color-mix(in srgb, var(--color-primary) 7%, var(--color-card-bg)) !important;
+
+    .opt-text {
+      color: $c-accent;
+      font-weight: 500;
+    }
+
+    .key {
+      background: $c-accent;
+      color: #ffffff;
+      border-color: $c-accent;
+      font-weight: 600;
+    }
   }
 
   &.correct-opt {
     border-color: $c-accent;
+    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-card-bg)) !important;
+
+    .opt-text {
+      color: $c-accent;
+      font-weight: 600;
+    }
+
+    .key {
+      background: $c-accent;
+      color: #ffffff;
+      border-color: $c-accent;
+      font-weight: 600;
+    }
   }
 
   &.wrong-opt {
     border-color: $c-wrong;
+    background: color-mix(in srgb, #FF3B5C 8%, var(--color-card-bg)) !important;
+
+    .opt-text {
+      color: $c-wrong;
+    }
+
+    .key {
+      background: $c-wrong;
+      color: #ffffff;
+      border-color: $c-wrong;
+    }
   }
 }
 
@@ -342,7 +382,7 @@
 
 .opt-text {
   font-size: 13px;
-  color: $c-text-body;
+  color: $c-text;
 }
 
 .next-btn {
@@ -457,7 +497,7 @@
   border-radius: var(--radius-full); // Thẻ kho từ bo tròn 100% hình viên thuốc
   padding: 5px 14px;
   font-size: 12px;
-  color: $c-text-body;
+  color: $c-text;
   cursor: pointer;
   transition: all 150ms;
 
@@ -747,7 +787,7 @@
     border: 1px solid $c-border;
     border-radius: var(--radius-full); // Nút ô chọn nối cột bo tròn 100% hình viên thuốc
     padding: 13px 20px;
-    color: $c-text-body;
+    color: $c-text;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -860,7 +900,7 @@
 
   &__mcq-text {
     font-size: 13px;
-    color: $c-text-body;
+    color: $c-text;
   }
 
   // ==========================================

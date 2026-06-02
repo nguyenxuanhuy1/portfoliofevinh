@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons'
 import { useLearnTopicsQuery } from '../../../hooks/useLearnTopicQuery'
 import Skeleton from '../../../components/ui/Skeleton'
+import Button from '../ui/Button'
 import '../style/index.scss'
 
 export default function LearnEnglishListPage() {
@@ -63,7 +64,7 @@ export default function LearnEnglishListPage() {
         </span>
 
         {/* Nút icon Lịch sử làm bài */}
-        <button
+        <Button
           onClick={() => navigate('/learn-english/history')}
           style={{
             background: 'none',
@@ -87,7 +88,7 @@ export default function LearnEnglishListPage() {
           title="Lịch sử làm bài"
         >
           <HistoryOutlined />
-        </button>
+        </Button>
       </div>
 
       {loading ? (
@@ -113,7 +114,7 @@ export default function LearnEnglishListPage() {
             const state = getTopicState(topic.id)
 
             return (
-              <button
+              <Button
                 key={topic.id}
                 className="learn-english__btn-3d"
                 onClick={() => navigate(`/learn-english/${topic.id}`)}
@@ -122,7 +123,7 @@ export default function LearnEnglishListPage() {
                 <div className="learn-english__btn-3d-status">
                   {renderStatusBadge(state.status, state.score)}
                 </div>
-              </button>
+              </Button>
             )
           })}
         </div>

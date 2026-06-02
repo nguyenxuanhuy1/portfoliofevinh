@@ -14,6 +14,8 @@ import {
 import { routeConfig } from '../../router/routeConfig';
 import { useAuthStore } from '../../store/authStore';
 import { useTranslation } from '../../i18n/useTranslation';
+import { useThemeStore } from '../../store/themeStore';
+import { useEffect, useRef } from 'react';
 import './style/AdminLayout.scss';
 
 const { Sider, Content, Header } = Layout;
@@ -36,6 +38,22 @@ export function AdminLayout({ children }: Props) {
   const location = useLocation();
   const { logout } = useAuthStore();
   const { language } = useTranslation();
+  const { theme, setTheme } = useThemeStore();
+  const prevThemeRef = useRef<'dark' | 'light'>(theme);
+
+  useEffect(() => {
+    // Force dark theme inside the admin layout
+    if (theme !== 'dark') {
+      setTheme('dark');
+    }
+
+    return () => {
+      // Restore user's original theme when navigating away
+      if (prevThemeRef.current !== 'dark') {
+        setTheme(prevThemeRef.current);
+      }
+    };
+  }, []);
 
   const menuItems = routeConfig
     .filter((route) => route.layout === 'admin' && route.showInMenu)

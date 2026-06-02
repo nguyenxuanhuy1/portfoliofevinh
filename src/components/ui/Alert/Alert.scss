@@ -1,0 +1,16 @@
+.app-alert {
+  border-radius: var(--radius-md, 6px);
+  border: 1px solid var(--color-card-border, #e5e7eb);
+  
+  &.ant-alert-error {
+    background-color: var(--color-error-bg, #fef2f2);
+    border-color: var(--color-error-border, #fca5a5);
+    color: var(--color-error-text, #991b1b);
+  }
+  
+  &.ant-alert-success {
+    background-color: var(--color-success-bg, #f0fdf4);
+    border-color: var(--color-success-border, #86efac);
+    color: var(--color-success-text, #166534);
+  }
+}

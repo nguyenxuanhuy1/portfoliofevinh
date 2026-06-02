@@ -6,6 +6,7 @@ import projectService from '../../admin/project/service/projectService'
 import ProjectCard from '../../../components/ui/ProjectCard'
 import Pagination from '../../../components/ui/Pagination'
 import Button from '../../../components/ui/Button'
+import Input from '../../../components/ui/Input'
 import Skeleton from '../../../components/ui/Skeleton'
 import { paginateData, countProjects } from '../../../utils/projectHelpers'
 import type { Project } from '../../../types/Project'
@@ -91,7 +92,7 @@ const ProjectsPage = () => {
         <form className="projects-page__search-box" onSubmit={handleSearch}>
           <div className="projects-page__search-input-wrap">
             <SearchOutlined className="projects-page__search-icon" />
-            <input
+            <Input
               className="projects-page__search-input"
               placeholder={t('searchPlaceholder') || 'Tìm kiếm tên dự án hoặc mô tả...'}
               value={searchQuery}

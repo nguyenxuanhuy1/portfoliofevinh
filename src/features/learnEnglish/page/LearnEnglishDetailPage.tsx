@@ -5,18 +5,21 @@ import {
   GlobalOutlined,
   ReloadOutlined
 } from '@ant-design/icons'
-import { Modal, message } from 'antd'
+import Modal from '../../../components/ui/Modal'
+import message from '../../../components/ui/Message'
+import Input from '../../../components/ui/Input'
+import Button from '../ui/Button'
 
 import { useLearnTopicByIdQuery } from '../../../hooks/useLearnTopicQuery'
 import learnTopicService from '../../admin/topic/service/learnTopicService'
 import Skeleton from '../../../components/ui/Skeleton'
 import type { ExerciseType, GradingResult, Exercise } from '../../../types/LearnEnglish'
-import GeminiTokenConfig from '../components/GeminiTokenConfig'
-import ReadingSection from '../components/ReadingSection'
-import VocabularySection from '../components/VocabularySection'
-import ExercisesSection from '../components/ExercisesSection'
-import ResultsSummarySection from '../components/ResultsSummarySection'
-import GradingLoadingScreen from '../components/GradingLoadingScreen'
+import GeminiTokenConfig from '../ui/GeminiTokenConfig'
+import ReadingSection from '../ui/ReadingSection'
+import VocabularySection from '../ui/VocabularySection'
+import ExercisesSection from '../ui/ExercisesSection'
+import ResultsSummarySection from '../ui/ResultsSummarySection'
+import GradingLoadingScreen from '../ui/GradingLoadingScreen'
 import '../style/index.scss'
 
 export default function LearnEnglishDetailPage() {
@@ -310,12 +313,12 @@ export default function LearnEnglishDetailPage() {
     return (
       <div className="learn-english" style={{ textAlign: 'center', padding: '48px 0' }}>
         <h2 style={{ color: '#555555' }}>Chủ đề học không tồn tại</h2>
-        <button
+        <Button
           onClick={() => navigate('/learn-english')}
           style={{ marginTop: '16px', padding: '8px 16px', background: '#111', border: '1px solid #222', color: '#fff', borderRadius: '4px', cursor: 'pointer' }}
         >
           Quay lại danh sách
-        </button>
+        </Button>
       </div>
     )
   }
@@ -341,7 +344,7 @@ export default function LearnEnglishDetailPage() {
           borderBottom: '1px solid var(--color-card-border)',
           background: 'var(--color-card-bg)',
         }}>
-          <button
+          <Button
             onClick={() => navigate('/learn-english')}
             style={{
               background: 'none',
@@ -357,14 +360,14 @@ export default function LearnEnglishDetailPage() {
             }}
           >
             <ArrowLeftOutlined />
-          </button>
+          </Button>
 
           <span style={{ fontSize: '13px', fontWeight: 400, color: 'var(--color-text)' }}>
             {topic?.name}
           </span>
 
           {status !== 'NOT_STARTED' ? (
-            <button
+            <Button
               onClick={handleResetProgress}
               style={{
                 background: 'none',
@@ -380,9 +383,9 @@ export default function LearnEnglishDetailPage() {
               }}
             >
               <ReloadOutlined />
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               style={{
                 background: 'none',
                 border: 'none',
@@ -396,7 +399,7 @@ export default function LearnEnglishDetailPage() {
               }}
             >
               <ReloadOutlined />
-            </button>
+            </Button>
           )}
         </div>
 
@@ -411,7 +414,7 @@ export default function LearnEnglishDetailPage() {
         </div>
 
         <div className={`drawer-body ${dictOpen ? 'active' : ''}`}>
-          <input
+          <Input
             className="drawer-input"
             placeholder="Nhập từ cần dịch..."
             value={dictQuery}
@@ -534,15 +537,15 @@ export default function LearnEnglishDetailPage() {
           <div className="bottom-nav-bar">
             {currentStep === 0 && (
               <div style={{ display: 'flex', width: '100%' }}>
-                <button className="next-btn" style={{ width: '100%', margin: 0 }} onClick={() => setCurrentStep(1)}>
+                <Button className="next-btn" style={{ width: '100%', margin: 0 }} onClick={() => setCurrentStep(1)}>
                   Tiếp theo →
-                </button>
+                </Button>
               </div>
             )}
 
             {currentStep === 1 && (
               <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
-                <button
+                <Button
                   className="next-btn"
                   style={{
                     flex: 1,
@@ -554,17 +557,17 @@ export default function LearnEnglishDetailPage() {
                   onClick={() => setCurrentStep(0)}
                 >
                   ←
-                </button>
-                <button className="next-btn" style={{ flex: 3, margin: 0 }} onClick={() => setCurrentStep(2)}>
+                </Button>
+                <Button className="next-btn" style={{ flex: 3, margin: 0 }} onClick={() => setCurrentStep(2)}>
                   Làm bài tập →
-                </button>
+                </Button>
               </div>
             )}
 
             {currentStep >= 2 && (
               <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
                 {currentStep > 0 && (
-                  <button
+                  <Button
                     className="next-btn"
                     style={{
                       flex: 1,
@@ -576,21 +579,21 @@ export default function LearnEnglishDetailPage() {
                     onClick={() => setCurrentStep(prev => prev - 1)}
                   >
                     ←
-                  </button>
+                  </Button>
                 )}
 
                 {currentStep < totalSteps - 1 ? (
-                  <button
+                  <Button
                     className="next-btn"
                     style={{ flex: 3, margin: 0 }}
                     onClick={() => setCurrentStep(prev => prev + 1)}
                   >
                     Tiếp theo →
-                  </button>
+                  </Button>
                 ) : (
                   <div style={{ flex: 3 }}>
                     {status !== 'COMPLETED' ? (
-                      <button
+                      <Button
                         className="next-btn"
                         style={{ width: '100%', margin: 0 }}
                         disabled={isSubmitting}
@@ -602,9 +605,9 @@ export default function LearnEnglishDetailPage() {
                             <span style={{ display: 'inline-block', width: '20px', textAlign: 'left', marginLeft: '2px' }}>{dots}</span>
                           </span>
                         ) : 'Nộp bài ngay'}
-                      </button>
+                      </Button>
                     ) : (
-                      <button
+                      <Button
                         className="next-btn"
                         style={{ width: '100%', margin: 0, background: 'var(--color-card-bg)', color: 'var(--color-primary)', border: '1px solid var(--color-primary)' }}
                         onClick={() => {
@@ -612,7 +615,7 @@ export default function LearnEnglishDetailPage() {
                         }}
                       >
                         Xem tổng kết điểm: {score}
-                      </button>
+                      </Button>
                     )}
                   </div>
                 )}

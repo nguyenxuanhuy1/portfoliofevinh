@@ -5,13 +5,16 @@ import {
   ReloadOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  EditOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons'
 
 import { useSkillsQuery } from '../../../../hooks/useSkillsQuery'
 import { useSkills } from '../hook/useSkills'
-import { SkillCard } from '../components/SkillCard'
-import { SkillModal } from '../components/SkillModal'
+import { SkillModal } from '../ui/SkillModal'
 import Button from '../../../../components/ui/Button/Button'
+import Table from '../../../../components/ui/Table'
+import Modal from '../../ui/Modal'
 import type { Skill, SkillFormData } from '../../../../types/Skill'
 
 export default function AdminSkillsPage() {
@@ -34,6 +37,7 @@ export default function AdminSkillsPage() {
 
   const [modalOpen, setModalOpen] = useState(false)
   const [editTarget, setEditTarget] = useState<Skill | null>(null)
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null)
 
   const handleOpenCreate = () => {
     setEditTarget(null)
@@ -60,10 +64,60 @@ export default function AdminSkillsPage() {
     if (success) handleClose()
   }
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Bạn có chắc muốn xóa skill này?')) return
-    await deleteSkill(id)
+  const handleDelete = (id: string) => {
+    setDeleteTargetId(id)
   }
+
+  const columns = [
+    {
+      title: 'Logo / Ảnh',
+      dataIndex: 'image',
+      key: 'image',
+      render: (img: string) => img ? (
+        <img
+          src={img}
+          alt="skill"
+          style={{ width: '32px', height: '32px', objectFit: 'contain' }}
+        />
+      ) : (
+        <div style={{ fontSize: '20px', color: 'var(--color-text-muted)' }}>
+          <TrophyOutlined />
+        </div>
+      )
+    },
+    {
+      title: 'Tên kỹ năng',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string) => <span style={{ fontWeight: 800 }}>{text}</span>
+    },
+    {
+      title: 'Hành động',
+      key: 'action',
+      render: (_: any, record: Skill) => (
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={<EditOutlined />}
+            onClick={() => handleOpenEdit(record)}
+          >
+            Sửa
+          </Button>
+
+          <Button
+            variant="danger"
+            size="sm"
+            loading={deleting === record.id}
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record.id)}
+          >
+            Xóa
+          </Button>
+        </div>
+      )
+    }
+  ]
 
   return (
     <div className="admin-skills-page">
@@ -140,17 +194,13 @@ export default function AdminSkillsPage() {
         <>
           <p className="admin-skills-page__count">{skills.length} kỹ năng</p>
 
-          <div className="admin-skills-page__grid">
-            {skills.map((skill) => (
-              <SkillCard
-                key={skill.id}
-                skill={skill}
-                deleting={deleting === skill.id}
-                onEdit={handleOpenEdit}
-                onDelete={handleDelete}
-              />
-            ))}
-          </div>
+          <Table
+            dataSource={skills}
+            columns={columns}
+            rowKey="id"
+            pagination={{ pageSize: 8 }}
+            style={{ marginTop: '20px' }}
+          />
         </>
       )}
 
@@ -161,6 +211,41 @@ export default function AdminSkillsPage() {
         onClose={handleClose}
         onSubmit={handleSubmit}
       />
+
+      <Modal
+        open={!!deleteTargetId}
+        title="Xác nhận xóa"
+        onCancel={() => setDeleteTargetId(null)}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+            <Button
+              key="cancel"
+              variant="secondary"
+              onClick={() => setDeleteTargetId(null)}
+              disabled={deleting !== null}
+            >
+              Hủy
+            </Button>
+            <Button
+              key="confirm"
+              variant="danger"
+              onClick={async () => {
+                if (deleteTargetId) {
+                  await deleteSkill(deleteTargetId)
+                  setDeleteTargetId(null)
+                }
+              }}
+              loading={deleting === deleteTargetId}
+            >
+              Xóa
+            </Button>
+          </div>
+        }
+      >
+        <p style={{ margin: 0, padding: '16px 0', color: 'var(--color-text)' }}>
+          Bạn có chắc chắn muốn xóa kỹ năng này? Hành động này không thể hoàn tác.
+        </p>
+      </Modal>
     </div>
   )
 }

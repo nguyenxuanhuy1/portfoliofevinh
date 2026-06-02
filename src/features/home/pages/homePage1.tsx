@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import Skeleton from '../../../components/ui/Skeleton'
-import { BirdsBackground } from '../components/BirdsBackground.js'
+import { BirdsBackground } from '../ui/BirdsBackground'
 import { useAdminProfile } from '../../admin/adminProfile/hook/useAdminProfile.js'
 import { useProjectQuery } from '../../../hooks/useProjectQuery'
 import { useTranslation } from '../../../i18n/useTranslation'

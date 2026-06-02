@@ -1,0 +1,67 @@
+.app-table {
+  background-color: var(--color-card-bg, rgba(255, 255, 255, 0.02)) !important;
+  border-radius: var(--radius-md, 8px) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--color-card-border, rgba(255, 255, 255, 0.06)) !important;
+  
+  .ant-table-wrapper {
+    background: transparent !important;
+  }
+  
+  .ant-table {
+    background: transparent !important;
+    color: var(--color-text, #ffffff) !important;
+  }
+  
+  .ant-table-container {
+    background: transparent !important;
+  }
+  
+  .ant-table-thead > tr > th {
+    background-color: rgba(255, 255, 255, 0.01) !important;
+    color: var(--color-text, #ffffff) !important;
+    border-bottom: 1px solid var(--color-card-border, rgba(255, 255, 255, 0.06)) !important;
+    font-weight: 600 !important;
+  }
+  
+  .ant-table-tbody > tr > td {
+    background-color: transparent !important;
+    color: var(--color-text-secondary, rgba(255, 255, 255, 0.65)) !important;
+    border-bottom: 1px solid var(--color-card-border, rgba(255, 255, 255, 0.06)) !important;
+  }
+  
+  .ant-table-tbody > tr:hover > td {
+    background-color: var(--color-background-hover, rgba(255, 255, 255, 0.04)) !important;
+  }
+  
+  // Pagination inside table
+  .ant-table-pagination.ant-pagination {
+    margin: 16px 0 !important;
+    padding: 0 16px !important;
+    
+    .ant-pagination-item {
+      background-color: transparent !important;
+      border-color: var(--color-card-border, rgba(255, 255, 255, 0.06)) !important;
+      
+      a {
+        color: var(--color-text-secondary, rgba(255, 255, 255, 0.65)) !important;
+      }
+      
+      &-active {
+        border-color: var(--color-primary, #818cf8) !important;
+        a {
+          color: var(--color-primary, #818cf8) !important;
+        }
+      }
+    }
+    
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      .ant-pagination-item-link {
+        background-color: transparent !important;
+        border-color: var(--color-card-border, rgba(255, 255, 255, 0.06)) !important;
+        color: var(--color-text-secondary, rgba(255, 255, 255, 0.65)) !important;
+      }
+    }
+  }
+}

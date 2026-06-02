@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  DeleteOutlined,
-  ArrowLeftOutlined
-} from '@ant-design/icons'
-import { Modal, message } from 'antd'
+import { DeleteOutlined, ArrowLeftOutlined } from '@ant-design/icons'
+import Modal from '../../../components/ui/Modal'
+import message from '../../../components/ui/Message'
+import Button from '../ui/Button'
 import '../style/index.scss'
 
 interface HistoryItem {
@@ -63,7 +62,7 @@ export default function LearnEnglishHistoryPage() {
       <div className="learn-english__header" style={{ marginBottom: '24px' }}>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <button
+            <Button
               onClick={() => navigate('/learn-english')}
               style={{
                 background: 'none',
@@ -79,10 +78,10 @@ export default function LearnEnglishHistoryPage() {
               }}
             >
               <ArrowLeftOutlined /> Quay lại
-            </button>
+            </Button>
 
             {history.length > 0 && (
-              <button
+              <Button
                 onClick={handleClearHistory}
                 className="learn-english__token-delete-btn"
                 style={{
@@ -98,7 +97,7 @@ export default function LearnEnglishHistoryPage() {
                 }}
               >
                 <DeleteOutlined /> Xóa lịch sử
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -159,7 +158,7 @@ export default function LearnEnglishHistoryPage() {
                     {item.score}/100
                   </span>
 
-                  <button
+                  <Button
                     onClick={() => navigate(`/learn-english/${item.topicId}`)}
                     className="learn-english__token-delete-btn"
                     style={{
@@ -174,7 +173,7 @@ export default function LearnEnglishHistoryPage() {
                     }}
                   >
                     Xem lại
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}

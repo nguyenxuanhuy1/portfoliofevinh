@@ -1,6 +1,6 @@
 import { UserOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useAdminProfile } from '../hook/useAdminProfile'
-import { ProfileForm } from '../components/ProfileForm'
+import { ProfileForm } from '../ui/ProfileForm'
 import Button from '../../../../components/ui/Button/Button'
 
 export default function AdminProfilePage() {

@@ -1,0 +1,16 @@
+.app-form {
+  width: 100%;
+  
+  .ant-form-item {
+    margin-bottom: 20px;
+    
+    .ant-form-item-label {
+      padding-bottom: 6px;
+      
+      label {
+        font-weight: 500;
+        color: var(--color-text, #111111);
+      }
+    }
+  }
+}

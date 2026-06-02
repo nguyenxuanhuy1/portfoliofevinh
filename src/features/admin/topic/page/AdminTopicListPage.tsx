@@ -8,11 +8,12 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined
 } from '@ant-design/icons'
-import { Table, Popconfirm, Space } from 'antd'
+import Table from '../../../../components/ui/Table'
+import Modal from '../../ui/Modal'
 
 import { useLearnTopicsQuery } from '../../../../hooks/useLearnTopicQuery'
 import learnTopicService from '../service/learnTopicService'
-import { AdminTopicModal } from '../components/AdminTopicModal'
+import { AdminTopicModal } from '../ui/AdminTopicModal'
 import Button from '../../../../components/ui/Button/Button'
 import type { LearnTopic } from '../../../../types/LearnEnglish'
 
@@ -24,6 +25,7 @@ export default function AdminTopicListPage() {
 
   const [saving, setSaving] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [successMsg, setSuccessMsg] = useState<string | null>(null)
 
@@ -120,9 +122,8 @@ export default function AdminTopicListPage() {
       title: 'Hành động',
       key: 'action',
       render: (_: any, record: LearnTopic) => (
-        <Space size="middle">
+        <div style={{ display: 'flex', gap: '12px' }}>
           <Button
-            style={{ color: 'blue' }}
             variant="secondary"
             size="sm"
             icon={<EditOutlined />}
@@ -131,23 +132,16 @@ export default function AdminTopicListPage() {
             Sửa
           </Button>
 
-          <Popconfirm
-            title="Bạn có chắc chắn muốn xóa chủ đề học tiếng Anh này không?"
-            onConfirm={() => handleDelete(record.id)}
-            okText="Xóa"
-            cancelText="Hủy"
+          <Button
+            variant="danger"
+            size="sm"
+            loading={deletingId === record.id}
+            icon={<DeleteOutlined />}
+            onClick={() => setDeleteTargetId(record.id)}
           >
-            <Button
-              style={{ color: 'red' }}
-              variant="danger"
-              size="sm"
-              loading={deletingId === record.id}
-              icon={<DeleteOutlined />}
-            >
-              Xóa
-            </Button>
-          </Popconfirm>
-        </Space>
+            Xóa
+          </Button>
+        </div>
       )
     }
   ]
@@ -220,6 +214,41 @@ export default function AdminTopicListPage() {
         onClose={handleClose}
         onSubmit={handleSubmit}
       />
+
+      <Modal
+        open={!!deleteTargetId}
+        title="Xác nhận xóa"
+        onCancel={() => setDeleteTargetId(null)}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+            <Button
+              key="cancel"
+              variant="secondary"
+              onClick={() => setDeleteTargetId(null)}
+              disabled={deletingId !== null}
+            >
+              Hủy
+            </Button>
+            <Button
+              key="confirm"
+              variant="danger"
+              onClick={async () => {
+                if (deleteTargetId) {
+                  await handleDelete(deleteTargetId)
+                  setDeleteTargetId(null)
+                }
+              }}
+              loading={deletingId !== null}
+            >
+              Xóa
+            </Button>
+          </div>
+        }
+      >
+        <p style={{ margin: 0, padding: '16px 0', color: 'var(--color-text)' }}>
+          Bạn có chắc chắn muốn xóa chủ đề học tiếng Anh này không? Hành động này không thể hoàn tác.
+        </p>
+      </Modal>
     </div>
   )
 }

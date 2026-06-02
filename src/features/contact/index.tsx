@@ -1,2 +1,2 @@
-export { default } from './components/FloatingContactButton'
-export * from './components/FloatingContactButton'
+export { default } from './ui/FloatingContactButton'
+export * from './ui/FloatingContactButton'

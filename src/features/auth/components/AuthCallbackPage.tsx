@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/authStore';
 import { LoadingSpinner } from '../../../components/ui/Loading/LoadingSpinner';
+import Button from '../../../components/ui/Button/Button';
 
 /**
  * Trang Tiếp Nhận Callback Xác Thực (AuthCallbackPage)
@@ -137,7 +138,7 @@ const AuthCallbackPage = () => {
           Chi tiết lỗi: {errorText}
         </p>
         <div style={{ marginTop: '20px' }}>
-          <button 
+          <Button 
             onClick={() => navigate('/', { replace: true })}
             style={{
               padding: '8px 16px',
@@ -151,8 +152,8 @@ const AuthCallbackPage = () => {
             }}
           >
             Quay về Trang Chủ
-          </button>
-          <button 
+          </Button>
+          <Button 
             onClick={() => window.location.reload()}
             style={{
               padding: '8px 16px',
@@ -165,7 +166,7 @@ const AuthCallbackPage = () => {
             }}
           >
             Thử Lại (Reload)
-          </button>
+          </Button>
         </div>
       </div>
     );

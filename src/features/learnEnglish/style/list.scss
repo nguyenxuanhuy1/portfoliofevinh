@@ -14,27 +14,31 @@
   &__btn-3d {
     background: var(--color-card-bg);
     border: 1.5px solid var(--color-card-border);
-    border-bottom: 5px solid var(--color-primary) !important;
+    border-bottom: 7px solid var(--color-primary) !important;
     border-radius: var(--radius-full); // Nút bấm bo tròn 100% hình viên thuốc
     padding: 16px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     cursor: pointer;
     position: relative;
     transition: all 0.1s ease;
     user-select: none;
     outline: none;
+    border-color: var(--color-primary);
+
+    .btn__label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
 
     &:hover {
-      background: color-mix(in srgb, var(--color-primary) 4%, var(--color-card-bg));
-      border-color: var(--color-primary);
+      background: var(--color-card-bg) !important;
     }
 
     &:active {
-      transform: translateY(3px);
+      transform: translateY(6px) !important;
       border-bottom-width: 2px !important;
-      margin-bottom: 3px;
+      margin-bottom: 7px !important;
     }
 
     &-title {
@@ -61,7 +65,7 @@
     text-transform: none; // Bỏ in hoa toàn bộ để tự nhiên và trang nhã hơn
     display: inline-flex;
     align-items: center;
-    
+
     &--completed {
       background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
       color: $c-accent;
