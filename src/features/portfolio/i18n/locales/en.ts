@@ -36,6 +36,7 @@ export const en: TranslationKeys = {
   projectsCompleted: 'Completed projects: {count}',
   viewProjects: 'View projects',
   viewMoreProjects: 'View more projects',
+  contactsBadge: 'Contact Info',
   contactsTitle: 'Contact Me',
   contactsSubtitle: 'Feel free to reach out through any of the channels below for inquiries or collaboration!',
   loadingContacts: 'Loading contacts information...',

@@ -34,7 +34,7 @@ export default function HomePage5() {
 
         {/* Header */}
         <span className="home-page-5__badge">
-          {t('contactsTitle')}
+          {t('contactsBadge')}
         </span>
         <h2 className="home-page-5__title">
           {t('contactsTitle')}

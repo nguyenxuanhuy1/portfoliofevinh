@@ -34,6 +34,7 @@ export const vi = {
   projectsCompleted: 'Dự án đã hoàn thành: {count}',
   viewProjects: 'Xem dự án',
   viewMoreProjects: 'Xem thêm dự án',
+  contactsBadge: 'Thông Tin Liên Hệ',
   contactsTitle: 'Liên Hệ Với Tôi',
   contactsSubtitle: 'Hãy liên hệ qua các kênh thông tin dưới đây để trao đổi hoặc hợp tác phát triển sản phẩm!',
   loadingContacts: 'Đang tải thông tin liên hệ...',
