@@ -4,7 +4,7 @@ import { MainLayout } from './MainLayout'
 import { AdminLayout } from './AdminLayout'
 import { AuthLayout } from './AuthLayout'
 
-import type { LayoutType } from '../../types/Layout'
+import type { LayoutType } from '../../features/shared/types/Layout'
 
 import './style/index.scss'
 type Props = {

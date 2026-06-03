@@ -1,6 +1,5 @@
 import { Modal as AntModal } from 'antd'
 import type { ModalProps as AntModalProps } from 'antd'
-import './Modal.scss'
 
 export interface ModalProps extends AntModalProps {
   /** Tiêu đề modal */
@@ -41,6 +40,7 @@ const Modal = ({
   )
 }
 
+// Copy static methods from AntModal
 Modal.info = AntModal.info
 Modal.success = AntModal.success
 Modal.error = AntModal.error

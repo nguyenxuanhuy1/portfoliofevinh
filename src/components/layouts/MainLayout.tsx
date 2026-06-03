@@ -6,7 +6,7 @@ import { routeConfig } from '../../router/routeConfig'
 import { useThemeStore } from '../../store/themeStore'
 import { useLanguageStore } from '../../store/languageStore'
 import logo from '../../assets/logo.png'
-import FloatingContactButton from '../../features/contact'
+import FloatingContactButton from '../../features/portfolio/pages/contact/ui/FloatingContactButton'
 
 type Props = {
   children: ReactNode

@@ -1,5 +1,4 @@
 import React from 'react';
-import './Skeleton.scss';
 
 export type SkeletonVariant = 'text' | 'rect' | 'circle';
 export type SkeletonAnimation = 'shimmer' | 'pulse' | 'none';
@@ -122,7 +121,7 @@ const SkeletonInput = ({
   );
 };
 
-export interface SkeletonCardProps extends Omit<SkeletonProps, 'variant'> {}
+export interface SkeletonCardProps extends Omit<SkeletonProps, 'variant'> { }
 
 const SkeletonCard = ({
   active = true,
@@ -133,7 +132,7 @@ const SkeletonCard = ({
   return (
     <div className={`ui-project-card skeleton-card-loading ${className}`} style={style} {...rest}>
       <div className="ui-project-card__cover">
-        <Skeleton variant="rect" height="100%" active={active} style={{borderRadius:'0px'}}/>
+        <Skeleton variant="rect" height="100%" active={active} style={{ borderRadius: '0px' }} />
       </div>
       <div className="ui-project-card__content" style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
         <Skeleton variant="text" width="60%" height="20px" active={active} style={{ borderRadius: '4px', marginBottom: '4px' }} />
@@ -217,7 +216,7 @@ const SkeletonTimeline = ({
               boxShadow: '0 0 10px rgba(129, 140, 248, 0.3)'
             }}
           />
-          
+
           {/* Header */}
           <div className="home-page-3__step-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
             <Skeleton variant="text" width="40%" height="20px" active={active} style={{ borderRadius: '4px' }} />
@@ -238,7 +237,7 @@ const SkeletonTimeline = ({
   );
 };
 
-export interface SkeletonContactProps extends Omit<SkeletonProps, 'variant'> {}
+export interface SkeletonContactProps extends Omit<SkeletonProps, 'variant'> { }
 
 const SkeletonContact = ({
   active = true,

@@ -1,7 +1,7 @@
 import type { ErrorInfo, ReactNode } from 'react'
 import { Component } from 'react'
 import { CloseCircleOutlined } from '@ant-design/icons'
-import { useTranslation } from '../../i18n/useTranslation'
+import { useTranslation } from '../../features/shared/i18n/useTranslation'
 import './style/Error.scss'
 
 type Props = {

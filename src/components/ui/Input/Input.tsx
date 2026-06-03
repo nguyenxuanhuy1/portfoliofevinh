@@ -1,7 +1,6 @@
 import { Input as AntInput } from 'antd'
 import type { InputProps as AntInputProps } from 'antd'
 import type { TextAreaProps as AntTextAreaProps } from 'antd/es/input'
-import './Input.scss'
 
 export interface InputProps extends AntInputProps {
   borderRadius?: string

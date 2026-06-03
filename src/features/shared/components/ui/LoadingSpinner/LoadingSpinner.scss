@@ -1,0 +1,18 @@
+.loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+
+    &--fullscreen {
+        min-height: 100vh;
+    }
+
+    &__icon {
+        font-size: 100px;
+        color: #c084fc;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}

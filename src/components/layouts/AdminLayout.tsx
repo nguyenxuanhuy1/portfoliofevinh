@@ -13,7 +13,7 @@ import {
 } from '@ant-design/icons';
 import { routeConfig } from '../../router/routeConfig';
 import { useAuthStore } from '../../store/authStore';
-import { useTranslation } from '../../i18n/useTranslation';
+import { useTranslation } from '../../features/shared/i18n/useTranslation';
 import { useThemeStore } from '../../store/themeStore';
 import { useEffect, useRef } from 'react';
 import './style/AdminLayout.scss';

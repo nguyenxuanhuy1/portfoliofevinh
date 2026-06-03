@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import type { AppRoute } from '../types/Layout';
+import type { AppRoute } from '../features/shared/types/Layout';
 
 type Props = {
   route: AppRoute;

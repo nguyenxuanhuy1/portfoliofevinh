@@ -1,4 +1,4 @@
-export { default } from './page/LearnEnglishListPage'
-export * from './page/LearnEnglishListPage'
-export { default as LearnEnglishDetailPage } from './page/LearnEnglishDetailPage'
-export { default as LearnEnglishHistoryPage } from './page/LearnEnglishHistoryPage'
+export { default } from './pages/vocabulary/pages/LearnEnglishListPage'
+export * from './pages/vocabulary/pages/LearnEnglishListPage'
+export { default as LearnEnglishDetailPage } from './pages/vocabulary/pages/LearnEnglishDetailPage'
+export { default as LearnEnglishHistoryPage } from './pages/vocabulary/pages/LearnEnglishHistoryPage'

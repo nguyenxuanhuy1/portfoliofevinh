@@ -1,6 +1,5 @@
 import { Table as AntTable } from 'antd'
 import type { TableProps as AntTableProps } from 'antd'
-import './Table.scss'
 
 export interface TableProps<RecordType> extends AntTableProps<RecordType> {
   borderRadius?: string

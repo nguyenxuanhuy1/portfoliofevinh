@@ -1,6 +1,5 @@
 import { Form as AntForm } from 'antd'
 import type { FormProps as AntFormProps } from 'antd'
-import './Form.scss'
 
 export interface FormProps<Values = any> extends AntFormProps<Values> {
   width?: string

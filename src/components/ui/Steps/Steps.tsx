@@ -1,6 +1,5 @@
 import { Steps as AntSteps } from 'antd'
 import type { StepsProps as AntStepsProps } from 'antd'
-import './Steps.scss'
 
 export interface StepsProps extends AntStepsProps {}
 

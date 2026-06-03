@@ -28,14 +28,17 @@ $transition: 0.25s ease;
     justify-content: space-between;
     height: $header-height;
     padding: 0 8%;
+
     @media screen and (max-width: 1024px) {
       padding: 0px 24px;
     }
+
     background-color: $bg-header;
     border-bottom: 1px solid $border-header;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    transition: background-color $transition, border-color $transition;
+    transition: background-color $transition,
+    border-color $transition;
   }
 
   &__logo {

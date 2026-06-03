@@ -1,6 +1,5 @@
 import { Alert as AntAlert } from 'antd'
 import type { AlertProps as AntAlertProps } from 'antd'
-import './Alert.scss'
 
 export interface AlertProps extends AntAlertProps {
   borderRadius?: string

@@ -1,7 +1,7 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import axiosInstance from './axiosInstance';
 import { useAuthStore } from '../store/authStore';
-import type { ApiResponse, ApiError } from '../types/Api';
+import type { ApiResponse, ApiError } from '../features/shared/types/Api';
 
 // =========================================================================
 // QUẢN LÝ HÀNG ĐỢI LÀM MỚI TOKEN (Token Refresh Queue)

@@ -1,7 +1,6 @@
 import { Pagination as AntdPagination } from 'antd'
-import './Pagination.scss'
 
-interface PaginationProps {
+export interface PaginationProps {
   current: number
   pageSize: number
   total: number

@@ -1,6 +1,5 @@
 import { Dropdown as AntDropdown } from 'antd'
 import type { DropdownProps as AntDropdownProps, MenuProps } from 'antd'
-import './Dropdown.scss'
 
 export interface DropdownProps extends AntDropdownProps {
   borderRadius?: string

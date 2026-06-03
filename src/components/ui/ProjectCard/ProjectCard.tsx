@@ -1,8 +1,7 @@
 import { GithubOutlined, LinkOutlined } from '@ant-design/icons'
-import type { Project } from '../../../types/Project'
-import './ProjectCard.scss'
+import type { Project } from '../../../features/portfolio/types/Project'
 
-interface ProjectCardProps {
+export interface ProjectCardProps {
   project: Project
   gitLabel?: string
   demoLabel?: string

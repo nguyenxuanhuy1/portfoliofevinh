@@ -1,0 +1,63 @@
+.app-steps {
+  width: 100%;
+
+  // Connector tail line
+  .ant-steps-item-tail::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(129, 140, 248, 0.45) 0%,
+      rgba(192, 132, 252, 0.45) 50%,
+      rgba(255, 255, 255, 0.05) 100%
+    ) !important;
+    width: 2px !important;
+    left: 17px !important;
+  }
+
+  // Icons wrapper
+  .ant-steps-item-icon {
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    background: transparent !important;
+    border: none !important;
+    margin-inline-start: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // Content block
+  .ant-steps-item-content {
+    min-height: auto !important;
+    padding-bottom: 32px !important;
+    margin-inline-start: 20px !important;
+  }
+
+  // Header Title
+  .ant-steps-item-title {
+    width: 100%;
+    padding-inline-end: 0 !important;
+    line-height: inherit !important;
+    color: #fff !important;
+
+    &::after {
+      display: none !important; // Hide default horizontal lines
+    }
+  }
+
+  // Responsive configurations
+  @media (max-width: 640px) {
+    .ant-steps-item-tail::after {
+      left: 13px !important;
+    }
+    .ant-steps-item-icon {
+      width: 28px !important;
+      height: 28px !important;
+      line-height: 28px !important;
+    }
+    .ant-steps-item-content {
+      margin-inline-start: 12px !important;
+      padding-bottom: 24px !important;
+    }
+  }
+}
