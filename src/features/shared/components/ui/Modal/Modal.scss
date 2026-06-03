@@ -6,11 +6,11 @@
 
 // ─── Content (card chính) ────────────────────────────────────────────────────
 .app-modal__content {
-  background: #131c30 !important;
-  border: 0.5px solid rgba(255, 255, 255, 0.08) !important;
+  background: var(--color-modal-bg) !important;
+  border: 1px solid var(--color-card-border) !important;
   border-radius: var(--radius-md) !important;
   padding: 0 !important;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: var(--shadow-lg) !important;
   overflow: hidden;
 
   // ẩn nút close mặc định của antd, style lại
@@ -20,15 +20,15 @@
     width: 30px !important;
     height: 30px !important;
     border-radius: var(--radius-xs) !important;
-    color: rgba(255, 255, 255, 0.3) !important;
+    color: var(--color-text-muted) !important;
     transition: all var(--transition-fast) !important;
     display: flex;
     align-items: center;
     justify-content: center;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.06) !important;
-      color: rgba(255, 255, 255, 0.7) !important;
+      background: var(--color-card-bg) !important;
+      color: var(--color-text) !important;
     }
 
     .ant-modal-close-x {
@@ -44,14 +44,14 @@
 // ─── Header ──────────────────────────────────────────────────────────────────
 .app-modal__header {
   background: transparent !important;
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06) !important;
+  border-bottom: 1px solid var(--color-card-border) !important;
   padding: var(--spacing-lg) !important;
   margin-bottom: 0 !important;
 
   .ant-modal-title {
     font-size: var(--text-md) !important;
     font-weight: 600 !important;
-    color: #e5e5e5 !important;
+    color: var(--color-text) !important;
     line-height: 1.3 !important;
   }
 }
@@ -59,13 +59,14 @@
 // ─── Body ────────────────────────────────────────────────────────────────────
 .app-modal__body {
   padding: var(--spacing-lg) !important;
+  color: var(--color-text-secondary) !important;
 }
 
 // ─── Footer ──────────────────────────────────────────────────────────────────
 .app-modal__footer {
   padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-lg) !important;
   margin-top: 0 !important;
-  border-top: 0.5px solid rgba(255, 255, 255, 0.06) !important;
+  border-top: 1px solid var(--color-card-border) !important;
 }
 
 // ─── Animation override ──────────────────────────────────────────────────────
@@ -90,6 +91,6 @@
 }
 
 .ant-modal-container {
-  background-color: --var(--color-bg) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: var(--color-modal-bg) !important;
+  border: 1px solid var(--color-card-border) !important;
 }

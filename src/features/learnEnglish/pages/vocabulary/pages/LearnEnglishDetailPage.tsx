@@ -45,6 +45,7 @@ export default function LearnEnglishDetailPage() {
     finalAnswers: any
   } | null>(null)
   const [animationDone, setAnimationDone] = useState(false)
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false)
 
   // Cycle dots for loading animation
   useEffect(() => {
@@ -269,28 +270,24 @@ export default function LearnEnglishDetailPage() {
   }
 
   const handleResetProgress = () => {
-    Modal.confirm({
-      title: 'Làm lại bài học từ đầu',
-      content: 'Bạn có chắc chắn muốn xóa toàn bộ tiến trình học và câu trả lời cũ của chủ đề này để làm lại từ đầu?',
-      okText: 'Làm lại',
-      okType: 'danger',
-      cancelText: 'Hủy',
-      onOk() {
-        if (id) {
-          localStorage.removeItem(`learn_progress_${id}`)
-        }
-        setUserAnswers([])
-        setStatus('NOT_STARTED')
-        setScore(null)
-        setGradingResult(null)
-        setSubmitError(null)
-        setCurrentStep(0)
-        setActiveTab('wizard')
-        setShownHints({})
-        setShowResultsScreen(false)
-        message.success('Đã reset bài làm thành công!')
-      }
-    })
+    setIsResetModalOpen(true)
+  }
+
+  const confirmResetProgress = () => {
+    if (id) {
+      localStorage.removeItem(`learn_progress_${id}`)
+    }
+    setUserAnswers([])
+    setStatus('NOT_STARTED')
+    setScore(null)
+    setGradingResult(null)
+    setSubmitError(null)
+    setCurrentStep(0)
+    setActiveTab('wizard')
+    setShownHints({})
+    setShowResultsScreen(false)
+    setIsResetModalOpen(false)
+    message.success('Đã reset bài làm thành công!')
   }
 
   if (loading) {
@@ -632,6 +629,41 @@ export default function LearnEnglishDetailPage() {
         <GradingLoadingScreen totalQuestions={totalQuestions} />
       </div>
     )}
+
+    <Modal
+      open={isResetModalOpen}
+      title={<span style={{ fontSize: '18px', fontWeight: 600 }}>Làm lại bài học từ đầu</span>}
+      onCancel={() => setIsResetModalOpen(false)}
+      footer={
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', padding: '12px 16px' }}>
+          <Button
+            variant="ghost"
+            onClick={() => setIsResetModalOpen(false)}
+            style={{ color: 'var(--color-text)', fontSize: '15px', padding: '8px 16px' }}
+          >
+            Hủy
+          </Button>
+          <Button
+            variant="danger"
+            onClick={confirmResetProgress}
+            style={{
+              backgroundColor: '#dc2626',
+              color: '#ffffff',
+              fontSize: '15px',
+              fontWeight: '600',
+              padding: '8px 16px',
+              border: 'none'
+            }}
+          >
+            Làm lại
+          </Button>
+        </div>
+      }
+    >
+      <p style={{ margin: '16px 0', fontSize: '15px', lineHeight: '24px', color: 'var(--color-text)' }}>
+        Bạn có chắc chắn muốn xóa toàn bộ tiến trình học và câu trả lời cũ của chủ đề này để làm lại từ đầu?
+      </p>
+    </Modal>
   </>
 )
 }

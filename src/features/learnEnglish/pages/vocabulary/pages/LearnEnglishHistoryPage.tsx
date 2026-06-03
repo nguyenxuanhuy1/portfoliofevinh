@@ -17,6 +17,7 @@ interface HistoryItem {
 export default function LearnEnglishHistoryPage() {
   const navigate = useNavigate()
   const [history, setHistory] = useState<HistoryItem[]>([])
+  const [isClearHistoryModalOpen, setIsClearHistoryModalOpen] = useState(false)
 
   // Load history from localStorage
   useEffect(() => {
@@ -34,18 +35,14 @@ export default function LearnEnglishHistoryPage() {
   }, [])
 
   const handleClearHistory = () => {
-    Modal.confirm({
-      title: 'Xóa lịch sử học tập',
-      content: 'Bạn có chắc chắn muốn xóa toàn bộ lịch sử làm bài tiếng Anh? Hành động này không thể hoàn tác.',
-      okText: 'Xóa',
-      okType: 'danger',
-      cancelText: 'Hủy',
-      onOk() {
-        localStorage.removeItem('learn_history')
-        setHistory([])
-        message.success('Đã xóa toàn bộ lịch sử học tập thành công!')
-      }
-    })
+    setIsClearHistoryModalOpen(true)
+  }
+
+  const confirmClearHistory = () => {
+    localStorage.removeItem('learn_history')
+    setHistory([])
+    setIsClearHistoryModalOpen(false)
+    message.success('Đã xóa toàn bộ lịch sử học tập thành công!')
   }
 
   const formatDate = (dateStr: string) => {
@@ -180,6 +177,40 @@ export default function LearnEnglishHistoryPage() {
           </div>
         )}
       </div>
+      <Modal
+        open={isClearHistoryModalOpen}
+        title={<span style={{ fontSize: '18px', fontWeight: 600 }}>Xóa lịch sử học tập</span>}
+        onCancel={() => setIsClearHistoryModalOpen(false)}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', padding: '12px 16px' }}>
+            <Button
+              variant="ghost"
+              onClick={() => setIsClearHistoryModalOpen(false)}
+              style={{ color: 'var(--color-text)', fontSize: '15px', padding: '8px 16px' }}
+            >
+              Hủy
+            </Button>
+            <Button
+              variant="danger"
+              onClick={confirmClearHistory}
+              style={{
+                backgroundColor: '#dc2626',
+                color: '#ffffff',
+                fontSize: '15px',
+                fontWeight: '600',
+                padding: '8px 16px',
+                border: 'none'
+              }}
+            >
+              Xóa
+            </Button>
+          </div>
+        }
+      >
+        <p style={{ margin: '16px 0', fontSize: '15px', lineHeight: '24px', color: 'var(--color-text)' }}>
+          Bạn có chắc chắn muốn xóa toàn bộ lịch sử làm bài tiếng Anh? Hành động này không thể hoàn tác.
+        </p>
+      </Modal>
     </div>
   )
 }

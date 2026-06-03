@@ -16,6 +16,7 @@
   --color-timeline-line: rgba(129, 140, 248, 0.45);
   --color-glow-1: rgba(99, 102, 241, 0.08);
   --color-glow-2: rgba(192, 132, 252, 0.06);
+  --color-modal-bg: #131c30;
 
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -64,6 +65,7 @@
   --color-timeline-line: rgba(79, 70, 229, 0.3);
   --color-glow-1: rgba(79, 70, 229, 0.04);
   --color-glow-2: rgba(147, 51, 234, 0.03);
+  --color-modal-bg: #ffffff;
 }
 
 
@@ -97,4 +99,28 @@ button,
 input,
 textarea {
   font-family: inherit;
+}
+
+/* Global Ant Design Modal Overrides */
+.ant-modal-content {
+  background-color: var(--color-modal-bg) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-card-border) !important;
+}
+
+.ant-modal-header {
+  background-color: transparent !important;
+  border-bottom: 1px solid var(--color-card-border) !important;
+}
+
+.ant-modal-title {
+  color: var(--color-text) !important;
+}
+
+.ant-modal-body {
+  color: var(--color-text) !important;
+}
+
+.ant-modal-footer {
+  border-top: 1px solid var(--color-card-border) !important;
 }
