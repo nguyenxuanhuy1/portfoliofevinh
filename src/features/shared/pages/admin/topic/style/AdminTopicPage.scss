@@ -1,0 +1,166 @@
+.admin-topic-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+
+  // ─── Header ──────────────────────────────────────────────────────────
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  &__header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  &__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: rgba(129, 140, 248, 0.15);
+    border: 0.5px solid rgba(129, 140, 248, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #e5e5e5;
+    line-height: 1.2;
+  }
+
+  &__subtitle {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 2px;
+  }
+
+  &__header-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+  }
+
+  // ─── Alerts ───────────────────────────────────────────────────────────
+  &__alert {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    animation: alertIn 0.25s ease;
+
+    &--success {
+      background: rgba(52, 211, 153, 0.1);
+      border: 0.5px solid rgba(52, 211, 153, 0.3);
+      color: #34d399;
+    }
+
+    &--error {
+      background: rgba(248, 113, 113, 0.1);
+      border: 0.5px solid rgba(248, 113, 113, 0.3);
+      color: #f87171;
+    }
+  }
+
+  // ─── Count ────────────────────────────────────────────────────────────
+  &__count {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  // ─── Loading ──────────────────────────────────────────────────────────
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: 80px 0;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: var(--text-sm);
+  }
+
+  &__spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(99, 102, 241, 0.2);
+    border-top-color: #818cf8;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  // ─── Empty ────────────────────────────────────────────────────────────
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    padding: 80px 0;
+    color: rgba(255, 255, 255, 0.25);
+    text-align: center;
+
+    .anticon {
+      font-size: 40px;
+      color: rgba(99, 102, 241, 0.25);
+    }
+
+    p {
+      font-size: var(--text-sm);
+    }
+  }
+}
+
+// ─── Modal Overrides ──────────────────────────────────────────────────
+.admin-topic-modal {
+  color: #ffffff !important;
+
+  .ant-modal-title {
+    color: #ffffff !important;
+  }
+
+  .app-modal__body {
+    color: #ffffff !important;
+  }
+
+  .ant-form-item-label > label {
+    color: #ffffff !important;
+  }
+
+  .ant-form-item-extra {
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+
+  // Add gap between form items
+  .ant-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  // Reset default margin-bottom to let flex gap handle it
+  .ant-form-item {
+    margin-bottom: 0 !important;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes alertIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

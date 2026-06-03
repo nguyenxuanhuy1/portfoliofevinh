@@ -121,15 +121,18 @@ export function AdminTopicModal({
       okText="Lưu lại"
       cancelText="Hủy bỏ"
       width={720}
+      className="admin-topic-modal"
       onCancel={onClose}
-      footer={[
-        <Button key="cancel" variant="secondary" size="md" onClick={onClose} disabled={saving}>
-          Hủy bỏ
-        </Button>,
-        <Button key="submit" variant="primary" size="md" loading={saving} onClick={handleSave}>
-          Lưu lại
-        </Button>,
-      ]}
+      footer={
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+          <Button key="cancel" variant="secondary" size="md" onClick={onClose} disabled={saving}>
+            Hủy bỏ
+          </Button>
+          <Button key="submit" variant="primary" size="md" loading={saving} onClick={handleSave}>
+            Lưu lại
+          </Button>
+        </div>
+      }
     >
       <Form form={form} layout="vertical" style={{ marginTop: '16px' }}>
         <Form.Item

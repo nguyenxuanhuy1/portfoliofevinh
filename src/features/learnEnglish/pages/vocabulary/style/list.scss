@@ -29,6 +29,7 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
+      min-width: 0;
     }
 
     &:hover {
@@ -47,6 +48,12 @@
       color: var(--color-primary); // Màu chủ đạo của web
       font-family: 'Be Vietnam Pro', sans-serif;
       text-align: start;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+      flex: 1;
+      margin-right: 16px;
     }
 
     &-status {
@@ -54,6 +61,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-shrink: 0;
     }
   }
 

@@ -147,22 +147,22 @@ export default function AdminTopicListPage() {
   ]
 
   return (
-    <div className="admin-contact-page">
-      <div className="admin-contact-page__header">
-        <div className="admin-contact-page__header-left">
-          <div className="admin-contact-page__icon" style={{ background: 'rgba(129, 140, 248, 0.15)', color: 'var(--color-primary)' }}>
+    <div className="admin-topic-page">
+      <div className="admin-topic-page__header">
+        <div className="admin-topic-page__header-left">
+          <div className="admin-topic-page__icon" style={{ background: 'rgba(129, 140, 248, 0.15)', color: 'var(--color-primary)' }}>
             <BookOutlined />
           </div>
 
           <div>
-            <h1 className="admin-contact-page__title">Học Tiếng Anh (Topics)</h1>
-            <p className="admin-contact-page__subtitle">
+            <h1 className="admin-topic-page__title">Học Tiếng Anh (Topics)</h1>
+            <p className="admin-topic-page__subtitle">
               Quản lý danh sách các chủ đề từ vựng, bài tập luyện tập tiếng Anh trên portfolio
             </p>
           </div>
         </div>
 
-        <div className="admin-contact-page__header-actions">
+        <div className="admin-topic-page__header-actions">
           <Button
             variant="secondary"
             size="sm"
@@ -185,14 +185,14 @@ export default function AdminTopicListPage() {
       </div>
 
       {successMsg && (
-        <div className="admin-contact-page__alert admin-contact-page__alert--success">
+        <div className="admin-topic-page__alert admin-topic-page__alert--success">
           <CheckCircleOutlined />
           <span>{successMsg}</span>
         </div>
       )}
 
       {error && (
-        <div className="admin-contact-page__alert admin-contact-page__alert--error">
+        <div className="admin-topic-page__alert admin-topic-page__alert--error">
           <CloseCircleOutlined />
           <span>{error}</span>
         </div>
