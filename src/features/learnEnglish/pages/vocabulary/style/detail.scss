@@ -244,39 +244,41 @@
 }
 
 .option {
-  background: $c-surface;
+  background: $c-surface !important;
   padding: 13px 20px;
   border-radius: var(--radius-full); // Nút tùy chọn bo tròn 100% hình viên thuốc
-  border: 1px solid $c-border;
+  border: 1px solid $c-border !important;
   cursor: pointer;
   font-size: 14px;
-  color: $c-text;
+  color: $c-text !important;
   text-align: left;
   width: 100%;
   transition: all 150ms;
+  font-family: inherit;
+  outline: none;
 
   &:hover {
-    border-color: $c-border-soft;
+    border-color: $c-border-soft !important;
     background: $c-surface !important;
   }
 
   &.selected {
-    border-color: $c-accent;
+    border-color: $c-accent !important;
     background: color-mix(in srgb, var(--color-primary) 7%, var(--color-card-bg)) !important;
-    color: $c-accent;
+    color: $c-accent !important;
   }
 
   &.correct {
-    border-color: $c-accent;
+    border-color: $c-accent !important;
     background: color-mix(in srgb, var(--color-primary) 10%, var(--color-card-bg)) !important;
-    color: $c-accent;
+    color: $c-accent !important;
     font-weight: 600;
   }
 
   &.wrong {
-    border-color: $c-wrong;
+    border-color: $c-wrong !important;
     background: color-mix(in srgb, #FF3B5C 8%, var(--color-card-bg)) !important;
-    color: $c-wrong;
+    color: $c-wrong !important;
   }
 }
 
