@@ -10,14 +10,14 @@ export const en: TranslationKeys = {
 
   // Home slide 2 (Skills)
   skillsBadge: 'My Skills',
-  skillsTitle: 'Tech Stack & Expertise',
+  skillsTitle: 'Tech stack & Expertise',
   skillsSubtitle: 'Programming languages, frameworks, and developer tools used in my work',
   loadingSkills: 'Loading skills...',
   noSkills: 'No skills added yet.',
 
   // Home slide 3 (Experiences)
   expBadge: 'Work Experience',
-  expTitle: 'Career Milestone',
+  expTitle: 'Career milestone',
   expSubtitle: 'My professional journey, key achievements and work experience',
   loadingExp: 'Loading career path...',
   noExp: 'No work experiences added yet.',
@@ -25,7 +25,7 @@ export const en: TranslationKeys = {
 
   // Home slide 4 (Projects)
   projectsBadge: 'Creative Works',
-  projectsTitle: 'Personal Projects',
+  projectsTitle: 'Personal projects',
   projectsSubtitle: 'A curated selection of software applications I have built and deployed',
   loadingProjects: 'Loading projects list...',
   noProjects: 'No projects added yet.',
@@ -36,8 +36,9 @@ export const en: TranslationKeys = {
   projectsCompleted: 'Completed projects: {count}',
   viewProjects: 'View projects',
   viewMoreProjects: 'View more projects',
+
   contactsBadge: 'Contact Info',
-  contactsTitle: 'Contact Me',
+  contactsTitle: 'Contact me',
   contactsSubtitle: 'Feel free to reach out through any of the channels below for inquiries or collaboration!',
   loadingContacts: 'Loading contacts information...',
   noContacts: 'No contacts updated yet.',
