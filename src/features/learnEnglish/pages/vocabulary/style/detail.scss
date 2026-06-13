@@ -1014,3 +1014,20 @@
     background-color: #ffffff !important;
   }
 }
+
+.sticky-word-bank {
+  position: sticky !important;
+  top: -20px !important;
+  z-index: 10 !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  margin-bottom: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  transition: all 0.3s ease !important;
+
+  @media (min-width: 768px) {
+    top: -32px !important;
+  }
+}

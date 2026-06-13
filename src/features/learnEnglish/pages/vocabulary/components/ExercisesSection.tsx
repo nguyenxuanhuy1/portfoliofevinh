@@ -33,6 +33,20 @@ export default function ExercisesSection({
   const ex = exercisesList[currentStep - 2]
   if (!ex) return null
 
+  const [activeQuestionId, setActiveQuestionId] = React.useState<number | null>(null)
+
+  React.useEffect(() => {
+    if (ex && ex.type === 'fill_with_bank' && ex.questions.length > 0) {
+      setActiveQuestionId(ex.questions[0].id)
+    } else {
+      setActiveQuestionId(null)
+    }
+  }, [ex])
+
+  const filledAnswers = ex && ex.type === 'fill_with_bank' ? ex.questions.map((q: any) => getAnswerValue('fill_with_bank', q.id)) : []
+  const unusedWords = ex && ex.word_bank ? ex.word_bank.filter((w: string) => !filledAnswers.includes(w)) : []
+
+
   return (
     <div className="screen active">
       <div className="progress-row" style={{ marginBottom: '16px' }}>
@@ -50,6 +64,61 @@ export default function ExercisesSection({
         Dạng bài {currentStep - 1} / {exercisesList.length}
       </div>
 
+      {/* WORD BANK DISPLAYED ONCE AT THE TOP */}
+      {ex.type === 'fill_with_bank' && (
+        <div className="sticky-word-bank">
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '10px',
+              minHeight: '52px',
+              alignItems: 'center',
+              background: 'var(--color-primary, #6366f1)',
+              border: 'none',
+              borderRadius: '12px',
+              padding: '14px 18px',
+              boxShadow: '0 4px 14px rgba(99, 102, 241, 0.2)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            {unusedWords.length === 0 ? (
+              <span style={{ fontSize: '12px', color: '#ffffff', opacity: 0.8, fontStyle: 'italic', width: '100%', textAlign: 'center' }}>
+                Đã điền hết tất cả các từ gợi ý!
+              </span>
+            ) : (
+              unusedWords.map((w: string, wIdx: number) => (
+                <span
+                  key={wIdx}
+                  className="tag"
+                  onClick={() => {
+                    if (status === 'COMPLETED') return
+                    if (activeQuestionId !== null) {
+                      handleAnswerChange('fill_with_bank', activeQuestionId, w)
+                    }
+                  }}
+                  style={{
+                    background: '#ffffff',
+                    border: 'none',
+                    borderRadius: '20px',
+                    padding: '6px 16px',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    color: 'var(--color-primary, #6366f1)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.06)',
+                    userSelect: 'none'
+                  }}
+                >
+                  {w}
+                </span>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="vocab-list">
         {ex.questions.map((q: any, qIdx: number) => {
           const gradeEx = gradingResult?.exercises?.find((item) => item.type === ex.type)
@@ -57,7 +126,26 @@ export default function ExercisesSection({
           const isCorrect = qGraded?.correct
 
           return (
-            <div key={q.id || qIdx} className="vocab-card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div
+              key={q.id || qIdx}
+              className={`vocab-card ${ex.type === 'fill_with_bank' && activeQuestionId === q.id ? 'active-fill-card' : ''}`}
+              onClick={() => {
+                if (status === 'COMPLETED') return
+                if (ex.type === 'fill_with_bank') {
+                  setActiveQuestionId(q.id)
+                }
+              }}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+                cursor: ex.type === 'fill_with_bank' && status !== 'COMPLETED' ? 'pointer' : 'default',
+                transition: 'all 0.2s ease',
+                ...(ex.type === 'fill_with_bank' && activeQuestionId === q.id && status !== 'COMPLETED' ? {
+                  borderColor: 'var(--color-primary, #6366f1)'
+                } : {})
+              }}
+            >
 
               {/* MATCHING EXERCISE */}
               {ex.type === 'matching' && (
@@ -128,28 +216,53 @@ export default function ExercisesSection({
               {/* FILL WITH BANK EXERCISE */}
               {ex.type === 'fill_with_bank' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
-                    {ex.word_bank?.map((w: string, wIdx: number) => (
-                      <span
-                        key={wIdx}
-                        className="tag"
-                        onClick={() => {
-                          if (status === 'COMPLETED') return
-                          handleAnswerChange('fill_with_bank', q.id, w)
-                        }}
-                      >
-                        {w}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="fill-sentence" style={{ fontSize: '13px', color: 'var(--color-text-secondary)', paddingLeft: '4px', lineHeight: '18px', marginBottom: '8px' }}>
+                  <div className="fill-sentence" style={{ fontSize: '14px', color: 'var(--color-text-secondary)', paddingLeft: '4px', lineHeight: '28px', marginBottom: '0px' }}>
                     {(() => {
                       const parts = (q.sentence || '').split('___')
                       const currentAns = getAnswerValue('fill_with_bank', q.id)
+                      
+                      const isActive = activeQuestionId === q.id
+                      const showGrade = status === 'COMPLETED'
+                      
+                      const blankBorderColor = showGrade
+                        ? (isCorrect ? 'var(--color-success, #10b981)' : '#ff3b5c')
+                        : (isActive ? 'var(--color-primary, #6366f1)' : 'var(--color-card-border)')
+                      
+                      const blankTextColor = showGrade
+                        ? (isCorrect ? 'var(--color-success, #10b981)' : '#ff3b5c')
+                        : (currentAns ? 'var(--color-primary, #6366f1)' : 'var(--color-text-muted)')
+
+                      const blankBorderStyle = showGrade || currentAns || isActive ? 'solid' : 'dashed'
+
                       return (
                         <>
                           Câu {qIdx + 1}: {parts[0]}
-                          <span className="blank">{currentAns || '___'}</span>
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              if (status === 'COMPLETED') return
+                              setActiveQuestionId(q.id)
+                              if (currentAns) {
+                                handleAnswerChange('fill_with_bank', q.id, '')
+                              }
+                            }}
+                            style={{
+                              display: 'inline-block',
+                              minWidth: '85px',
+                              textAlign: 'center',
+                              borderBottom: `2.5px ${blankBorderStyle} ${blankBorderColor}`,
+                              color: blankTextColor,
+                              padding: '2px 4px 0px',
+                              margin: '0 6px',
+                              fontWeight: currentAns ? 500 : 600,
+                              fontSize: '14px',
+                              verticalAlign: 'bottom',
+                              cursor: status === 'COMPLETED' ? 'default' : 'pointer',
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            {currentAns || '...'}
+                          </span>
                           {parts[1]}
                         </>
                       )
