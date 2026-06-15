@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap');
+
+.congdongonthi-theme {
+  // Design Primitives
+  --exam-primary: #008abb; // Kaggle Blue
+  --exam-primary-hover: #0096cb; // Close natural hover blue
+  --exam-primary-active: #006d94;
+  --exam-primary-light: rgba(0, 138, 187, 0.05);
+  --exam-primary-light-hover: rgba(0, 138, 187, 0.1);
+  --exam-border-radius: 8px; // Clean 8px rounded corners
+  --exam-font-display: 'Inter', 'Be Vietnam Pro', sans-serif;
+  --exam-font-body: 'Inter', 'Be Vietnam Pro', sans-serif;
+  --exam-transition: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  // Kaggle Glacier Theme Variables
+  --exam-bg: #f8f9fa; // Soft grey background
+  --exam-card-bg: #ffffff; // Card surface
+  --exam-text: #202124; // Text primary dark grey
+  --exam-text-secondary: #3c4043; // Text muted slate grey
+  --exam-text-muted: #5f6368; // Light grey text
+  --exam-border: #dadce0; // Border light grey
+  --exam-border-focus: #008abb;
+
+  background-color: var(--exam-bg);
+  color: var(--exam-text);
+  font-family: var(--exam-font-body);
+  min-height: 100vh;
+  padding: 32px 5% 80px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  // Strict flat shadows ban
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    box-sizing: border-box;
+  }
+
+  // Ant Design overrides specifically inside this dark feature
+  .ant-input,
+  .ant-input-affix-wrapper,
+  .ant-select-selector {
+    background-color: var(--exam-card-bg) !important;
+    color: var(--exam-text) !important;
+    border: 1px solid var(--exam-border) !important;
+    border-radius: var(--exam-border-radius) !important;
+    padding: 10px 14px !important;
+    height: auto !important;
+    transition: border-color var(--exam-transition) !important;
+
+    &:hover {
+      border-color: var(--exam-primary) !important;
+    }
+
+    &:focus,
+    &-focused {
+      border-color: var(--exam-primary) !important;
+      outline: none !important;
+    }
+  }
+
+  .ant-input-affix-wrapper {
+    padding: 6px 14px !important;
+    display: flex;
+    align-items: center;
+
+    .ant-input {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+    }
+  }
+
+  .ant-form-item-label > label {
+    color: var(--exam-text) !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+  }
+}
+@import './CongDongOnThiLayout.scss';
+@import './CongDongOnThiListPage.scss';
+@import './CongDongOnThiDetailPage.scss';

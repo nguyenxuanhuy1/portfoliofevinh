@@ -118,7 +118,7 @@
     }
   }
 
-  &__search-btn {
+  .projects-page__search-btn {
     flex-shrink: 0;
     border-radius: var(--radius-full) !important;
     height: 48px;
@@ -126,7 +126,7 @@
     background-color: #6366F1 !important;
   }
 
-  &__search-btn-mobile {
+  .projects-page__search-btn-mobile {
     display: none;
   }
 
@@ -207,11 +207,11 @@
       margin: 0 0 32px 0;
     }
 
-    &__search-btn {
+    .projects-page__search-btn {
       display: none;
     }
 
-    &__search-btn-mobile {
+    .projects-page__search-btn-mobile {
       display: inline-flex;
       align-items: center;
       justify-content: center;

@@ -1,0 +1,12 @@
+.exam-ui-input {
+  border-radius: var(--exam-border-radius) !important;
+  font-family: var(--exam-font-body) !important;
+}
+
+.exam-ui-textarea {
+  border-radius: var(--exam-border-radius) !important;
+  font-family: var(--exam-font-body) !important;
+  background-color: var(--exam-card-bg) !important;
+  color: var(--exam-text) !important;
+  border: 1px solid var(--exam-border) !important;
+}

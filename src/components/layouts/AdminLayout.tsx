@@ -16,7 +16,6 @@ import { useAuthStore } from '../../store/authStore';
 import { useTranslation } from '../../features/shared/i18n/useTranslation';
 import { useThemeStore } from '../../store/themeStore';
 import { useEffect, useRef } from 'react';
-import './style/AdminLayout.scss';
 
 const { Sider, Content, Header } = Layout;
 

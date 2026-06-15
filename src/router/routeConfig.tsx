@@ -1,6 +1,7 @@
 import { portfolioRoutes } from '../features/portfolio/router/routes'
 import { learnEnglishRoutes } from '../features/learnEnglish/router/routes'
 import { sharedRoutes } from '../features/shared/router/routes'
+import { congDongOnThiRoutes } from '../features/congdongonthi/router/routes'
 import type { AppRoute } from '../features/shared/types/Layout'
 
 /**
@@ -10,5 +11,6 @@ import type { AppRoute } from '../features/shared/types/Layout'
 export const routeConfig: AppRoute[] = [
   ...portfolioRoutes,
   ...learnEnglishRoutes,
+  ...congDongOnThiRoutes,
   ...sharedRoutes,
 ]

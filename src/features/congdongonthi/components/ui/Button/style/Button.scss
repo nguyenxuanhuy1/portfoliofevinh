@@ -1,0 +1,34 @@
+.exam-ui-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: var(--exam-border-radius) !important;
+  font-family: var(--exam-font-body) !important;
+  font-weight: 500 !important;
+  transition: all var(--exam-transition) !important;
+
+  &.ant-btn-primary,
+  &.btn--primary {
+    background-color: var(--exam-primary) !important;
+    border: 1px solid var(--exam-primary) !important;
+    color: #ffffff !important;
+
+    &:hover {
+      background-color: var(--exam-primary-hover) !important;
+      border-color: var(--exam-primary-hover) !important;
+    }
+  }
+
+  &.ant-btn-background-ghost,
+  &.btn--ghost {
+    background-color: transparent !important;
+    border: 1px solid var(--exam-border) !important;
+    color: var(--exam-text) !important;
+
+    &:hover {
+      border-color: var(--exam-primary) !important;
+      color: var(--exam-primary) !important;
+      background-color: var(--exam-primary-light) !important;
+    }
+  }
+}
