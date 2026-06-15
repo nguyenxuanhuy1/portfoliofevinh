@@ -1,4 +1,3 @@
-import React from 'react'
 import GlobalDrawer from '../../../../../components/ui/Drawer/Drawer'
 import type { DrawerProps } from '../../../../../components/ui/Drawer/Drawer'
 import './style/Drawer.scss'
