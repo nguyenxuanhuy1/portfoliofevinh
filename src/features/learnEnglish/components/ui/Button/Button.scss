@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
-  border-radius: var(--radius-full); // Bo tròn 100% hình viên thuốc
+  border-radius: var(--radius-full) !important; // Bo tròn 100% hình viên thuốc (pill-shape)
   font-weight: 500;
   cursor: pointer;
   transition: background var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
@@ -16,17 +16,17 @@
 
   // ─── Sizes ───────────────────────────────────────────────
   &--sm {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: 8px 16px !important;
     font-size: var(--text-xs);
   }
 
   &--md {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: 12px 24px !important;
     font-size: var(--text-sm);
   }
 
   &--lg {
-    padding: var(--spacing-sm) var(--spacing-lg);
+    padding: 16px 32px !important;
     font-size: var(--text-md);
   }
 
@@ -44,23 +44,13 @@
   }
 
   &--secondary {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.08);
+    background: var(--color-button-secondary-bg);
+    border-color: var(--color-button-secondary-border);
     color: var(--color-text);
 
-    [data-theme='light'] & {
-      background: rgba(0, 0, 0, 0.04);
-      border-color: rgba(0, 0, 0, 0.08);
-    }
-
     &:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.18);
-
-      [data-theme='light'] & {
-        background: rgba(0, 0, 0, 0.08);
-        border-color: rgba(0, 0, 0, 0.15);
-      }
+      background: var(--color-button-secondary-hover-bg);
+      border-color: var(--color-button-secondary-hover-border);
     }
   }
 
@@ -70,22 +60,18 @@
     color: var(--color-text);
 
     &:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.06);
-
-      [data-theme='light'] & {
-        background: rgba(0, 0, 0, 0.04);
-      }
+      background: var(--color-button-ghost-hover-bg);
     }
   }
 
   &--danger {
-    color: #f87171;
+    color: var(--color-button-danger-text);
     background: transparent;
-    border-color: rgba(248, 113, 113, 0.3);
+    border-color: var(--color-button-danger-border);
 
     &:hover:not(:disabled) {
-      background: rgba(248, 113, 113, 0.08);
-      border-color: rgba(248, 113, 113, 0.5);
+      background: var(--color-button-danger-hover-bg);
+      border-color: var(--color-button-danger-hover-border);
     }
   }
 

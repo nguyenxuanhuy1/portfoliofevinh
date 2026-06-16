@@ -18,6 +18,17 @@
   --color-glow-2: rgba(192, 132, 252, 0.06);
   --color-modal-bg: #131c30;
 
+  /* Button Variables (Dark Mode) */
+  --color-button-secondary-bg: rgba(255, 255, 255, 0.06);
+  --color-button-secondary-border: rgba(255, 255, 255, 0.08);
+  --color-button-secondary-hover-bg: rgba(255, 255, 255, 0.1);
+  --color-button-secondary-hover-border: rgba(255, 255, 255, 0.18);
+  --color-button-ghost-hover-bg: rgba(255, 255, 255, 0.06);
+  --color-button-danger-text: #f87171;
+  --color-button-danger-border: rgba(248, 113, 113, 0.3);
+  --color-button-danger-hover-bg: rgba(248, 113, 113, 0.08);
+  --color-button-danger-hover-border: rgba(248, 113, 113, 0.5);
+
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -66,6 +77,17 @@
   --color-glow-1: rgba(79, 70, 229, 0.04);
   --color-glow-2: rgba(147, 51, 234, 0.03);
   --color-modal-bg: #ffffff;
+
+  /* Button Variables (Light Mode) */
+  --color-button-secondary-bg: rgba(0, 0, 0, 0.04);
+  --color-button-secondary-border: rgba(0, 0, 0, 0.08);
+  --color-button-secondary-hover-bg: rgba(0, 0, 0, 0.08);
+  --color-button-secondary-hover-border: rgba(0, 0, 0, 0.15);
+  --color-button-ghost-hover-bg: rgba(0, 0, 0, 0.04);
+  --color-button-danger-text: #dc2626;
+  --color-button-danger-border: rgba(220, 38, 38, 0.2);
+  --color-button-danger-hover-bg: rgba(220, 38, 38, 0.06);
+  --color-button-danger-hover-border: rgba(220, 38, 38, 0.4);
 }
 
 

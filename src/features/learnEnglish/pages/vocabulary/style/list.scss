@@ -13,16 +13,16 @@
 
   &__btn-3d {
     background: var(--color-card-bg) !important;
-    border: 1.5px solid var(--color-card-border) !important;
+    border: 1.5px solid var(--color-card-border);
     border-bottom: 7px solid var(--color-primary) !important;
-    border-radius: var(--radius-full) !important; // Nút bấm bo tròn 100% hình viên thuốc
+    border-radius: var(--radius-full); // Nút bấm bo tròn 100% hình viên thuốc
     padding: 16px 28px;
     cursor: pointer;
     position: relative;
     transition: all 0.1s ease;
     user-select: none;
     outline: none;
-    border-color: var(--color-primary) !important;
+    border-color: var(--color-primary);
 
     .btn__label {
       display: flex;
@@ -37,9 +37,9 @@
     }
 
     &:active {
-      transform: translateY(6px) !important;
-      border-bottom-width: 2px !important;
-      margin-bottom: 7px !important;
+      transform: translateY(6px);
+      border-bottom-width: 2px;
+      margin-bottom: 7px;
     }
 
     &-title {

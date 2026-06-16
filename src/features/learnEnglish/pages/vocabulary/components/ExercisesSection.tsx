@@ -287,8 +287,8 @@ export default function ExercisesSection({
                   {q.hint && (
                     <div style={{ marginTop: '4px' }}>
                       <Button
+                        className="ai-hint-btn"
                         onClick={() => setShownHints(prev => ({ ...prev, [q.id]: !prev[q.id] }))}
-                        style={{ background: 'none', border: '1px dashed #222', color: '#555', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', cursor: 'pointer' }}
                       >
                         {shownHints[q.id] ? 'Ẩn gợi ý' : 'Gợi ý từ AI'}
                       </Button>
