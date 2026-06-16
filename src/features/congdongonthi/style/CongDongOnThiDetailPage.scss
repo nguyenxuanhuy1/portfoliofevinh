@@ -10,6 +10,11 @@
       grid-template-columns: 1fr;
       gap: 32px;
     }
+
+    &__left, &__right {
+      min-width: 0;
+      width: 100%;
+    }
   }
 
   // DOCUMENT HEADER
@@ -91,6 +96,10 @@
         display: flex;
         gap: 8px;
         width: 100%;
+      }
+
+      @media (max-width: 480px) {
+        flex-direction: column;
       }
     }
 
@@ -217,11 +226,16 @@
     height: 820px;
     max-height: 820px;
     overflow: hidden;
+
+    @media (max-width: 768px) {
+      height: 550px;
+      max-height: 550px;
+    }
   }
 
   .exam-preview-md {
     height: 100%;
-    overflow-y: auto;
+    overflow: auto; /* Allow both horizontal and vertical scrolling */
     padding: 24px;
     background-color: var(--exam-card-bg);
     color: var(--exam-text);
@@ -266,6 +280,8 @@
     font-size: 0.92rem;
     line-height: 1.6;
     word-wrap: break-word;
+    word-break: break-word; /* Prevent long words or URLs from stretching the layout */
+    max-width: 100%;
 
     > *:first-child {
       margin-top: 0 !important;
@@ -357,7 +373,9 @@
     }
 
     table {
+      display: block;
       width: 100%;
+      overflow-x: auto; /* Enable horizontal scrollbar for wide tables */
       margin-bottom: 12px;
       border-collapse: collapse;
       

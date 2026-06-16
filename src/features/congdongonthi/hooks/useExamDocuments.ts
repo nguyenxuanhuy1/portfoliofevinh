@@ -1,17 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
 import type { ExamDocument } from '../types'
-import apiClient from '../../../services/apiClient'
-
-function splitMarkdownToPages(text: string): string[] {
-  if (!text) return []
-  // Split by standard page separators (e.g. 5 dashes or 3 dashes on a new line)
-  let pages = text.split(/\r?\n-----\r?\n/)
-  if (pages.length <= 1) {
-    pages = text.split(/\r?\n---\r?\n/)
-  }
-  return pages.map((p) => p.trim()).filter((p) => p.length > 0)
-}
+import { congDongOnThiService } from '../services/congDongOnThiService'
+import { splitMarkdownToPages } from '../utils/markdown'
 
 export const EXAM_DOCUMENTS_QUERY_KEY = ['exam-documents']
 
@@ -20,21 +10,21 @@ export function useGetDocuments(search?: string, subject?: string) {
   return useQuery<ExamDocument[]>({
     queryKey: [...EXAM_DOCUMENTS_QUERY_KEY, search, subject],
     queryFn: async () => {
-      const docs = await apiClient.get<any[]>('/api/congdongonthi')
+      const docs = await congDongOnThiService.getDocuments()
       
-      const mappedDocs: ExamDocument[] = (docs || []).map((doc: any) => ({
+      const mappedDocs: ExamDocument[] = docs.map((doc) => ({
         id: doc.id,
         title: doc.title,
         description: doc.description || '',
         subject: doc.subject,
-        fileType: doc.fileType || 'PDF',
+        fileType: (doc.fileType || 'PDF') as any,
         fileSize: doc.fileSize || '1.0 MB',
         downloadUrl: doc.downloadUrl || '#',
         downloads: doc.downloads || 0,
         views: doc.views || 0,
         author: doc.author || 'Hệ thống',
         tags: doc.tags || [],
-        pages: doc.pages || [],
+        pages: [],
         createdAt: doc.createdAt,
         level: doc.level || 0,
       }))
@@ -71,19 +61,17 @@ export function useGetDocumentById(id?: string) {
     queryKey: ['exam-document', id],
     queryFn: async () => {
       if (!id) throw new Error('Document ID is required')
-      const doc = await apiClient.get<any>(`/api/congdongonthi/${id}`)
+      const doc = await congDongOnThiService.getDocumentById(id)
       
       let pages: string[] = []
       if (doc.mdDownloadUrl) {
         try {
-          // Fetch raw markdown content from Cloudinary url
-          const response = await axios.get(doc.mdDownloadUrl)
-          const mdContent = response.data
-          if (typeof mdContent === 'string') {
+          const mdContent = await congDongOnThiService.fetchMarkdownContent(doc.mdDownloadUrl)
+          if (mdContent) {
             pages = splitMarkdownToPages(mdContent)
           }
         } catch (err) {
-          console.error('Failed to fetch markdown content from Cloudinary:', err)
+          console.error('Failed to fetch markdown content:', err)
         }
       }
 
@@ -92,7 +80,7 @@ export function useGetDocumentById(id?: string) {
         title: doc.title,
         description: doc.description || '',
         subject: doc.subject,
-        fileType: doc.fileType || 'PDF',
+        fileType: (doc.fileType || 'PDF') as any,
         fileSize: doc.fileSize || '1.0 MB',
         downloadUrl: doc.downloadUrl || '#',
         mdDownloadUrl: doc.mdDownloadUrl || '#',
@@ -109,13 +97,22 @@ export function useGetDocumentById(id?: string) {
   })
 }
 
-// Mutation Hook for Upload (for future use or admin mock)
+// Query Hook for unique subject list
+export function useGetSubjects() {
+  return useQuery<string[]>({
+    queryKey: ['exam-subjects'],
+    queryFn: async () => {
+      return await congDongOnThiService.getSubjects()
+    }
+  })
+}
+
+// Mutation Hook for Mock Contribution (retaining if needed)
 export function useUploadDocument() {
   const queryClient = useQueryClient()
 
   return useMutation<ExamDocument, Error, Omit<ExamDocument, 'id' | 'downloads' | 'views' | 'tags' | 'pages' | 'createdAt'>>({
     mutationFn: async (newDoc) => {
-      // Simulate network delay for mock contribution
       await new Promise((resolve) => setTimeout(resolve, 500))
 
       const createdDoc: ExamDocument = {
@@ -136,16 +133,5 @@ export function useUploadDocument() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: EXAM_DOCUMENTS_QUERY_KEY })
     },
-  })
-}
-
-// Query Hook for unique subject list
-export function useGetSubjects() {
-  return useQuery<string[]>({
-    queryKey: ['exam-subjects'],
-    queryFn: async () => {
-      const data = await apiClient.get<string[]>('/api/congdongonthi/subjects')
-      return data || []
-    }
   })
 }

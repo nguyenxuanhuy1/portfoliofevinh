@@ -107,10 +107,11 @@ axiosInstance.interceptors.response.use(
           }
         );
 
+        const currentRole = useAuthStore.getState().role;
         const { accessToken: newAccessToken, refreshToken: newRefreshToken, role } = response.data.data;
 
         // Lưu cặp token mới và vai trò vào Zustand store & localStorage
-        useAuthStore.getState().setToken(newAccessToken, newRefreshToken, role);
+        useAuthStore.getState().setToken(newAccessToken, newRefreshToken, role || currentRole || 'ADMIN');
         
         // Giải phóng hàng đợi chờ đợi với token mới thành công
         processQueue(null, newAccessToken);

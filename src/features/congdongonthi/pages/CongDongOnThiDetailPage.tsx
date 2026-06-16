@@ -10,7 +10,8 @@ import {
   SendOutlined,
   RobotOutlined,
   LeftCircleOutlined,
-  RightCircleOutlined
+  RightCircleOutlined,
+  LoadingOutlined
 } from '@ant-design/icons'
 import { marked } from 'marked'
 import Button from '../components/ui/Button'
@@ -20,7 +21,8 @@ import DocumentCard from '../components/DocumentCard'
 import { useGetDocumentById, useGetDocuments } from '../hooks/useExamDocuments'
 import CongDongOnThiLayout from '../layouts/CongDongOnThiLayout'
 import message from '../../../components/ui/Message/Message'
-import apiClient from '../../../services/apiClient'
+import { congDongOnThiService } from '../services/congDongOnThiService'
+import { mergePdfBuffers } from '../utils/pdf'
 import '../style/index.scss'
 
 interface ChatMessage {
@@ -44,6 +46,7 @@ export default function CongDongOnThiDetailPage() {
   const mdContainerRef = useRef<HTMLDivElement>(null)
   const [parsedHtml, setParsedHtml] = useState('')
   const [isMdLoading, setIsMdLoading] = useState(false)
+  const [isMerging, setIsMerging] = useState(false)
 
   // Fetch document details by ID from BE
   const { data: activeDoc, isLoading: isDocLoading, error: docError } = useGetDocumentById(id)
@@ -172,11 +175,64 @@ export default function CongDongOnThiDetailPage() {
   const handleDownload = async () => {
     if (!activeDoc) return
     try {
-      // Increment download counter in BE
-      await apiClient.get(`/api/congdongonthi/${activeDoc.id}/download`)
-
       if (activeDoc.downloadUrl && activeDoc.downloadUrl !== '#') {
-        window.open(activeDoc.downloadUrl, '_blank')
+        const urls = activeDoc.downloadUrl
+        const urlList = Array.isArray(urls) ? urls : [urls]
+        const validUrls = urlList.filter(url => url && url !== '#')
+
+        if (validUrls.length === 0) {
+          message.error('Không tìm thấy đường dẫn tải file.')
+          return
+        }
+
+        // If it's a multi-part PDF file, merge them on the frontend
+        if (validUrls.length > 1 && activeDoc.fileType?.toUpperCase() === 'PDF') {
+          setIsMerging(true)
+          try {
+            // Fetch all chunks in parallel
+            const promises = validUrls.map(url =>
+              congDongOnThiService.fetchFileArrayBuffer(url)
+            )
+            const pdfBuffers = await Promise.all(promises)
+
+            // Merge using pdf-lib
+            const mergedPdfBytes = await mergePdfBuffers(pdfBuffers)
+
+            // Trigger browser download
+            const blob = new Blob([mergedPdfBytes as any], { type: 'application/pdf' })
+            const link = document.createElement('a')
+            link.href = URL.createObjectURL(blob)
+            
+            const cleanTitle = activeDoc.title.replace(/[^a-zA-Z0-9-_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]/g, '')
+            link.download = `${cleanTitle}.pdf`
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+            URL.revokeObjectURL(link.href)
+
+            // Increment download counter in BE
+            await congDongOnThiService.incrementDownload(activeDoc.id)
+            message.success('Đã tải tài liệu thành công!')
+          } catch (mergeErr) {
+            console.error('Error during client-side PDF merge:', mergeErr)
+            message.error('Gặp lỗi khi tải tài liệu. Đang tải từng phần riêng lẻ...')
+            
+            // Fallback: download individual parts
+            await congDongOnThiService.incrementDownload(activeDoc.id)
+            validUrls.forEach(url => {
+              window.open(url, '_blank')
+            })
+          } finally {
+            setIsMerging(false)
+          }
+        } else {
+          // Single file or non-PDF download: download directly
+          await congDongOnThiService.incrementDownload(activeDoc.id)
+          const url = validUrls[0]
+          if (url && url !== '#') {
+            window.open(url, '_blank')
+          }
+        }
       } else {
         message.success(`Bắt đầu tải xuống tài liệu: ${activeDoc.title}`)
       }
@@ -190,7 +246,7 @@ export default function CongDongOnThiDetailPage() {
     if (!activeDoc) return
     try {
       // Increment download counter in BE
-      await apiClient.get(`/api/congdongonthi/${activeDoc.id}/download`)
+      await congDongOnThiService.incrementDownload(activeDoc.id)
 
       if (activeDoc.mdDownloadUrl && activeDoc.mdDownloadUrl !== '#') {
         window.open(activeDoc.mdDownloadUrl, '_blank')
@@ -319,6 +375,14 @@ export default function CongDongOnThiDetailPage() {
     return docTags.some((tag) => activeDocTags.includes(tag))
   }).slice(0, 4)
 
+  const totalPages = previewMode === 'md'
+    ? (activeDoc.pages?.length || 0)
+    : (Array.isArray(activeDoc.downloadUrl) ? activeDoc.downloadUrl.length : 1)
+
+  const showPagination = previewMode === 'md'
+    ? (activeDoc.pages && activeDoc.pages.length > 0)
+    : (Array.isArray(activeDoc.downloadUrl) && activeDoc.downloadUrl.length > 1)
+
   return (
     <CongDongOnThiLayout
       activeDocId={activeDoc.id}
@@ -360,9 +424,10 @@ export default function CongDongOnThiDetailPage() {
               <div className="exam-doc-header__actions-row">
                 <Button
                   variant="primary"
-                  icon={<DownloadOutlined />}
+                  icon={isMerging ? <LoadingOutlined /> : <DownloadOutlined />}
                   onClick={handleDownload}
                   className="exam-doc-header__action-btn"
+                  disabled={isMerging}
                 >
                   <span>Tải file {activeDoc.fileType}</span>
                 </Button>
@@ -404,14 +469,20 @@ export default function CongDongOnThiDetailPage() {
               <h3>Xem trước tài liệu</h3>
               <div className="exam-preview-header__options">
                 <button
-                  onClick={() => setPreviewMode('file')}
+                  onClick={() => {
+                    setPreviewMode('file')
+                    setActivePage(0)
+                  }}
                   className={`exam-preview-tab-btn ${previewMode === 'file' ? 'exam-preview-tab-btn--active' : ''}`}
                 >
                   Xem file {activeDoc.fileType}
                 </button>
                 {activeDoc.mdDownloadUrl && activeDoc.mdDownloadUrl !== '#' && (
                   <button
-                    onClick={() => setPreviewMode('md')}
+                    onClick={() => {
+                      setPreviewMode('md')
+                      setActivePage(0)
+                    }}
                     className={`exam-preview-tab-btn ${previewMode === 'md' ? 'exam-preview-tab-btn--active' : ''}`}
                   >
                     Xem file MD
@@ -422,7 +493,11 @@ export default function CongDongOnThiDetailPage() {
             <div className="exam-preview-content-box">
               {previewMode === 'file' ? (
                 <iframe
-                  src={activeDoc.downloadUrl}
+                  src={
+                    Array.isArray(activeDoc.downloadUrl)
+                      ? activeDoc.downloadUrl[activePage] || '#'
+                      : activeDoc.downloadUrl
+                  }
                   title="Document Preview"
                   width="100%"
                   height="100%"
@@ -454,7 +529,7 @@ export default function CongDongOnThiDetailPage() {
                 </div>
               )}
             </div>
-            {previewMode === 'md' && activeDoc.pages && activeDoc.pages.length > 0 && (
+            {showPagination && (
               <div className="exam-preview-footer">
                 <button
                   onClick={() => setActivePage((prev) => Math.max(0, prev - 1))}
@@ -464,11 +539,11 @@ export default function CongDongOnThiDetailPage() {
                   <LeftCircleOutlined /> Trang trước
                 </button>
                 <span className="exam-preview-page-indicator">
-                  Trang {activePage + 1} / {activeDoc.pages.length}
+                  Trang {activePage + 1} / {totalPages}
                 </span>
                 <button
-                  onClick={() => setActivePage((prev) => Math.min(activeDoc.pages.length - 1, prev + 1))}
-                  disabled={activePage === activeDoc.pages.length - 1}
+                  onClick={() => setActivePage((prev) => Math.min(totalPages - 1, prev + 1))}
+                  disabled={activePage === totalPages - 1}
                   className="exam-preview-nav-btn"
                 >
                   Trang sau <RightCircleOutlined />

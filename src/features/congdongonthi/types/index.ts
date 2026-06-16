@@ -5,7 +5,7 @@ export interface ExamDocument {
   subject: string
   fileType: 'PDF' | 'DOCX' | 'ZIP' | 'XLSX' | 'PPTX'
   fileSize: string
-  downloadUrl: string
+  downloadUrl: string | string[]
   mdDownloadUrl?: string
   downloads: number
   views: number

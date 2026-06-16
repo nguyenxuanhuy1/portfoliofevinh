@@ -3,13 +3,13 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  font-weight: 400;
+  border-radius: var(--radius-full); // Bo tròn 100% hình viên thuốc
+  font-weight: 500;
   cursor: pointer;
   transition: background var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
   border: 0.5px solid transparent;
   white-space: nowrap;
-  color: #fff; // mặc định trắng
+  color: var(--color-text); // Theo màu chữ của theme mặc định
 
   &:active:not(:disabled) { transform: scale(0.98); }
   &:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -34,6 +34,7 @@
   &--primary {
     background: var(--color-primary, #6366f1);
     border-color: var(--color-primary, #6366f1);
+    color: #ffffff; // Luôn hiển thị chữ trắng trên nền primary màu đậm
 
     &:hover:not(:disabled) {
       background: var(--color-primary, #6366f1);
@@ -45,19 +46,35 @@
   &--secondary {
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.08);
+    color: var(--color-text);
+
+    [data-theme='light'] & {
+      background: rgba(0, 0, 0, 0.04);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
 
     &:hover:not(:disabled) {
       background: rgba(255, 255, 255, 0.1);
       border-color: rgba(255, 255, 255, 0.18);
+
+      [data-theme='light'] & {
+        background: rgba(0, 0, 0, 0.08);
+        border-color: rgba(0, 0, 0, 0.15);
+      }
     }
   }
 
   &--ghost {
     background: transparent;
     border-color: transparent;
+    color: var(--color-text);
 
     &:hover:not(:disabled) {
       background: rgba(255, 255, 255, 0.06);
+
+      [data-theme='light'] & {
+        background: rgba(0, 0, 0, 0.04);
+      }
     }
   }
 

@@ -12,20 +12,20 @@ const AdminExperiencePage = lazy(() => import('../pages/admin/experience'))
 const AdminProjectsPage = lazy(() => import('../pages/admin/project'))
 const AdminContactPage = lazy(() => import('../pages/admin/contact'))
 const AdminTopicPage = lazy(() => import('../pages/admin/topic'))
+const CongDongOnThiAdminPage = lazy(() => import('../pages/admin/document'))
 
 // Fallback
 const NotFoundPage = lazy(() => import('../pages/notFound'))
 
 export const sharedRoutes: AppRoute[] = [
-  // Admin
   {
     path: '/admin/profile',
     element: <AdminProfilePage />,
     public: false,
     roles: ['ADMIN'],
-    label: { 
-      vi: 'Hồ sơ', 
-      en: 'Profile' 
+    label: {
+      vi: 'Hồ sơ',
+      en: 'Profile'
     },
     showInMenu: true,
     layout: 'admin',
@@ -35,9 +35,9 @@ export const sharedRoutes: AppRoute[] = [
     element: <AdminSkillsPage />,
     public: false,
     roles: ['ADMIN'],
-    label: { 
-      vi: 'Kỹ năng', 
-      en: 'Skills' 
+    label: {
+      vi: 'Kỹ năng',
+      en: 'Skills'
     },
     showInMenu: true,
     layout: 'admin',
@@ -47,9 +47,9 @@ export const sharedRoutes: AppRoute[] = [
     element: <AdminExperiencePage />,
     public: false,
     roles: ['ADMIN'],
-    label: { 
-      vi: 'Kinh nghiệm', 
-      en: 'Experience' 
+    label: {
+      vi: 'Kinh nghiệm',
+      en: 'Experience'
     },
     showInMenu: true,
     layout: 'admin',
@@ -59,9 +59,9 @@ export const sharedRoutes: AppRoute[] = [
     element: <AdminProjectsPage />,
     public: false,
     roles: ['ADMIN'],
-    label: { 
-      vi: 'Dự án', 
-      en: 'Projects' 
+    label: {
+      vi: 'Dự án',
+      en: 'Projects'
     },
     showInMenu: true,
     layout: 'admin',
@@ -71,9 +71,9 @@ export const sharedRoutes: AppRoute[] = [
     element: <AdminContactPage />,
     public: false,
     roles: ['ADMIN'],
-    label: { 
-      vi: 'Liên hệ', 
-      en: 'Contacts' 
+    label: {
+      vi: 'Liên hệ',
+      en: 'Contacts'
     },
     showInMenu: true,
     layout: 'admin',
@@ -83,9 +83,21 @@ export const sharedRoutes: AppRoute[] = [
     element: <AdminTopicPage />,
     public: false,
     roles: ['ADMIN'],
-    label: { 
-      vi: 'Chủ đề học', 
-      en: 'English Topics' 
+    label: {
+      vi: 'Chủ đề học',
+      en: 'English Topics'
+    },
+    showInMenu: true,
+    layout: 'admin',
+  },
+  {
+    path: '/admin/documents',
+    element: <CongDongOnThiAdminPage />,
+    public: false,
+    roles: ['ADMIN'],
+    label: {
+      vi: 'Tài liệu ôn thi',
+      en: 'Exam Documents'
     },
     showInMenu: true,
     layout: 'admin',
@@ -95,9 +107,9 @@ export const sharedRoutes: AppRoute[] = [
     path: '/auth',
     element: <AuthPage />,
     public: true,
-    label: { 
-      vi: 'Đăng nhập', 
-      en: 'Login' 
+    label: {
+      vi: 'Đăng nhập',
+      en: 'Login'
     },
     showInMenu: true,
     layout: 'auth',
