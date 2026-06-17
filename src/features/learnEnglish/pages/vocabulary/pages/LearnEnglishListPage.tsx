@@ -9,6 +9,7 @@ import {
 import { useLearnTopicsQuery } from '../../../hooks/useLearnTopicQuery'
 import Skeleton from '../../../components/ui/Skeleton'
 import Button from '../../../components/ui/Button'
+import LessonCard from '../../../components/ui/LessonCard/LessonCard'
 import '../style/index.scss'
 
 export default function LearnEnglishListPage() {
@@ -59,17 +60,17 @@ export default function LearnEnglishListPage() {
   return (
     <div className="learn-english">
       <div className="learn-english__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', gap: '16px' }}>
-        <span style={{ fontSize: '22px', fontWeight: 400, color: 'var(--color-text)', letterSpacing: '-0.5px' }}>
-          Vocabulary
+        <span style={{ fontSize: '22px', fontWeight: 900, color: '#0D0D0D', letterSpacing: '-0.5px', fontFamily: "'Archivo Black', 'Arial Black', sans-serif" }}>
+          VOCABULARY
         </span>
 
         {/* Nút icon Lịch sử làm bài */}
-        <Button
+        <button
           onClick={() => navigate('/learn-english/history')}
           style={{
             background: 'none',
             border: 'none',
-            color: 'var(--color-text-secondary)',
+            color: '#0D0D0D',
             cursor: 'pointer',
             fontSize: '18px',
             transition: 'all var(--transition-fast)',
@@ -80,50 +81,78 @@ export default function LearnEnglishListPage() {
             justifyContent: 'center'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.color = 'var(--color-primary)';
+            e.currentTarget.style.color = '#555';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--color-text-secondary)';
+            e.currentTarget.style.color = '#0D0D0D';
           }}
           title="Lịch sử làm bài"
         >
           <HistoryOutlined />
-        </Button>
+        </button>
       </div>
 
       {loading ? (
         <div className="learn-english__list">
-          {Array.from({ length: 1 }).map((_, idx) => (
-            <div key={idx} className="learn-english__btn-3d" style={{ opacity: 0.6, cursor: 'default' }}>
-              <Skeleton
-                title={false}
-                paragraph={false}
-                height="20px"
-              />
+          {Array.from({ length: 3 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="lesson-card lesson-card--skeleton"
+              style={{
+                '--card-bg': '#f9fafb',
+                cursor: 'default',
+                opacity: 0.8
+              } as React.CSSProperties}
+            >
+              <div className="lesson-card__top">
+                <div className="lesson-card__badge" style={{ background: '#e5e7eb', borderColor: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Skeleton width="100%" height="100%" borderRadius="0" />
+                </div>
+                <div className="lesson-card__status" style={{ background: '#e5e7eb', borderColor: '#e5e7eb', width: '80px', height: '27px', padding: 0, overflow: 'hidden' }}>
+                  <Skeleton width="100%" height="100%" borderRadius="0" />
+                </div>
+              </div>
+
+              <h3 className="lesson-card__title" style={{ height: '25px', overflow: 'hidden' }}>
+                <Skeleton width="75%" height="100%" borderRadius="0" />
+              </h3>
+
+              <div className="lesson-card__stats">
+                <div className="lesson-card__stat" style={{ background: '#f9fafb', display: 'flex', flexDirection: 'column', height: '62px', boxSizing: 'border-box', justifyContent: 'center' }}>
+                  <Skeleton width="30%" height="20px" style={{ marginBottom: '2px' }} />
+                  <Skeleton width="55%" height="10px" />
+                </div>
+                <div className="lesson-card__stat" style={{ background: '#f9fafb', display: 'flex', flexDirection: 'column', height: '62px', boxSizing: 'border-box', justifyContent: 'center' }}>
+                  <Skeleton width="30%" height="20px" style={{ marginBottom: '2px' }} />
+                  <Skeleton width="55%" height="10px" />
+                </div>
+              </div>
+
+              <div className="lesson-card__cta" style={{ width: '100px', height: '36px', padding: 0, overflow: 'hidden', background: '#e5e7eb', borderColor: '#e5e7eb' }}>
+                <Skeleton width="100%" height="100%" borderRadius="0" />
+              </div>
             </div>
           ))}
         </div>
       ) : topics.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '48px 0', border: '1px dashed var(--color-card-border)', borderRadius: 'var(--radius-md)', background: 'var(--color-card-bg)' }}>
-          <BookOutlined style={{ fontSize: '48px', color: 'var(--color-primary)', marginBottom: '16px' }} />
-          <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>Chưa có chủ đề học tập nào. Vui lòng quay lại sau!</p>
+        <div style={{ textAlign: 'center', padding: '48px 0', border: '3px solid #0D0D0D', background: '#fff' }}>
+          <BookOutlined style={{ fontSize: '48px', color: '#0D0D0D', marginBottom: '16px' }} />
+          <p style={{ color: '#555', margin: 0, fontFamily: "'Archivo Black', 'Arial Black', sans-serif", fontWeight: 700 }}>Chưa có chủ đề học tập nào. Vui lòng quay lại sau!</p>
         </div>
       ) : (
         <div className="learn-english__list">
-          {topics.map((topic) => {
+          {topics.map((topic, index) => {
             const state = getTopicState(topic.id)
 
             return (
-              <Button
+              <LessonCard
                 key={topic.id}
-                className="learn-english__btn-3d"
+                topic={topic}
+                index={index}
+                status={state.status as 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED'}
+                score={state.score}
                 onClick={() => navigate(`/learn-english/${topic.id}`)}
-              >
-                <span className="learn-english__btn-3d-title">{topic.name}</span>
-                <div className="learn-english__btn-3d-status">
-                  {renderStatusBadge(state.status, state.score)}
-                </div>
-              </Button>
+              />
             )
           })}
         </div>

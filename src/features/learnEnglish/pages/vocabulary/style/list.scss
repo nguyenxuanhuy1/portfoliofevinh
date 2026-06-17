@@ -3,12 +3,57 @@
 // ==========================================
 // LIST PAGE CARDS & STRUCTURE
 // ==========================================
+// Force light mode theme variables globally when on the list page or history page
+html:has(.learn-english:not(.learn-english--detail)) {
+  --color-background: #ffffff !important;
+  --color-text: #0D0D0D !important;
+  --color-text-secondary: #475569 !important;
+  --color-text-muted: #64748b !important;
+  --color-card-bg: #ffffff !important;
+  --color-card-border: #e2e8f0 !important;
+  --color-badge-bg: rgba(79, 70, 229, 0.05) !important;
+  --color-badge-border: rgba(79, 70, 229, 0.2) !important;
+  --color-primary: #4f46e5 !important;
+  --color-divider: rgba(0, 0, 0, 0.08) !important;
+  --color-timeline-marker-bg: #ffffff !important;
+  --color-timeline-line: rgba(79, 70, 229, 0.3) !important;
+  --color-glow-1: rgba(79, 70, 229, 0.04) !important;
+  --color-glow-2: rgba(147, 51, 234, 0.03) !important;
+  --color-modal-bg: #ffffff !important;
+
+  /* Button Variables */
+  --color-button-secondary-bg: rgba(0, 0, 0, 0.04) !important;
+  --color-button-secondary-border: rgba(0, 0, 0, 0.08) !important;
+  --color-button-secondary-hover-bg: rgba(0, 0, 0, 0.08) !important;
+  --color-button-secondary-hover-border: rgba(0, 0, 0, 0.15) !important;
+  --color-button-ghost-hover-bg: rgba(0, 0, 0, 0.04) !important;
+  --color-button-danger-text: #dc2626 !important;
+  --color-button-danger-border: rgba(220, 38, 38, 0.2) !important;
+  --color-button-danger-hover-bg: rgba(220, 38, 38, 0.06) !important;
+  --color-button-danger-hover-border: rgba(220, 38, 38, 0.4) !important;
+}
+
+.learn-english:not(.learn-english--detail) {
+  background: #ffffff !important;
+  color: #0D0D0D !important;
+  padding: 32px 24px !important;
+  min-height: 100vh !important;
+}
+
 .learn-english {
   &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px 24px;
     margin-bottom: $sp-xl;
+
+    @media (min-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 992px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   &__btn-3d {

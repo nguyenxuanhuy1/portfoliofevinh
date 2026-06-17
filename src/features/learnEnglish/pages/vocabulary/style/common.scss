@@ -18,7 +18,10 @@
 
   * {
     font-family: 'Be Vietnam Pro', sans-serif !important;
-    box-shadow: none !important; // Absolute ban on box shadows
+  }
+
+  *:not(.lesson-card):not(.lesson-card *) {
+    box-shadow: none !important; // Disable default shadows for non-neo-brutalism items
   }
 
   // ==========================================

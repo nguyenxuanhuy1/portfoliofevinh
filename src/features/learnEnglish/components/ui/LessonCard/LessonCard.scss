@@ -1,0 +1,150 @@
+// ==========================================================================
+// LessonCard — Neo-Brutalism component
+//
+// HTML usage reference:
+// <div class="lesson-card" style="--card-bg: #FFD93D" tabindex="0">
+//   <div class="lesson-card__top">
+//     <div class="lesson-card__badge">01</div>
+//     <div class="lesson-card__status lesson-card__status--done">Hoàn thành</div>
+//   </div>
+//   <h3 class="lesson-card__title">Chào hỏi & giới thiệu bản thân</h3>
+//   <div class="lesson-card__stats">
+//     <div class="lesson-card__stat">
+//       <span class="lesson-card__stat-value">8</span>
+//       <span class="lesson-card__stat-label">Bài học</span>
+//     </div>
+//     <div class="lesson-card__stat">
+//       <span class="lesson-card__stat-value">24</span>
+//       <span class="lesson-card__stat-label">Từ mới</span>
+//     </div>
+//   </div>
+//   <button class="lesson-card__cta">Xem lại →</button>
+// </div>
+//
+// Random nền: set --card-bg bằng JS, không hardcode màu trong SCSS.
+// ==========================================================================
+
+$ink: #0d0d0d;
+$white: #ffffff;
+$border-width: 3px;
+$shadow-offset: 8px;
+$radius: 0; // neo-brutalism: luôn 0, không bo góc
+
+.lesson-card {
+  position: relative;
+  cursor: pointer;
+  background: var(--card-bg, #{$white});
+  border: $border-width solid $ink;
+  border-radius: $radius;
+  box-shadow: $shadow-offset $shadow-offset 0 $ink !important;
+  padding: 22px;
+  transition: transform 0.1s, box-shadow 0.1s;
+
+  // Không có hover — chỉ phản hồi khi bấm xuống (active), giống nút bấm
+  &:active {
+    transform: translate($shadow-offset, $shadow-offset);
+    box-shadow: 0 0 0 $ink !important;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+
+  &__badge {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $ink;
+    color: $white;
+    border: 2px solid $ink;
+    border-radius: $radius;
+    font-family: "Archivo Black", sans-serif;
+    font-size: 14px;
+  }
+
+  &__status {
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding: 6px 10px;
+    border: 2px solid $ink;
+    border-radius: $radius;
+    background: $white;
+
+    &--done { background: #3ddc97; }
+    &--progress { background: #ffd93d; }
+    &--locked { background: #d8d8d8; color: #777; }
+  }
+
+  &__title {
+    font-family: "Archivo Black", sans-serif;
+    font-size: 22px;
+    line-height: 1.15;
+    text-transform: uppercase;
+    margin: 0 0 20px;
+  }
+
+  &__stats {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
+  &__stat {
+    flex: 1;
+    background: $white;
+    border: 2px solid $ink;
+    padding: 10px 12px;
+
+    & + & {
+      border-left: none;
+    }
+  }
+
+  &__stat-value {
+    display: block;
+    font-family: "Archivo Black", sans-serif;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  &__stat-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #444;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  &__cta {
+    display: inline-block;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    padding: 10px 18px;
+    background: $ink;
+    color: $white;
+    border: 2px solid $ink;
+    border-radius: $radius;
+    transform: rotate(-2deg);
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  // Responsive: giảm độ dày viền/shadow ở mobile
+  @media (max-width: 480px) {
+    border-width: 2px;
+    box-shadow: 5px 5px 0 $ink !important;
+
+    &:active {
+      transform: translate(5px, 5px);
+      box-shadow: 0 0 0 $ink !important;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
   ArrowLeftOutlined,
@@ -582,13 +583,14 @@ export default function LearnEnglishDetailPage() {
           </div>
         )}
 
-        {isSubmitting && (
-          <div className="fullscreen-overlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.45)', backdropFilter: 'blur(8px)', pointerEvents: 'all' }}>
-            <GradingLoadingScreen totalQuestions={totalQuestions} />
-          </div>
-        )}
-
       </div>
+
+      {isSubmitting && createPortal(
+        <div className="fullscreen-overlay">
+          <GradingLoadingScreen totalQuestions={totalQuestions} />
+        </div>,
+        document.body
+      )}
     </div>
 
     <Modal
