@@ -1,14 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import {
   BookOutlined,
-  CheckCircleOutlined,
-  FieldTimeOutlined,
-  PlayCircleOutlined,
   HistoryOutlined
 } from '@ant-design/icons'
 import { useLearnTopicsQuery } from '../../../hooks/useLearnTopicQuery'
 import Skeleton from '../../../components/ui/Skeleton'
-import Button from '../../../components/ui/Button'
 import LessonCard from '../../../components/ui/LessonCard/LessonCard'
 import '../style/index.scss'
 
@@ -27,33 +23,6 @@ export default function LearnEnglishListPage() {
       }
     } catch {
       return { status: 'NOT_STARTED', score: null }
-    }
-  }
-
-  const renderStatusBadge = (status: string, score: number | null) => {
-    switch (status) {
-      case 'COMPLETED':
-        return (
-          <span className="learn-english__badge learn-english__badge--completed">
-            <CheckCircleOutlined style={{ marginRight: '4px' }} />
-            Hoàn thành {score !== null ? `(${score}đ)` : ''}
-          </span>
-        )
-      case 'IN_PROGRESS':
-        return (
-          <span className="learn-english__badge learn-english__badge--inprogress">
-            <FieldTimeOutlined style={{ marginRight: '4px' }} />
-            Đang học
-          </span>
-        )
-      case 'NOT_STARTED':
-      default:
-        return (
-          <span className="learn-english__badge learn-english__badge--notstarted">
-            <PlayCircleOutlined style={{ marginRight: '4px' }} />
-            Chưa bắt đầu
-          </span>
-        )
     }
   }
 
