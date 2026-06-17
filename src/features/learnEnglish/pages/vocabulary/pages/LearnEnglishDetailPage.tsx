@@ -333,70 +333,31 @@ export default function LearnEnglishDetailPage() {
       <div className="phone">
 
         {/* INTEGRATED TOP NAVIGATION BAR */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '16px 20px',
-          borderBottom: '1px solid var(--color-card-border)',
-          background: 'var(--color-card-bg)',
-        }}>
-          <Button
+        <div className="detail-header">
+          <button
             onClick={() => navigate('/learn-english')}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'var(--color-text-secondary)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: 0,
-              fontWeight: 400, // Làm chữ mỏng, không in đậm
-              fontSize: '13px'
-            }}
+            className="detail-header__btn"
           >
             <ArrowLeftOutlined />
-          </Button>
+          </button>
 
-          <span style={{ fontSize: '13px', fontWeight: 400, color: 'var(--color-text)' }}>
+          <span className="detail-header__title">
             {topic?.name}
           </span>
 
           {status !== 'NOT_STARTED' ? (
-            <Button
+            <button
               onClick={handleResetProgress}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#FF3B5C',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                padding: 0,
-                fontSize: '12px',
-                fontWeight: 400
-              }}
+              className="detail-header__btn detail-header__btn--danger"
             >
               <ReloadOutlined />
-            </Button>
+            </button>
           ) : (
-            <Button
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'transparent',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                padding: 0,
-                fontSize: '12px',
-                fontWeight: 400
-              }}
+            <button
+              className="detail-header__btn detail-header__btn--disabled"
             >
               <ReloadOutlined />
-            </Button>
+            </button>
           )}
         </div>
 
@@ -621,14 +582,14 @@ export default function LearnEnglishDetailPage() {
           </div>
         )}
 
+        {isSubmitting && (
+          <div className="fullscreen-overlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.45)', backdropFilter: 'blur(8px)', pointerEvents: 'all' }}>
+            <GradingLoadingScreen totalQuestions={totalQuestions} />
+          </div>
+        )}
+
       </div>
     </div>
-
-    {isSubmitting && (
-      <div className="fullscreen-overlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.45)', backdropFilter: 'blur(8px)', pointerEvents: 'all' }}>
-        <GradingLoadingScreen totalQuestions={totalQuestions} />
-      </div>
-    )}
 
     <Modal
       open={isResetModalOpen}

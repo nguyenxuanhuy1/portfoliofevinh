@@ -1,4 +1,5 @@
 import type { GradingResult, Exercise } from '../../../types/LearnEnglish'
+import Button from '../../../components/ui/Button'
 
 interface ResultsSummarySectionProps {
   gradingResult: GradingResult;
@@ -138,7 +139,7 @@ export default function ResultsSummarySection({
 
       {/* BACK TO REVIEW ALL */}
       <div style={{ marginTop: 'auto', paddingTop: '20px' }}>
-        <button
+        <Button
           onClick={() => onReview()}
           className="next-btn"
           style={{
@@ -146,13 +147,13 @@ export default function ResultsSummarySection({
             margin: 0,
             background: 'transparent',
             color: colors.primary,
-            border: `1.5px solid ${colors.primary}`,
-            fontFamily: 'inherit',
+            borderColor: colors.primary,
+            borderWidth: '1.5px',
             fontWeight: 500
           }}
         >
           Xem lại tất cả đáp án
-        </button>
+        </Button>
       </div>
 
     </div>

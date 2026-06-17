@@ -1,4 +1,4 @@
-.btn {
+.btn.learn-english-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -15,23 +15,23 @@
   &:disabled { opacity: 0.45; cursor: not-allowed; }
 
   // ─── Sizes ───────────────────────────────────────────────
-  &--sm {
+  &.btn--sm {
     padding: 8px 16px !important;
     font-size: var(--text-xs);
   }
 
-  &--md {
+  &.btn--md {
     padding: 12px 24px !important;
     font-size: var(--text-sm);
   }
 
-  &--lg {
+  &.btn--lg {
     padding: 16px 32px !important;
     font-size: var(--text-md);
   }
 
   // ─── Variants ────────────────────────────────────────────
-  &--primary {
+  &.btn--primary {
     background: var(--color-primary, #6366f1);
     border-color: var(--color-primary, #6366f1);
     color: #ffffff; // Luôn hiển thị chữ trắng trên nền primary màu đậm
@@ -43,7 +43,7 @@
     }
   }
 
-  &--secondary {
+  &.btn--secondary {
     background: var(--color-button-secondary-bg);
     border-color: var(--color-button-secondary-border);
     color: var(--color-text);
@@ -54,7 +54,7 @@
     }
   }
 
-  &--ghost {
+  &.btn--ghost {
     background: transparent;
     border-color: transparent;
     color: var(--color-text);
@@ -64,7 +64,7 @@
     }
   }
 
-  &--danger {
+  &.btn--danger {
     color: var(--color-button-danger-text);
     background: transparent;
     border-color: var(--color-button-danger-border);
@@ -76,9 +76,9 @@
   }
 
   // ─── Loading ─────────────────────────────────────────────
-  &--loading { pointer-events: none; }
+  &.btn--loading { pointer-events: none; }
 
-  &__spinner {
+  .btn__spinner {
     width: 14px;
     height: 14px;
     border: 1.5px solid rgba(255, 255, 255, 0.25);
@@ -88,7 +88,7 @@
     flex-shrink: 0;
   }
 
-  &__icon {
+  .btn__icon {
     display: inline-flex;
     align-items: center;
     font-size: 1em;

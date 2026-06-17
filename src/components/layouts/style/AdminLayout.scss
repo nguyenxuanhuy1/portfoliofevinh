@@ -101,4 +101,32 @@
     min-height: calc(100vh - 56px);
     overflow-y: auto;
   }
+
+  // Pill-shaped (bo tròn như viên thuốc) buttons and slightly larger padding
+  .btn, .ant-btn {
+    border-radius: 9999px !important;
+    font-weight: 500 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast) !important;
+
+    // Small buttons
+    &.btn--sm, &.ant-btn-sm {
+      padding: 8px 18px !important;
+      height: auto !important;
+    }
+
+    // Medium buttons (default size)
+    &.btn--md, &:not(.btn--sm):not(.btn--lg):not(.ant-btn-sm):not(.ant-btn-lg) {
+      padding: 10px 22px !important;
+      height: auto !important;
+    }
+
+    // Large buttons
+    &.btn--lg, &.ant-btn-lg {
+      padding: 12px 26px !important;
+      height: auto !important;
+    }
+  }
 }

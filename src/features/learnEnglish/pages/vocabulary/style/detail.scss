@@ -1,9 +1,17 @@
 @import './variables.scss';
 
+body:has(.learn-english--detail) {
+  @media (min-width: 768px) {
+    overflow: hidden !important;
+    height: 100vh !important;
+  }
+}
+
 // ==========================================
 // PIXEL-PERFECT MOBILE PHONE CONTAINER & MOCKUP
 // ==========================================
-.phone {
+.learn-english {
+  .phone {
   width: 340px;
   margin: 0 auto;
   background: $c-bg;
@@ -553,7 +561,7 @@
 // TRAN VIEN DETAIL (EDGE-TO-EDGE FULLSCREEN OVERRIDES)
 // ==========================================
 @media (max-width: 767px) {
-  .learn-english--detail {
+  &--detail {
     padding: 0 !important;
     max-width: 100% !important;
     width: 100% !important;
@@ -594,15 +602,66 @@
   }
 }
 
+// ==========================================
+// NEW DETAILED HEADER DESIGN (SYNCHRONIZED WITH QUICK DICTIONARY BAR)
+// ==========================================
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $c-border;
+  background: $c-surface;
+  padding: 10px 20px; // Synchronized padding with .drawer-bar
+
+  &__btn {
+    background: none;
+    border: none;
+    color: $c-text-muted; // Synchronized color
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    font-size: 13px; // Smaller icon size
+    transition: color 150ms;
+
+    &:hover {
+      color: $c-text;
+    }
+
+    &--danger {
+      color: #FF3B5C;
+      &:hover {
+        color: #ff5c77;
+      }
+    }
+
+    &--disabled {
+      color: transparent;
+      pointer-events: none;
+    }
+  }
+
+  &__title {
+    font-size: 12px; // Smaller title size
+    font-weight: 400; // Thinner font weight
+    color: $c-text;
+    text-align: center;
+    
+    @media (min-width: 768px) {
+      font-size: 13px; // Slightly larger on desktop but still small
+    }
+  }
+}
+
 @media (min-width: 768px) {
-  .learn-english--detail {
+  &--detail {
     max-width: 900px !important;
-    width: 100% !important;
-    margin: 0 auto !important;
+    width: calc(100% - 40px) !important;
+    margin: 20px auto !important;
     padding: 0 !important;
-    height: 100vh !important;
-    min-height: 100vh !important;
-    max-height: 100vh !important;
+    height: calc(100vh - 40px) !important;
+    min-height: calc(100vh - 40px) !important;
+    max-height: calc(100vh - 40px) !important;
     display: flex !important;
     flex-direction: column !important;
     background: var(--color-card-bg) !important;
@@ -693,7 +752,7 @@
   }
 }
 
-.learn-english {
+// Scoped and nested directly under the parent .learn-english wrapper
 
   // ==========================================
   // FIXED DICTIONARY DRAWER (TRA TỪ DRAWER)
@@ -982,9 +1041,8 @@
       background-color: color-mix(in srgb, #FF3B5C 8%, transparent) !important;
     }
   }
-}
 
-.fullscreen-overlay {
+  .fullscreen-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -1052,4 +1110,5 @@
   @media (min-width: 768px) {
     top: -32px !important;
   }
+}
 }

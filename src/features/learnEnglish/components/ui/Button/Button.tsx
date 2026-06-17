@@ -4,6 +4,10 @@ import './Button.scss'
 
 export interface ButtonProps extends React.ComponentProps<typeof GlobalButton> {}
 
-export default function Button({ children, ...props }: ButtonProps) {
-  return <GlobalButton {...props}>{children}</GlobalButton>
+export default function Button({ children, className = '', ...props }: ButtonProps) {
+  return (
+    <GlobalButton className={`learn-english-btn ${className}`} {...props}>
+      {children}
+    </GlobalButton>
+  )
 }

@@ -163,34 +163,36 @@
 }
 
 // ==========================================
-// ANTD SELECT COMPONENT OVERRIDES
+// ANTD SELECT COMPONENT OVERRIDES (SCOPED TO LEARN ENGLISH)
 // ==========================================
-.ant-select {
-  .ant-select-selector {
-    background-color: $c-elevated !important;
-    border: 1px solid $c-border-soft !important;
-    color: $c-text !important;
-    border-radius: var(--radius-full) !important; // Ô chọn Select bo tròn 100% hình viên thuốc
-    padding: 0 16px !important;
-    transition: all 0.2s ease !important;
-    box-shadow: none !important;
+.learn-english {
+  .ant-select {
+    .ant-select-selector {
+      background-color: $c-elevated !important;
+      border: 1px solid $c-border-soft !important;
+      color: $c-text !important;
+      border-radius: var(--radius-full) !important; // Ô chọn Select bo tròn 100% hình viên thuốc
+      padding: 0 16px !important;
+      transition: all 0.2s ease !important;
+      box-shadow: none !important;
 
-    &:hover {
+      &:hover {
+        border-color: $c-accent !important;
+      }
+    }
+
+    &.ant-select-focused .ant-select-selector {
       border-color: $c-accent !important;
     }
-  }
 
-  &.ant-select-focused .ant-select-selector {
-    border-color: $c-accent !important;
-  }
-
-  .ant-select-arrow {
-    color: $c-accent !important;
-    right: 16px !important;
+    .ant-select-arrow {
+      color: $c-accent !important;
+      right: 16px !important;
+    }
   }
 }
 
-.ant-select-dropdown {
+.learn-english .ant-select-dropdown {
   background-color: $c-surface !important;
   border: 1px solid $c-border !important;
   border-radius: var(--radius-md) !important; // Khung menu chọn bo góc card 12px
