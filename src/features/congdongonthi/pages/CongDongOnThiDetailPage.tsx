@@ -151,7 +151,14 @@ export default function CongDongOnThiDetailPage() {
   useEffect(() => {
     if (!activeDoc) return
     setActivePage(0)
-    setPreviewMode('file')
+    
+    // Default to 'md' if the file is not a PDF and has an MD translation
+    if (activeDoc.fileType?.toUpperCase() !== 'PDF' && activeDoc.mdDownloadUrl && activeDoc.mdDownloadUrl !== '#') {
+      setPreviewMode('md')
+    } else {
+      setPreviewMode('file')
+    }
+
     setChatMessages([
       {
         id: 'init',
@@ -383,6 +390,10 @@ export default function CongDongOnThiDetailPage() {
     ? (activeDoc.pages && activeDoc.pages.length > 0)
     : (Array.isArray(activeDoc.downloadUrl) && activeDoc.downloadUrl.length > 1)
 
+  const isPdf = activeDoc.fileType?.toUpperCase() === 'PDF'
+  const hasMd = !!(activeDoc.mdDownloadUrl && activeDoc.mdDownloadUrl !== '#')
+  const hasPreview = isPdf || hasMd
+
   return (
     <CongDongOnThiLayout
       activeDocId={activeDoc.id}
@@ -464,93 +475,106 @@ export default function CongDongOnThiDetailPage() {
           </div>
 
           {/* DOCUMENT PREVIEW */}
-          <div className="exam-preview-container">
-            <div className="exam-preview-header">
-              <h3>Xem trước tài liệu</h3>
-              <div className="exam-preview-header__options">
-                <button
-                  onClick={() => {
-                    setPreviewMode('file')
-                    setActivePage(0)
-                  }}
-                  className={`exam-preview-tab-btn ${previewMode === 'file' ? 'exam-preview-tab-btn--active' : ''}`}
-                >
-                  Xem file {activeDoc.fileType}
-                </button>
-                {activeDoc.mdDownloadUrl && activeDoc.mdDownloadUrl !== '#' && (
-                  <button
-                    onClick={() => {
-                      setPreviewMode('md')
-                      setActivePage(0)
-                    }}
-                    className={`exam-preview-tab-btn ${previewMode === 'md' ? 'exam-preview-tab-btn--active' : ''}`}
-                  >
-                    Xem file MD
-                  </button>
+          {hasPreview && (
+            <div className="exam-preview-container">
+              <div className="exam-preview-header">
+                <h3>Xem trước tài liệu</h3>
+                {activeDoc.fileType?.toUpperCase() === 'PDF' && activeDoc.mdDownloadUrl && activeDoc.mdDownloadUrl !== '#' && (
+                  <div className="exam-preview-header__options">
+                    <button
+                      onClick={() => {
+                        setPreviewMode('file')
+                        setActivePage(0)
+                      }}
+                      className={`exam-preview-tab-btn ${previewMode === 'file' ? 'exam-preview-tab-btn--active' : ''}`}
+                    >
+                      Xem file PDF
+                    </button>
+                    <button
+                      onClick={() => {
+                        setPreviewMode('md')
+                        setActivePage(0)
+                      }}
+                      className={`exam-preview-tab-btn ${previewMode === 'md' ? 'exam-preview-tab-btn--active' : ''}`}
+                    >
+                      Xem file MD
+                    </button>
+                  </div>
                 )}
               </div>
-            </div>
-            <div className="exam-preview-content-box">
-              {previewMode === 'file' ? (
-                <iframe
-                  src={
-                    Array.isArray(activeDoc.downloadUrl)
-                      ? activeDoc.downloadUrl[activePage] || '#'
-                      : activeDoc.downloadUrl
-                  }
-                  title="Document Preview"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 'none' }}
-                />
-              ) : (
-                <div ref={mdContainerRef} className="exam-preview-md">
-                  {isMdLoading ? (
-                    <div className="exam-preview-md__loading">
-                      <div className="exam-workspace-loading__spinner" />
-                      <p>Đang tải nội dung Markdown...</p>
-                    </div>
-                  ) : !activeDoc.pages || activeDoc.pages.length === 0 ? (
-                    <div className="exam-preview-md__error">
-                      <p>Không có nội dung Markdown để xem trước.</p>
-                      <Button
-                        variant="primary"
-                        onClick={handleDownloadMd}
-                      >
-                        Tải file MD trực tiếp
-                      </Button>
-                    </div>
-                  ) : (
-                    <div
-                      className="markdown-body"
-                      dangerouslySetInnerHTML={{ __html: parsedHtml }}
+              <div className="exam-preview-content-box">
+                {previewMode === 'file' ? (
+                  activeDoc.fileType?.toUpperCase() === 'PDF' ? (
+                    <iframe
+                      src={
+                        Array.isArray(activeDoc.downloadUrl)
+                          ? activeDoc.downloadUrl[activePage] || '#'
+                          : activeDoc.downloadUrl
+                      }
+                      title="Document Preview"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 'none' }}
                     />
-                  )}
+                  ) : (
+                    <div className="exam-preview-md__error" style={{ padding: '40px 20px', textAlign: 'center', margin: 'auto' }}>
+                      <p style={{ fontSize: '16px', fontWeight: 500, marginBottom: '8px' }}>
+                        Xem trực tuyến không hỗ trợ định dạng {activeDoc.fileType}
+                      </p>
+                      <p style={{ fontSize: '13px', color: 'var(--exam-text-muted)', marginBottom: '20px' }}>
+                        Vui lòng bấm nút <strong>Tải file {activeDoc.fileType}</strong> ở phía trên để xem nội dung tài liệu.
+                      </p>
+                    </div>
+                  )
+                ) : (
+                  <div ref={mdContainerRef} className="exam-preview-md">
+                    {isMdLoading ? (
+                      <div className="exam-preview-md__loading">
+                        <div className="exam-workspace-loading__spinner" />
+                        <p>Đang tải nội dung Markdown...</p>
+                      </div>
+                    ) : !activeDoc.pages || activeDoc.pages.length === 0 ? (
+                      <div className="exam-preview-md__error">
+                        <p>Không có nội dung Markdown để xem trước.</p>
+                        <Button
+                          variant="primary"
+                          onClick={handleDownloadMd}
+                        >
+                          Tải file MD trực tiếp
+                        </Button>
+                      </div>
+                    ) : (
+                      <div
+                        className="markdown-body"
+                        dangerouslySetInnerHTML={{ __html: parsedHtml }}
+                      />
+                    )}
+                  </div>
+                )}
+              </div>
+              {showPagination && (
+                <div className="exam-preview-footer">
+                  <button
+                    onClick={() => setActivePage((prev) => Math.max(0, prev - 1))}
+                    disabled={activePage === 0}
+                    className="exam-preview-nav-btn"
+                  >
+                    <LeftCircleOutlined /> Trang trước
+                  </button>
+                  <span className="exam-preview-page-indicator">
+                    Trang {activePage + 1} / {totalPages}
+                  </span>
+                  <button
+                    onClick={() => setActivePage((prev) => Math.min(totalPages - 1, prev + 1))}
+                    disabled={activePage === totalPages - 1}
+                    className="exam-preview-nav-btn"
+                  >
+                    Trang sau <RightCircleOutlined />
+                  </button>
                 </div>
               )}
             </div>
-            {showPagination && (
-              <div className="exam-preview-footer">
-                <button
-                  onClick={() => setActivePage((prev) => Math.max(0, prev - 1))}
-                  disabled={activePage === 0}
-                  className="exam-preview-nav-btn"
-                >
-                  <LeftCircleOutlined /> Trang trước
-                </button>
-                <span className="exam-preview-page-indicator">
-                  Trang {activePage + 1} / {totalPages}
-                </span>
-                <button
-                  onClick={() => setActivePage((prev) => Math.min(totalPages - 1, prev + 1))}
-                  disabled={activePage === totalPages - 1}
-                  className="exam-preview-nav-btn"
-                >
-                  Trang sau <RightCircleOutlined />
-                </button>
-              </div>
-            )}
-          </div>
+          )}
         </div>
 
         {/* RIGHT PANEL: CHAT & RELATED */}
