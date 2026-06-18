@@ -37,6 +37,7 @@ export default function AdminDocumentListPage() {
 
   // Upload/Form states
   const [file, setFile] = useState<File | null>(null)
+  const [mdFile, setMdFile] = useState<File | null>(null)
   const [form] = Form.useForm()
 
   // Auto clear alerts after 5 seconds
@@ -57,6 +58,7 @@ export default function AdminDocumentListPage() {
   const handleOpenCreate = () => {
     setEditTarget(null)
     setFile(null)
+    setMdFile(null)
     setError(null)
     setSuccessMsg(null)
     form.resetFields()
@@ -66,6 +68,7 @@ export default function AdminDocumentListPage() {
   const handleOpenEdit = (doc: ExamDocument) => {
     setEditTarget(doc)
     setFile(null)
+    setMdFile(null)
     setError(null)
     setSuccessMsg(null)
     form.setFieldsValue({
@@ -82,6 +85,7 @@ export default function AdminDocumentListPage() {
     setModalOpen(false)
     setEditTarget(null)
     setFile(null)
+    setMdFile(null)
     form.resetFields()
   }
 
@@ -95,6 +99,13 @@ export default function AdminDocumentListPage() {
         const baseName = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) || selectedFile.name
         form.setFieldValue('title', baseName)
       }
+    }
+  }
+
+  const handleMdFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0]
+    if (selectedFile) {
+      setMdFile(selectedFile)
     }
   }
 
@@ -114,7 +125,7 @@ export default function AdminDocumentListPage() {
       }
 
       if (editTarget) {
-        await examDocumentService.update(editTarget.id, metadata)
+        await examDocumentService.update(editTarget.id, metadata, file, mdFile)
         setSuccessMsg(`Cập nhật tài liệu "${values.title}" thành công!`)
         message.success('Cập nhật tài liệu thành công!')
       } else {
@@ -123,8 +134,8 @@ export default function AdminDocumentListPage() {
           setSaving(false)
           return
         }
-        await examDocumentService.upload(file, metadata)
-        setSuccessMsg('Đã thêm tài liệu mới thành công! Hệ thống đang xử lý file ở chế độ nền.')
+        await examDocumentService.upload(file, metadata, mdFile)
+        setSuccessMsg('Đã thêm tài liệu mới thành công!')
         message.success('Tải lên tài liệu thành công!')
       }
 
@@ -365,34 +376,60 @@ export default function AdminDocumentListPage() {
             />
           </Form.Item>
 
-          {/* File Upload (Only for Create) */}
-          {!editTarget && (
-            <Form.Item label="File đính kèm (PDF, DOCX, ZIP...)" required>
-              <div 
-                className="admin-document-upload-zone"
-                onClick={() => document.getElementById('document-file-input')?.click()}
-              >
-                <input
-                  type="file"
-                  id="document-file-input"
-                  style={{ display: 'none' }}
-                  onChange={handleFileChange}
-                />
-                <UploadOutlined className="admin-document-upload-zone__icon" />
-                <div className="admin-document-upload-zone__text">
-                  {file ? 'Nhấn để chọn file khác' : 'Nhấp vào đây để tải tài liệu lên'}
-                </div>
-                <div className="admin-document-upload-zone__hint">
-                  Hỗ trợ định dạng PDF, DOCX, ZIP... Dung lượng tối đa 50MB
-                </div>
-                {file && (
-                  <div className="admin-document-upload-zone__file" onClick={(e) => e.stopPropagation()}>
-                    File đã chọn: <strong>{file.name}</strong> ({(file.size / (1024 * 1024)).toFixed(2)} MB)
-                  </div>
-                )}
+          {/* File đính kèm */}
+          <Form.Item label={editTarget ? "Thay thế file đính kèm (PDF, DOCX, ZIP...)" : "File đính kèm (PDF, DOCX, ZIP...)"} required={!editTarget}>
+            <div 
+              className="admin-document-upload-zone"
+              onClick={() => document.getElementById('document-file-input')?.click()}
+            >
+              <input
+                type="file"
+                id="document-file-input"
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+              />
+              <UploadOutlined className="admin-document-upload-zone__icon" />
+              <div className="admin-document-upload-zone__text">
+                {file ? 'Nhấn để chọn file khác' : 'Nhấp vào đây để chọn tài liệu'}
               </div>
-            </Form.Item>
-          )}
+              <div className="admin-document-upload-zone__hint">
+                Hỗ trợ định dạng PDF, DOCX, ZIP... Dung lượng tối đa 50MB
+              </div>
+              {file && (
+                <div className="admin-document-upload-zone__file" onClick={(e) => e.stopPropagation()}>
+                  File đã chọn: <strong>{file.name}</strong> ({(file.size / (1024 * 1024)).toFixed(2)} MB)
+                </div>
+              )}
+            </div>
+          </Form.Item>
+
+          {/* File MD (Tải lên thủ công) */}
+          <Form.Item label="File MD (Tùy chọn - Tải lên bản dịch Markdown thủ công)">
+            <div 
+              className="admin-document-upload-zone"
+              onClick={() => document.getElementById('md-file-input')?.click()}
+            >
+              <input
+                type="file"
+                id="md-file-input"
+                accept=".md"
+                style={{ display: 'none' }}
+                onChange={handleMdFileChange}
+              />
+              <UploadOutlined className="admin-document-upload-zone__icon" style={{ color: '#008abb' }} />
+              <div className="admin-document-upload-zone__text">
+                {mdFile ? 'Nhấn để chọn file MD khác' : 'Nhấp vào đây để chọn file MD'}
+              </div>
+              <div className="admin-document-upload-zone__hint">
+                Chỉ chấp nhận định dạng .md
+              </div>
+              {mdFile && (
+                <div className="admin-document-upload-zone__file" onClick={(e) => e.stopPropagation()}>
+                  File MD đã chọn: <strong>{mdFile.name}</strong> ({(mdFile.size / 1024).toFixed(2)} KB)
+                </div>
+              )}
+            </div>
+          </Form.Item>
 
           <Form.Item name="level" valuePropName="checked">
             <Checkbox style={{ color: '#ffffff' }}>Đánh dấu là tài liệu HOT / Nổi bật</Checkbox>

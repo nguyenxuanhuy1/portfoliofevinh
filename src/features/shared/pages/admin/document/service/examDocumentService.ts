@@ -11,9 +11,12 @@ const examDocumentService = {
     subject: string
     tags: string[]
     level: number
-  }): Promise<any> {
+  }, mdFile?: File | null): Promise<any> {
     const form = new FormData()
     form.append('document', file)
+    if (mdFile) {
+      form.append('mdFile', mdFile)
+    }
     form.append('title', metadata.title)
     form.append('description', metadata.description)
     form.append('subject', metadata.subject)
@@ -29,8 +32,22 @@ const examDocumentService = {
     subject?: string
     tags?: string[]
     level?: number
-  }): Promise<any> {
-    return apiClient.post<any>(`/api/congdongonthi/${id}`, metadata)
+  }, documentFile?: File | null, mdFile?: File | null): Promise<any> {
+    const form = new FormData()
+    if (documentFile) {
+      form.append('document', documentFile)
+    }
+    if (mdFile) {
+      form.append('mdFile', mdFile)
+    }
+    
+    if (metadata.title !== undefined) form.append('title', metadata.title)
+    if (metadata.description !== undefined) form.append('description', metadata.description)
+    if (metadata.subject !== undefined) form.append('subject', metadata.subject)
+    if (metadata.tags !== undefined) form.append('tags', JSON.stringify(metadata.tags))
+    if (metadata.level !== undefined) form.append('level', String(metadata.level))
+
+    return apiClient.post<any>(`/api/congdongonthi/${id}`, form)
   },
 
   async delete(id: string): Promise<void> {
