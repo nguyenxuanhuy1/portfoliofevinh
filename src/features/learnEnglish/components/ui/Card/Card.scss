@@ -1,0 +1,36 @@
+@import '../../../pages/vocabulary/style/variables.scss';
+
+.nb-card {
+  position: relative;
+  box-sizing: border-box;
+  background-color: var(--card-bg-color, #{$nb-white});
+  border: var(--card-border-width, #{$nb-border}) solid var(--card-ink-color, #{$nb-ink});
+  border-radius: 0 !important;
+  box-shadow: var(--card-shadow-offset, 8px) var(--card-shadow-offset, 8px) 0 var(--card-ink-color, #{$nb-ink}) !important;
+  transition: transform 100ms, box-shadow 100ms;
+
+  &--hoverable:not(:disabled) {
+    &:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: calc(var(--card-shadow-offset, 8px) + 1px) calc(var(--card-shadow-offset, 8px) + 1px) 0 var(--card-ink-color, #{$nb-ink}) !important;
+    }
+  }
+
+  &--clickable:not(:disabled) {
+    cursor: pointer;
+
+    &:active {
+      transform: translate(2px, 2px);
+      box-shadow: calc(var(--card-shadow-offset, 8px) - 2px) calc(var(--card-shadow-offset, 8px) - 2px) 0 var(--card-ink-color, #{$nb-ink}) !important;
+    }
+  }
+
+  &:disabled {
+    background: $nb-gray-100 !important;
+    border-color: $nb-gray-400 !important;
+    color: $nb-gray-650 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+}

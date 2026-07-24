@@ -1,32 +1,97 @@
 // ==========================================
-// BẢNG MÀU CHUẨN - features/learnEnglish
+// NEO-BRUTALISM / CARTOON — features/learnEnglish
+// Single source of truth cho toàn bộ màu
 // ==========================================
-$c-bg:          var(--color-background);
-$c-surface:     var(--color-card-bg);
-$c-elevated:    var(--color-card-bg);
-$c-border:      var(--color-card-border);
-$c-border-soft: var(--color-card-border);
-$c-accent:      var(--color-primary);
-$c-wrong:       #FF3B5C;
-$c-text:        var(--color-text);
-$c-text-muted:  var(--color-text-muted);
-$c-text-body:   var(--color-text-secondary);
-$c-text-sub:    var(--color-text-secondary);
 
-// ==========================================
-// SPACING
-// ==========================================
-$sp-xs:  4px;
-$sp-sm:  8px;
-$sp-md:  16px;
-$sp-lg:  20px;
-$sp-xl:  32px;
+// Core ink / surface
+$nb-ink: #0d0d0d;
+$nb-white: #ffffff;
+$nb-black: #000000;
+
+// Brand accents
+$nb-yellow: #ffdb33;
+$nb-yellow-soft: #ffe169;
+$nb-coral: #ff6b6b;
+$nb-orange: #ff9f43;
+$nb-mint: #4ecdc4;
+$nb-purple: #7b2fff;
+$nb-green: #3ddc97;
+$nb-pink: #f472b6;
+$nb-blue: #5887ff;
+$nb-wrong: #ff3b5c;
+$nb-danger: #e63946;
+$nb-success: #16a34a;
+$nb-warning: #f59e0b;
+
+// Card palette (LessonCard / History rotating colors)
+$nb-card-1: #ff6d6d;
+$nb-card-2: #5887ff;
+$nb-card-3: #4ade80;
+$nb-card-4: #facc15;
+$nb-card-5: #fb923c;
+$nb-card-6: #f472b6;
+$nb-card-7: #c084fc;
+$nb-card-8: #2dd4bf;
+
+// Neutrals / UI states
+$nb-cream: #f5f5f0;
+$nb-gray-50: #f9fafb;
+$nb-gray-100: #f5f5f5;
+$nb-gray-150: #f0f0f0;
+$nb-gray-200: #e8e8e8;
+$nb-gray-250: #e5e7eb;
+$nb-gray-300: #e0e0e0;
+$nb-gray-350: #d8d8d8;
+$nb-gray-400: #bfbfbf;
+$nb-gray-500: #999999;
+$nb-gray-550: #888888;
+$nb-gray-600: #777777;
+$nb-gray-650: #aeaeae;
+$nb-gray-700: #555555;
+$nb-gray-800: #444444;
+$nb-gray-850: #333333;
+$nb-gray-900: #222222;
+
+// Overlays
+$nb-overlay: rgba(13, 13, 13, 0.85);
+$nb-overlay-soft: rgba(0, 0, 0, 0.7);
+$nb-ink-05: rgba(0, 0, 0, 0.05);
+$nb-ink-10: rgba(0, 0, 0, 0.1);
+$nb-ink-20: rgba(0, 0, 0, 0.2);
+$nb-white-65: rgba(255, 255, 255, 0.65);
+
+// Geometry
+$nb-border: 3px;
+$nb-shadow: 6px;
+$nb-radius: 0;
+
+// Typography — Be Vietnam Pro (hỗ trợ tiếng Việt)
+$nb-font: 'Be Vietnam Pro', sans-serif;
+$nb-font-display: 'Be Vietnam Pro', sans-serif;
+
+// Legacy aliases
+$c-bg: $nb-white;
+$c-surface: $nb-white;
+$c-elevated: $nb-white;
+$c-border: $nb-ink;
+$c-border-soft: $nb-ink;
+$c-accent: $nb-purple;
+$c-wrong: $nb-wrong;
+$c-text: $nb-ink;
+$c-text-muted: $nb-gray-700;
+$c-text-body: $nb-gray-900;
+$c-text-sub: $nb-gray-800;
+
+// Spacing
+$sp-xs: 4px;
+$sp-sm: 8px;
+$sp-md: 16px;
+$sp-lg: 20px;
+$sp-xl: 32px;
 $screen-px: 20px;
 $screen-py: 20px;
 
-// ==========================================
-// BORDER RADIUS - CHUẨN CHO CARD & WRAPPER
-// ==========================================
-$r-sm:  var(--radius-sm);  // 8px
-$r-md:  var(--radius-md);  // 12px
-$r-lg:  var(--radius-lg);  // 16px
+// Border radius — luôn 0
+$r-sm: 0;
+$r-md: 0;
+$r-lg: 0;

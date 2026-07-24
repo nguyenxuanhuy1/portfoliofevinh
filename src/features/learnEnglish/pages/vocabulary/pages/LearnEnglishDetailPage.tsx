@@ -10,6 +10,7 @@ import Modal from '../../../components/ui/Modal'
 import message from '../../../../../components/ui/Message'
 import Input from '../../../components/ui/Input'
 import Button from '../../../components/ui/Button'
+import Card from '../../../components/ui/Card'
 
 import { useLearnTopicByIdQuery } from '../../../hooks/useLearnTopicQuery'
 import learnTopicService from '../../../../shared/pages/admin/topic/service/learnTopicService'
@@ -21,12 +22,25 @@ import VocabularySection from '../components/VocabularySection'
 import ExercisesSection from '../components/ExercisesSection'
 import ResultsSummarySection from '../components/ResultsSummarySection'
 import GradingLoadingScreen from '../components/GradingLoadingScreen'
+import { LE_COLORS } from '../../../styles/colors'
 import '../style/index.scss'
 
 export default function LearnEnglishDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { topic, loading } = useLearnTopicByIdQuery(id)
+
+  useEffect(() => {
+    const originalTheme = document.documentElement.getAttribute('data-theme')
+    document.documentElement.setAttribute('data-theme', 'light')
+    return () => {
+      if (originalTheme) {
+        document.documentElement.setAttribute('data-theme', originalTheme)
+      } else {
+        document.documentElement.removeAttribute('data-theme')
+      }
+    }
+  }, [])
 
   const [activeTab, setActiveTab] = useState<'wizard' | 'token'>('wizard')
   const [currentStep, setCurrentStep] = useState<number>(0)
@@ -310,10 +324,10 @@ export default function LearnEnglishDetailPage() {
   if (!topic) {
     return (
       <div className="learn-english" style={{ textAlign: 'center', padding: '48px 0' }}>
-        <h2 style={{ color: '#555555' }}>Chủ đề học không tồn tại</h2>
+        <h2 style={{ color: LE_COLORS.gray700 }}>Chủ đề học không tồn tại</h2>
         <Button
           onClick={() => navigate('/learn-english')}
-          style={{ marginTop: '16px', padding: '8px 16px', background: '#111', border: '1px solid #222', color: '#fff', borderRadius: '4px', cursor: 'pointer' }}
+          style={{ marginTop: '16px', padding: '8px 16px', background: LE_COLORS.ink, border: `1px solid ${LE_COLORS.gray900}`, color: LE_COLORS.white, borderRadius: '4px', cursor: 'pointer' }}
         >
           Quay lại danh sách
         </Button>
@@ -329,304 +343,284 @@ export default function LearnEnglishDetailPage() {
 
   return (
     <>
-      <div className="learn-english learn-english--detail">
-      {/* PHONE SIMULATION CONTAINER */}
-      <div className="phone">
+      <Card
+        className="learn-english learn-english--detail"
+        shadowOffset={8}
+        borderWidth={3}
+        bgColor={LE_COLORS.white}
+        hoverable={false}
+        clickable={false}
+      >
+        {/* PHONE SIMULATION CONTAINER */}
+        <div className="phone">
 
-        {/* INTEGRATED TOP NAVIGATION BAR */}
-        <div className="detail-header">
-          <button
-            onClick={() => navigate('/learn-english')}
-            className="detail-header__btn"
-          >
-            <ArrowLeftOutlined />
-          </button>
-
-          <span className="detail-header__title">
-            {topic?.name}
-          </span>
-
-          {status !== 'NOT_STARTED' ? (
+          {/* INTEGRATED TOP NAVIGATION BAR */}
+          <div className="detail-header">
             <button
-              onClick={handleResetProgress}
-              className="detail-header__btn detail-header__btn--danger"
+              onClick={() => navigate('/learn-english')}
+              className="detail-header__btn learn-english-btn"
             >
-              <ReloadOutlined />
+              <ArrowLeftOutlined />
             </button>
-          ) : (
-            <button
-              className="detail-header__btn detail-header__btn--disabled"
-            >
-              <ReloadOutlined />
-            </button>
-          )}
-        </div>
 
-        {/* TRA TỪ DIỂN DRAWER */}
-        <div className="drawer-bar" onClick={() => setDictOpen(!dictOpen)}>
-          <span className="drawer-label">
-            <GlobalOutlined className="drawer-icon" /> Tra từ nhanh
-          </span>
-          <span style={{ fontSize: '10px', color: '#555555' }}>
-            {dictOpen ? '▲ Close' : '▼ Open'}
-          </span>
-        </div>
+            <span className="detail-header__title">
+              {topic?.name}
+            </span>
 
-        <div className={`drawer-body ${dictOpen ? 'active' : ''}`}>
-          <Input
-            className="drawer-input"
-            placeholder="Nhập từ cần dịch..."
-            value={dictQuery}
-            onChange={(e) => handleDictSearch(e.target.value)}
-          />
-          {dictResult ? (
-            <div id="drawer-result" style={{ display: 'block' }}>
-              <div className="drawer-word">{dictResult.word}</div>
-              <div className="drawer-muted">{dictResult.meaning}</div>
-              {dictResult.example && (
-                <div className="drawer-muted" style={{ fontStyle: 'italic', marginTop: '3px' }}>
-                  {dictResult.example}
-                </div>
-              )}
-            </div>
-          ) : dictQuery.trim() ? (
-            <div id="drawer-result" style={{ display: 'block', padding: '6px 0' }}>
-              <div className="drawer-muted" style={{ fontStyle: 'italic' }}>Không tìm thấy từ này trong từ vựng bài học.</div>
-            </div>
-          ) : null}
-        </div>
-
-        {/* TAB BAR (Strictly matches the 4-mode layout specs) */}
-        <div className="tab-bar">
-          <div
-            className={`tab ${activeTab === 'wizard' && currentStep === 0 && (!showResultsScreen || status !== 'COMPLETED') ? 'active' : ''}`}
-            onClick={() => { setActiveTab('wizard'); setCurrentStep(0); setShowResultsScreen(false); }}
-          >
-            Bài đọc
-          </div>
-          <div
-            className={`tab ${activeTab === 'wizard' && currentStep === 1 && (!showResultsScreen || status !== 'COMPLETED') ? 'active' : ''}`}
-            onClick={() => { setActiveTab('wizard'); setCurrentStep(1); setShowResultsScreen(false); }}
-          >
-            Từ vựng
-          </div>
-          <div
-            className={`tab ${activeTab === 'wizard' && currentStep >= 2 && (!showResultsScreen || status !== 'COMPLETED') ? 'active' : ''}`}
-            onClick={() => { setActiveTab('wizard'); if (currentStep < 2) setCurrentStep(2); setShowResultsScreen(false); }}
-          >
-            {currentStep >= 2 && exercisesList[currentStep - 2]?.type === 'matching' ? 'Bài tập' : 'Bài tập'}
-          </div>
-          <div
-            className={`tab ${activeTab === 'token' ? 'active' : ''}`}
-            onClick={() => { setActiveTab('token'); setShowResultsScreen(false); }}
-          >
-            Cấu hình
-          </div>
-        </div>
-
-        {/* SCREEN ACTIVE CONTAINER */}
-
-        {/* TAB WIZARD: MAIN PATHWAYS */}
-        {activeTab === 'wizard' && (
-          <>
-            {status === 'COMPLETED' && showResultsScreen && gradingResult ? (
-              <ResultsSummarySection
-                gradingResult={gradingResult}
-                exercisesList={exercisesList}
-                onReview={(stepStep) => {
-                  setShowResultsScreen(false)
-                  setCurrentStep(stepStep !== undefined ? stepStep : 2)
-                }}
+            {status !== 'NOT_STARTED' ? (
+              <ReloadOutlined
+                onClick={handleResetProgress}
+                className="detail-header__reset-icon"
               />
             ) : (
-              <>
-                {/* SCREEN STEP 0: READING */}
-                {currentStep === 0 && (
-                  <ReadingSection
-                    currentStep={currentStep}
-                    totalSteps={totalSteps}
-                    progressPercentage={progressPercentage}
-                    readingPassage={tData.reading_passage}
-                  />
-                )}
-
-                {/* SCREEN STEP 1: VOCABULARY */}
-                {currentStep === 1 && (
-                  <VocabularySection
-                    currentStep={currentStep}
-                    totalSteps={totalSteps}
-                    progressPercentage={progressPercentage}
-                    vocabulary={tData.vocabulary}
-                  />
-                )}
-
-                {/* SCREEN STEP >= 2: EXERCISES */}
-                {currentStep >= 2 && (
-                  <ExercisesSection
-                    currentStep={currentStep}
-                    totalSteps={totalSteps}
-                    progressPercentage={progressPercentage}
-                    exercisesList={exercisesList}
-                    status={status}
-                    gradingResult={gradingResult}
-                    getAnswerValue={getAnswerValue}
-                    handleAnswerChange={handleAnswerChange}
-                    shownHints={shownHints}
-                    setShownHints={setShownHints}
-                    submitError={submitError}
-                  />
-                )}
-              </>
+              <ReloadOutlined
+                className="detail-header__reset-icon detail-header__reset-icon--disabled"
+              />
             )}
-          </>
-        )}
+          </div>
 
-        {/* TAB TOKEN: CONFIGURATION AND API KEY MANAGER */}
-        {activeTab === 'token' && (
-          <GeminiTokenConfig
-            newToken={newToken}
-            setNewToken={setNewToken}
-            tokens={tokens}
-            setTokens={setTokens}
-          />
-        )}
+          {/* TRA TỪ DIỂN DRAWER */}
+          <div className="drawer-bar" onClick={() => setDictOpen(!dictOpen)}>
+            <span className="drawer-label">
+              <GlobalOutlined className="drawer-icon" /> Tra từ nhanh
+            </span>
+            <span style={{ fontSize: '10px', color: LE_COLORS.gray700 }}>
+              {dictOpen ? '▲ Close' : '▼ Open'}
+            </span>
+          </div>
 
-        {/* ELEGANT FIXED BOTTOM NAVIGATION BAR */}
-        {activeTab === 'wizard' && !showResultsScreen && (
-          <div className="bottom-nav-bar">
-            {currentStep === 0 && (
-              <div style={{ display: 'flex', width: '100%' }}>
-                <Button className="next-btn" style={{ width: '100%', margin: 0 }} onClick={() => setCurrentStep(1)}>
-                  Tiếp theo →
-                </Button>
-              </div>
-            )}
-
-            {currentStep === 1 && (
-              <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
-                <Button
-                  className="next-btn"
-                  style={{
-                    flex: 1,
-                    margin: 0,
-                    background: 'var(--color-card-bg)',
-                    color: 'var(--color-primary)',
-                    border: '1px solid var(--color-primary)'
-                  }}
-                  onClick={() => setCurrentStep(0)}
-                >
-                  ←
-                </Button>
-                <Button className="next-btn" style={{ flex: 3, margin: 0 }} onClick={() => setCurrentStep(2)}>
-                  Làm bài tập →
-                </Button>
-              </div>
-            )}
-
-            {currentStep >= 2 && (
-              <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
-                {currentStep > 0 && (
-                  <Button
-                    className="next-btn"
-                    style={{
-                      flex: 1,
-                      margin: 0,
-                      background: 'var(--color-card-bg)',
-                      color: 'var(--color-primary)',
-                      border: '1px solid var(--color-primary)'
-                    }}
-                    onClick={() => setCurrentStep(prev => prev - 1)}
-                  >
-                    ←
-                  </Button>
-                )}
-
-                {currentStep < totalSteps - 1 ? (
-                  <Button
-                    className="next-btn"
-                    style={{ flex: 3, margin: 0 }}
-                    onClick={() => setCurrentStep(prev => prev + 1)}
-                  >
-                    Tiếp theo →
-                  </Button>
-                ) : (
-                  <div style={{ flex: 3 }}>
-                    {status !== 'COMPLETED' ? (
-                      <Button
-                        className="next-btn"
-                        style={{ width: '100%', margin: 0 }}
-                        disabled={isSubmitting}
-                        onClick={handleSubmitGrading}
-                      >
-                        {isSubmitting ? (
-                          <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span>Chấm điểm</span>
-                            <span style={{ display: 'inline-block', width: '20px', textAlign: 'left', marginLeft: '2px' }}>{dots}</span>
-                          </span>
-                        ) : 'Nộp bài ngay'}
-                      </Button>
-                    ) : (
-                      <Button
-                        className="next-btn"
-                        style={{ width: '100%', margin: 0, background: 'var(--color-card-bg)', color: 'var(--color-primary)', border: '1px solid var(--color-primary)' }}
-                        onClick={() => {
-                          setShowResultsScreen(true)
-                        }}
-                      >
-                        Xem tổng kết điểm: {score}
-                      </Button>
-                    )}
+          <div className={`drawer-body ${dictOpen ? 'active' : ''}`}>
+            <Input
+              className="drawer-input"
+              placeholder="Nhập từ cần dịch..."
+              value={dictQuery}
+              onChange={(e) => handleDictSearch(e.target.value)}
+            />
+            {dictResult ? (
+              <div id="drawer-result" style={{ display: 'block' }}>
+                <div className="drawer-word">{dictResult.word}</div>
+                <div className="drawer-muted">{dictResult.meaning}</div>
+                {dictResult.example && (
+                  <div className="drawer-muted" style={{ fontStyle: 'italic', marginTop: '3px' }}>
+                    {dictResult.example}
                   </div>
                 )}
               </div>
+            ) : dictQuery.trim() ? (
+              <div id="drawer-result" style={{ display: 'block', padding: '6px 0' }}>
+                <div className="drawer-muted" style={{ fontStyle: 'italic' }}>Không tìm thấy từ này trong từ vựng bài học.</div>
+              </div>
+            ) : null}
+          </div>
+
+          {/* TAB BAR (Strictly matches the 4-mode layout specs) */}
+          <div className="tab-bar">
+            <div
+              className={`tab tab-read ${activeTab === 'wizard' && currentStep === 0 && (!showResultsScreen || status !== 'COMPLETED') ? 'active' : ''}`}
+              onClick={() => { setActiveTab('wizard'); setCurrentStep(0); setShowResultsScreen(false); }}
+            >
+              Bài đọc
+            </div>
+            <div
+              className={`tab tab-vocab ${activeTab === 'wizard' && currentStep === 1 && (!showResultsScreen || status !== 'COMPLETED') ? 'active' : ''}`}
+              onClick={() => { setActiveTab('wizard'); setCurrentStep(1); setShowResultsScreen(false); }}
+            >
+              Từ vựng
+            </div>
+            <div
+              className={`tab tab-exercise ${activeTab === 'wizard' && currentStep >= 2 && (!showResultsScreen || status !== 'COMPLETED') ? 'active' : ''}`}
+              onClick={() => { setActiveTab('wizard'); if (currentStep < 2) setCurrentStep(2); setShowResultsScreen(false); }}
+            >
+              Bài tập
+            </div>
+            <div
+              className={`tab tab-config ${activeTab === 'token' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('token'); setShowResultsScreen(false); }}
+            >
+              Cấu hình
+            </div>
+          </div>
+
+          {/* SCREEN ACTIVE CONTAINER */}
+          <div className="detail-content">
+            {/* TAB WIZARD: MAIN PATHWAYS */}
+            {activeTab === 'wizard' && (
+              <>
+                {status === 'COMPLETED' && showResultsScreen && gradingResult ? (
+                  <ResultsSummarySection
+                    gradingResult={gradingResult}
+                    exercisesList={exercisesList}
+                    onReview={(stepStep) => {
+                      setShowResultsScreen(false)
+                      setCurrentStep(stepStep !== undefined ? stepStep : 2)
+                    }}
+                  />
+                ) : (
+                  <>
+                    {/* SCREEN STEP 0: READING */}
+                    {currentStep === 0 && (
+                      <ReadingSection
+                        currentStep={currentStep}
+                        totalSteps={totalSteps}
+                        progressPercentage={progressPercentage}
+                        readingPassage={tData.reading_passage}
+                      />
+                    )}
+
+                    {/* SCREEN STEP 1: VOCABULARY */}
+                    {currentStep === 1 && (
+                      <VocabularySection
+                        currentStep={currentStep}
+                        totalSteps={totalSteps}
+                        progressPercentage={progressPercentage}
+                        vocabulary={tData.vocabulary}
+                      />
+                    )}
+
+                    {/* SCREEN STEP >= 2: EXERCISES */}
+                    {currentStep >= 2 && (
+                      <ExercisesSection
+                        currentStep={currentStep}
+                        totalSteps={totalSteps}
+                        progressPercentage={progressPercentage}
+                        exercisesList={exercisesList}
+                        status={status}
+                        gradingResult={gradingResult}
+                        getAnswerValue={getAnswerValue}
+                        handleAnswerChange={handleAnswerChange}
+                        shownHints={shownHints}
+                        setShownHints={setShownHints}
+                        submitError={submitError}
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            )}
+
+            {/* TAB TOKEN: CONFIGURATION AND API KEY MANAGER */}
+            {activeTab === 'token' && (
+              <GeminiTokenConfig
+                newToken={newToken}
+                setNewToken={setNewToken}
+                tokens={tokens}
+                setTokens={setTokens}
+              />
             )}
           </div>
-        )}
 
-      </div>
+          {/* ELEGANT FIXED BOTTOM NAVIGATION BAR */}
+          {activeTab === 'wizard' && !showResultsScreen && (
+            <div className="bottom-nav-bar">
+              {currentStep === 0 && (
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button className="next-btn" style={{ width: '100%', margin: 0 }} onClick={() => setCurrentStep(1)}>
+                    Tiếp theo →
+                  </Button>
+                </div>
+              )}
 
-      {isSubmitting && createPortal(
-        <div className="fullscreen-overlay">
-          <GradingLoadingScreen totalQuestions={totalQuestions} />
-        </div>,
-        document.body
-      )}
-    </div>
+              {currentStep === 1 && (
+                <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
+                  <Button
+                    className="next-btn"
+                    variant="secondary"
+                    style={{ flex: 1, margin: 0 }}
+                    onClick={() => setCurrentStep(0)}
+                  >
+                    ←
+                  </Button>
+                  <Button className="next-btn" style={{ flex: 3, margin: 0 }} onClick={() => setCurrentStep(2)}>
+                    Làm bài tập →
+                  </Button>
+                </div>
+              )}
 
-    <Modal
-      open={isResetModalOpen}
-      title={<span style={{ fontSize: '18px', fontWeight: 600 }}>Làm lại bài học từ đầu</span>}
-      onCancel={() => setIsResetModalOpen(false)}
-      footer={
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', padding: '12px 16px' }}>
-          <Button
-            variant="ghost"
-            onClick={() => setIsResetModalOpen(false)}
-            style={{ color: 'var(--color-text)', fontSize: '15px', padding: '8px 16px' }}
-          >
-            Hủy
-          </Button>
-          <Button
-            variant="danger"
-            onClick={confirmResetProgress}
-            style={{
-              backgroundColor: '#dc2626',
-              color: '#ffffff',
-              fontSize: '15px',
-              fontWeight: '600',
-              padding: '8px 16px',
-              border: 'none'
-            }}
-          >
-            Làm lại
-          </Button>
+              {currentStep >= 2 && (
+                <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
+                  {currentStep > 0 && (
+                    <Button
+                      className="next-btn"
+                      variant="secondary"
+                      style={{ flex: 1, margin: 0 }}
+                      onClick={() => setCurrentStep(prev => prev - 1)}
+                    >
+                      ←
+                    </Button>
+                  )}
+
+                  {currentStep < totalSteps - 1 ? (
+                    <Button
+                      className="next-btn"
+                      style={{ flex: 3, margin: 0 }}
+                      onClick={() => setCurrentStep(prev => prev + 1)}
+                    >
+                      Tiếp theo →
+                    </Button>
+                  ) : (
+                    <div style={{ flex: 3 }}>
+                      {status !== 'COMPLETED' ? (
+                        <Button
+                          className="next-btn"
+                          style={{ width: '100%', margin: 0 }}
+                          disabled={isSubmitting}
+                          onClick={handleSubmitGrading}
+                        >
+                          {isSubmitting ? (
+                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <span>Chấm điểm</span>
+                              <span style={{ display: 'inline-block', width: '20px', textAlign: 'left', marginLeft: '2px' }}>{dots}</span>
+                            </span>
+                          ) : 'Nộp bài ngay'}
+                        </Button>
+                      ) : (
+                        <Button
+                          className="next-btn"
+                          variant="secondary"
+                          style={{ width: '100%', margin: 0 }}
+                          onClick={() => {
+                            setShowResultsScreen(true)
+                          }}
+                        >
+                          Xem tổng kết điểm: {score}
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
         </div>
-      }
-    >
-      <p style={{ margin: '16px 0', fontSize: '15px', lineHeight: '24px', color: 'var(--color-text)' }}>
-        Bạn có chắc chắn muốn xóa toàn bộ tiến trình học và câu trả lời cũ của chủ đề này để làm lại từ đầu?
-      </p>
-    </Modal>
-  </>
-)
+
+        {isSubmitting && createPortal(
+          <div className="fullscreen-overlay">
+            <GradingLoadingScreen totalQuestions={totalQuestions} />
+          </div>,
+          document.body
+        )}
+      </Card>
+
+      <Modal
+        open={isResetModalOpen}
+        title={<span style={{ fontFamily: LE_COLORS.fontDisplay, textTransform: 'uppercase', fontWeight: 600 }}>Làm lại bài học</span>}
+        onCancel={() => setIsResetModalOpen(false)}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', padding: '12px 16px' }}>
+            <Button variant="secondary" onClick={() => setIsResetModalOpen(false)}>
+              Hủy
+            </Button>
+            <Button variant="danger" onClick={confirmResetProgress}>
+              Làm lại
+            </Button>
+          </div>
+        }
+      >
+        <p style={{ margin: '16px 0', fontSize: '15px', lineHeight: '24px', color: LE_COLORS.ink, fontWeight: 500 }}>
+          Bạn có chắc chắn muốn xóa toàn bộ tiến trình học và câu trả lời cũ của chủ đề này để làm lại từ đầu?
+        </p>
+      </Modal>
+    </>
+  )
 }

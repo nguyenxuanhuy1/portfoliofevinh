@@ -7,1107 +7,902 @@ body:has(.learn-english--detail) {
   }
 }
 
-// ==========================================
-// PIXEL-PERFECT MOBILE PHONE CONTAINER & MOCKUP
-// ==========================================
 .learn-english {
+  // ==========================================
+  // PHONE / DETAIL SHELL
+  // ==========================================
   .phone {
-  width: 340px;
-  margin: 0 auto;
-  background: $c-bg;
-  border-radius: 20px; // Khung điện thoại mockup
-  overflow: hidden;
-  border: 1.5px solid $c-border;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.tab-bar {
-  display: flex;
-  background: $c-surface;
-  border-bottom: 1px solid var(--color-card-border);
-}
-
-.tab {
-  flex: 1;
-  padding: 10px 4px 8px;
-  text-align: center;
-  font-size: 11px;
-  color: $c-text-muted;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 150ms;
-
-  &.active {
-    color: $c-accent;
-    border-bottom-color: $c-accent;
-  }
-}
-
-.screen {
-  padding: 20px 20px calc(76px + env(safe-area-inset-bottom, 0px)) !important;
-  min-height: 520px;
-  display: none;
-  flex-direction: column;
-
-  &.active {
+    width: 340px;
+    margin: 0 auto;
+    background: $nb-white;
+    border-radius: 0;
+    overflow: hidden;
+    border: $nb-border solid $nb-ink;
     display: flex;
-  }
-}
-
-.bottom-nav-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background: $c-surface !important;
-  border-top: 1px solid $c-border;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 100;
-  backdrop-filter: blur(12px);
-
-  .next-btn {
-    margin-top: 0 !important;
+    flex-direction: column;
+    position: relative;
   }
 
-  // Safe area bottom padding for notch screens on mobile
-  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-}
-
-// ==========================================
-// PROGRESS WIDGETS
-// ==========================================
-.progress-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.progress-text {
-  font-size: 11px;
-  color: $c-text-muted;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-
-.progress-bar {
-  height: 2px;
-  background: $c-border;
-  border-radius: 2px;
-  flex: 1;
-}
-
-.progress-fill {
-  height: 100%;
-  background: $c-accent;
-  border-radius: 2px;
-  transition: width 400ms;
-}
-
-.title {
-  font-size: 22px;
-  font-weight: 400; // Làm chữ mỏng hơn, không in đậm
-  color: $c-text;
-  letter-spacing: -0.5px;
-  margin-bottom: 4px;
-}
-
-.accent-line {
-  display: none; // Bỏ gạch chân hoàn toàn dưới tiêu đề
-}
-
-// ==========================================
-// READING & VOCAB CARDS (GIỮ GÓC CARD TIÊU CHUẨN)
-// ==========================================
-.reading-card {
-  background: $c-surface;
-  border-radius: var(--radius-md); // Giữ bo góc card trung bình 12px
-  padding: 16px;
-  border-left: 3px solid $c-accent;
-  margin-bottom: 16px;
-}
-
-.reading-text {
-  font-size: 13px;
-  color: $c-text-body;
-  line-height: 22px;
-}
-
-.vocab-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-  margin-bottom: 16px;
-}
-
-.vocab-card {
-  background: $c-surface;
-  border-radius: var(--radius-md); // Giữ bo góc card trung bình 12px
-  padding: 12px 16px;
-  border: 1px solid $c-border;
-}
-
-.vocab-word {
-  font-size: 20px;
-  font-weight: 600;
-  color: $c-accent;
-  margin-bottom: 2px;
-}
-
-.vocab-viet {
-  font-size: 12px;
-  color: $c-text-muted;
-  margin-bottom: 8px;
-}
-
-.vocab-ex {
-  font-size: 12px;
-  color: $c-text-sub;
-  font-style: italic;
-  padding-top: 8px;
-  border-top: 1px solid $c-border-soft;
-}
-
-.vocab-speak-btn {
-  background: transparent;
-  border: none;
-  color: $c-text-muted;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 200ms ease;
-  font-size: 14px;
-  flex-shrink: 0;
-
-  &:hover {
-    background: transparent !important;
-    color: $c-text !important;
-  }
-
-  &.speaking {
-    color: $c-text;
-  }
-}
-
-@keyframes speak-pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(1.15);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-// ==========================================
-// INTERACTIVE EXERCISES
-// ==========================================
-.ex-instruction {
-  font-size: 11px;
-  color: $c-text-muted;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 16px;
-  font-weight: 400 !important;
-  font-family: 'Be Vietnam Pro', sans-serif !important;
-}
-
-.word-box {
-  background: $c-elevated;
-  border-radius: var(--radius-sm); // Giữ bo góc hộp nhỏ 8px
-  padding: 12px 24px;
-  text-align: center;
-  align-self: center;
-  margin: 0 auto 16px;
-  border: 1px solid $c-border-soft;
-
-  span {
-    font-size: 22px;
-    font-weight: 600;
-    color: $c-text;
-  }
-}
-
-.options {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-}
-
-.option {
-  background: $c-surface !important;
-  padding: 13px 20px;
-  border-radius: var(--radius-full); // Nút tùy chọn bo tròn 100% hình viên thuốc
-  border: 1px solid $c-border !important;
-  cursor: pointer;
-  font-size: 14px;
-  color: $c-text !important;
-  text-align: left;
-  width: 100%;
-  transition: all 150ms;
-  font-family: 'Be Vietnam Pro', sans-serif !important;
-  font-weight: 400 !important;
-  outline: none;
-
-  &:hover {
-    border-color: $c-border-soft !important;
-    background: $c-surface !important;
-  }
-
-  &.selected {
-    border-color: $c-accent !important;
-    background: color-mix(in srgb, var(--color-primary) 7%, var(--color-card-bg)) !important;
-    color: $c-accent !important;
-    font-weight: 500 !important;
-  }
-
-  &.correct {
-    border-color: $c-accent !important;
-    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-card-bg)) !important;
-    color: $c-accent !important;
-    font-weight: 600;
-  }
-
-  &.wrong {
-    border-color: $c-wrong !important;
-    background: color-mix(in srgb, #FF3B5C 8%, var(--color-card-bg)) !important;
-    color: $c-wrong !important;
-  }
-}
-
-.mcq-q {
-  background: $c-surface;
-  border-radius: var(--radius-md); // Giữ bo góc hộp câu hỏi 12px
-  padding: 14px;
-  margin-bottom: 12px;
-  font-size: 14px;
-  color: $c-text-body;
-  line-height: 22px;
-  border: 1px solid $c-border;
-}
-
-.mcq-opts {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-}
-
-.mcq-opt {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: $c-surface;
-  border-radius: var(--radius-full); // Nút MCQ bo tròn 100% hình viên thuốc
-  border: 1px solid $c-border;
-  padding: 10px 18px;
-  cursor: pointer;
-  transition: all 150ms;
-  font-family: 'Be Vietnam Pro', sans-serif !important;
-  font-weight: 400 !important;
-
-  &:hover {
-    border-color: $c-border-soft;
-    background: $c-surface !important;
-  }
-
-  &.selected {
-    border-color: $c-accent;
-    background: color-mix(in srgb, var(--color-primary) 7%, var(--color-card-bg)) !important;
-
-    .opt-text {
-      color: $c-accent;
-      font-weight: 500;
-    }
-
-    .key {
-      background: $c-accent;
-      color: #ffffff;
-      border-color: $c-accent;
-      font-weight: 600;
-    }
-  }
-
-  &.correct-opt {
-    border-color: $c-accent;
-    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-card-bg)) !important;
-
-    .opt-text {
-      color: $c-accent;
-      font-weight: 600;
-    }
-
-    .key {
-      background: $c-accent;
-      color: #ffffff;
-      border-color: $c-accent;
-      font-weight: 600;
-    }
-  }
-
-  &.wrong-opt {
-    border-color: $c-wrong;
-    background: color-mix(in srgb, #FF3B5C 8%, var(--color-card-bg)) !important;
-
-    .opt-text {
-      color: $c-wrong;
-    }
-
-    .key {
-      background: $c-wrong;
-      color: #ffffff;
-      border-color: $c-wrong;
-    }
-  }
-}
-
-.key {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%; // Phím chữ cái hình tròn
-  border: 1px solid $c-border-soft;
-  background: $c-elevated;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: $c-text-muted;
-  flex-shrink: 0;
-  transition: all 150ms;
-}
-
-.opt-text {
-  font-size: 13px;
-  color: $c-text;
-}
-
-.next-btn {
-  width: 100%;
-  margin-top: 16px;
-  letter-spacing: 0.3px;
-  font-weight: 600;
-}
-
-// ==========================================
-// DICTIONARY DRAWER (TRA TỪ DRAWER)
-// ==========================================
-.drawer-bar {
-  background: $c-surface;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid $c-border;
-  cursor: pointer;
-}
-
-.drawer-label {
-  font-size: 12px;
-  color: $c-text-muted;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.drawer-icon {
-  font-size: 15px;
-  color: $c-accent;
-}
-
-.drawer-body {
-  background: $c-surface;
-  padding: 12px 20px 14px;
-  border-bottom: 1px solid $c-border;
-  display: none;
-
-  &.active {
-    display: block;
-  }
-}
-
-.drawer-input {
-  width: 100%;
-  background: $c-elevated;
-  border: 1px solid $c-border-soft;
-  border-radius: var(--radius-md); // Khớp góc với câu hỏi (12px)
-  padding: 10px 14px;
-  font-size: 13px;
-  color: $c-text;
-  outline: none;
-  transition: border-color 150ms;
-
-  &:focus {
-    border-color: $c-accent;
-  }
-}
-
-.drawer-word {
-  font-size: 15px;
-  font-weight: 400; // Bé lại và mỏng đi theo yêu cầu
-  color: $c-accent;
-  margin-top: 10px;
-}
-
-.drawer-muted {
-  font-size: 11px;
-  font-weight: 400; // Bé lại và mỏng đi theo yêu cầu
-  color: $c-text-muted;
-  margin-top: 2px;
-}
-
-// ==========================================
-// UTILITIES
-// ==========================================
-.counter {
-  font-size: 11px;
-  color: $c-text-muted;
-  text-align: center;
-  margin-bottom: 12px;
-  font-weight: 400 !important;
-  font-family: 'Be Vietnam Pro', sans-serif !important;
-}
-
-.highlight {
-  color: $c-accent;
-  font-weight: 600;
-}
-
-.ai-hint-btn {
-  background: transparent !important;
-  border: 1px dashed var(--color-card-border) !important;
-  color: var(--color-text-secondary) !important;
-  padding: 4px 8px !important;
-  border-radius: 5px !important;
-  font-size: 11px !important;
-  cursor: pointer !important;
-  min-height: auto !important;
-  height: auto !important;
-  width: auto !important;
-  line-height: normal !important;
-  font-weight: 500 !important;
-  font-family: 'Be Vietnam Pro', sans-serif !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-transform: none !important;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-color: var(--color-primary) !important;
-    color: var(--color-primary) !important;
-
-    [data-theme='light'] & {
-      background: rgba(0, 0, 0, 0.05) !important;
-    }
-  }
-}
-
-.tag {
-  display: inline-block;
-  background: $c-elevated;
-  border: 1px solid $c-border-soft;
-  border-radius: var(--radius-full); // Thẻ kho từ bo tròn 100% hình viên thuốc
-  padding: 5px 14px;
-  font-size: 12px;
-  color: $c-text;
-  cursor: pointer;
-  transition: all 150ms;
-
-  &:hover {
-    border-color: $c-accent;
-    color: $c-accent;
-  }
-}
-
-.fill-sentence {
-  font-size: 15px;
-  color: $c-text-body;
-  line-height: 36px;
-  margin-bottom: 16px;
-}
-
-.blank {
-  display: inline-block;
-  min-width: 70px;
-  border-bottom: 2px solid $c-accent;
-  text-align: center;
-  color: $c-accent;
-  font-weight: 600;
-  vertical-align: bottom;
-  padding: 0 6px;
-}
-
-// ==========================================
-// TRAN VIEN DETAIL (EDGE-TO-EDGE FULLSCREEN OVERRIDES)
-// ==========================================
-@media (max-width: 767px) {
-  &--detail {
-    padding: 0 !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    height: 100vh !important;
-    min-height: 100vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important; // Ngăn chặn kéo cuộn ở cấp độ trang
-
-    .phone {
-      width: 100% !important;
-      max-width: 100% !important;
-      height: 100% !important;
-      min-height: 100vh !important;
-      border-radius: 0 !important;
-      border: none !important;
-      margin: 0 !important;
-      display: flex !important;
-      flex-direction: column !important;
-      flex: 1 !important;
-    }
-
-    .screen {
-      flex: 1 !important;
-      min-height: 0 !important;
-      max-height: none !important;
-      overflow-y: auto !important;
-    }
-
-    .bottom-nav-bar {
-      position: fixed !important;
-      bottom: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      width: 100vw !important;
-      z-index: 1000 !important;
-    }
-  }
-}
-
-// ==========================================
-// NEW DETAILED HEADER DESIGN (SYNCHRONIZED WITH QUICK DICTIONARY BAR)
-// ==========================================
-.detail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid $c-border;
-  background: $c-surface;
-  padding: 12px 20px; // Synchronized padding with .drawer-bar
-
-  &__btn {
-    background: none;
-    border: none;
-    color: $c-text-muted; // Synchronized color
-    cursor: pointer;
+  .tab-bar {
     display: flex;
-    align-items: center;
-    padding: 0;
-    font-size: 13px; // Smaller icon size
-    transition: color 150ms;
-
-    &:hover {
-      color: $c-text;
-    }
-
-    &--danger {
-      color: #FF3B5C;
-      &:hover {
-        color: #ff5c77;
-      }
-    }
-
-    &--disabled {
-      color: transparent;
-      pointer-events: none;
-    }
+    background: $nb-white;
+    border-bottom: $nb-border solid $nb-ink;
   }
 
-  &__title {
-    font-size: 12px; // Smaller title size
-    font-weight: 400; // Thinner font weight
-    color: $c-text;
+  .tab {
+    flex: 1;
+    padding: 12px 4px !important;
     text-align: center;
-    
-    @media (min-width: 768px) {
-      font-size: 13px; // Slightly larger on desktop but still small
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: $nb-ink !important;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: none !important;
+    transition: none !important;
+    font-family: $nb-font !important;
+
+    &:not(:last-child) {
+      border-right: $nb-border solid $nb-ink !important;
+    }
+
+    &.active {
+      &.tab-read { background-color: $nb-yellow !important; }
+      &.tab-vocab { background-color: $nb-orange !important; }
+      &.tab-exercise { background-color: $nb-coral !important; }
+      &.tab-config { background-color: $nb-mint !important; }
     }
   }
-}
 
-@media (min-width: 768px) {
-  &--detail {
-    max-width: 900px !important;
-    width: calc(100% - 40px) !important;
-    margin: 20px auto !important;
-    padding: 0 !important;
-    height: calc(100vh - 40px) !important;
-    min-height: calc(100vh - 40px) !important;
-    max-height: calc(100vh - 40px) !important;
+  .screen {
+    padding: 20px 20px calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    min-height: 520px;
+    display: none;
+    flex-direction: column;
+
+    &.active {
+      display: flex;
+    }
+  }
+
+  .detail-content {
+    margin: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    background: var(--color-card-bg) !important;
-    border: 1px solid var(--color-card-border) !important;
-    border-radius: var(--radius-lg) !important;
-    overflow: hidden !important;
-    box-shadow: var(--shadow-md) !important;
-    backdrop-filter: blur(8px);
-
-    .phone {
-      width: 100% !important;
-      max-width: 100% !important;
-      height: 100% !important;
-      border-radius: 0 !important;
-      border: none !important;
-      margin: 0 !important;
-      display: flex !important;
-      flex-direction: column !important;
-      flex: 1 !important;
-      background: transparent !important;
-      box-shadow: none !important;
-    }
-
-    .screen {
-      flex: 1 !important;
-      min-height: 0 !important;
-      max-height: none !important;
-      overflow-y: auto !important;
-      padding: 32px 40px 96px !important;
-    }
-
-    .bottom-nav-bar {
-      padding: 16px 40px !important;
-    }
-
-    // Grid layout for vocabulary cards on desktop
-    .vocab-list {
-      display: grid !important;
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 16px !important;
-      margin-bottom: 24px !important;
-    }
-
-    .reading-card {
-      grid-column: 1 / -1 !important;
-      width: 100% !important;
-    }
-
-    // Grid layouts for exercise options on desktop
-    .mcq-opts {
-      display: grid !important;
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 12px !important;
-    }
-
-    .options {
-      display: grid !important;
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 12px !important;
-    }
-
-    // Optimize Dictionary Quick Translate side-by-side Layout on desktop
-    .drawer-body.active {
-      display: flex !important;
-      gap: 20px !important;
-      align-items: flex-start !important;
-      padding: 16px 32px !important;
-
-      .drawer-input {
-        flex: 2 !important;
-      }
-
-      #drawer-result {
-        flex: 3 !important;
-        margin-top: 0 !important;
-        padding: 10px 16px !important;
-        background: var(--color-background) !important;
-        border: 1px solid var(--color-card-border) !important;
-        border-radius: var(--radius-md) !important;
-        display: block !important;
-      }
-
-      .drawer-word {
-        margin-top: 0 !important;
-        font-size: 16px !important;
-      }
-    }
-  }
-}
-
-// Scoped and nested directly under the parent .learn-english wrapper
-
-  // ==========================================
-  // FIXED DICTIONARY DRAWER (TRA TỪ DRAWER)
-  // ==========================================
-  &__dict-drawer {
-    background-color: $c-surface;
-    border-bottom: 1px solid $c-border;
-    padding: $sp-md $screen-px;
-    margin-bottom: $sp-lg;
-    display: flex;
-    flex-direction: column;
-    gap: $sp-sm;
-    transition: all 0.3s ease;
-
-    &-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: $c-accent;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: $sp-xs;
-    }
-
-    &-toggle-btn {
-      background: transparent;
-      border: 1px solid $c-border-soft;
-      border-radius: var(--radius-full); // Nút đóng mở drawer bo tròn 100%
-      padding: 4px 14px;
-      font-size: 11px;
-      color: $c-text-muted;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-
-      &:hover {
-        border-color: $c-accent;
-        color: $c-accent;
-      }
-    }
-
-    &-input-group {
-      display: flex;
-      gap: $sp-sm;
-      margin-top: $sp-xs;
-    }
-
-    &-input {
-      flex: 1;
-      background-color: $c-elevated;
-      border: 1px solid $c-border-soft;
-      border-radius: var(--radius-md); // Khớp góc với câu hỏi (12px)
-      padding: 8px 14px;
-      color: $c-text;
-      font-size: 13px;
-      outline: none;
-
-      &:focus {
-        border-color: $c-accent;
-      }
-    }
-
-    &-result {
-      margin-top: $sp-sm;
-      padding: 12px 18px;
-      background-color: $c-elevated;
-      border-radius: var(--radius-md); // Khung kết quả tra cứu bo góc card 12px
-      border: 1px solid $c-border;
-    }
-
-    &-word {
-      font-size: 20px;
-      font-weight: 600;
-      color: $c-accent;
-      margin-bottom: $sp-xs;
-    }
-
-    &-meaning,
-    &-example {
-      font-size: 12px;
-      color: $c-text-sub;
-      line-height: 18px;
-    }
+    flex: 1 !important;
+    overflow-y: auto !important;
+    min-height: 0 !important;
   }
 
-  // ==========================================
-  // MATCHING EXERCISE
-  // ==========================================
-  &__matching-word-box {
-    background-color: $c-elevated;
-    border: 1px solid $c-border-soft;
-    border-radius: var(--radius-sm); // Hộp hiển thị từ nối bo góc 8px
-    padding: 12px 24px;
-    margin-bottom: $sp-md;
-    display: inline-block;
-  }
-
-  &__matching-word-text {
-    font-size: 22px;
-    font-weight: 600;
-    color: $c-text;
-  }
-
-  &__matching-option {
-    background-color: $c-surface;
-    border: 1px solid $c-border;
-    border-radius: var(--radius-full); // Nút ô chọn nối cột bo tròn 100% hình viên thuốc
-    padding: 13px 20px;
-    color: $c-text;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
-    width: 100%;
-    display: block;
-    margin-bottom: $sp-sm;
-
-    &:hover {
-      border-color: $c-border-soft;
-      color: $c-text;
-    }
-
-    &--selected {
-      border-color: $c-accent !important;
-      background-color: color-mix(in srgb, var(--color-primary) 8%, transparent) !important;
-      color: $c-accent !important;
-    }
-
-    &--correct {
-      border-color: $c-accent !important;
-      background-color: color-mix(in srgb, var(--color-primary) 8%, transparent) !important;
-      color: $c-accent !important;
-      font-weight: 600 !important;
-    }
-
-    &--wrong {
-      border-color: $c-wrong !important;
-      background-color: color-mix(in srgb, #FF3B5C 8%, transparent) !important;
-      color: $c-wrong !important;
-    }
-  }
-
-  // ==========================================
-  // MULTIPLE CHOICE EXERCISE
-  // ==========================================
-  &__mcq-card {
-    background-color: var(--color-card-bg);
-    border: 1.5px solid var(--color-card-border);
-    border-radius: var(--radius-lg); // Khung bao bài tập MCQ bo góc card 16px
-    padding: $sp-md $sp-lg;
-    margin-bottom: $sp-md;
-  }
-
-  &__mcq-question {
-    font-size: 14px;
-    color: $c-text;
-    line-height: 22px;
-    margin-bottom: $sp-md;
-    padding: 0 8px;
-  }
-
-  &__mcq-option-list {
-    display: flex;
-    flex-direction: column;
-    gap: $sp-sm;
-  }
-
-  &__mcq-option {
-    background-color: $c-surface;
-    border: 1px solid $c-border;
-    border-radius: var(--radius-full); // Các ô đáp án lựa chọn bo tròn 100% hình viên thuốc
+  .bottom-nav-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: $nb-white !important;
+    border-top: $nb-border solid $nb-ink;
     padding: 12px 20px;
     display: flex;
     align-items: center;
-    gap: $sp-md;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 100;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
 
-    &:hover {
-      border-color: $c-border-soft;
-    }
-
-    &--selected {
-      border-color: $c-accent !important;
-      background-color: color-mix(in srgb, var(--color-primary) 8%, transparent) !important;
-    }
-
-    &--correct {
-      border-color: $c-accent !important;
-      background-color: color-mix(in srgb, var(--color-primary) 8%, transparent) !important;
-    }
-
-    &--wrong {
-      border-color: $c-wrong !important;
-      background-color: color-mix(in srgb, #FF3B5C 8%, transparent) !important;
+    .next-btn {
+      margin-top: 0 !important;
     }
   }
 
-  &__mcq-key {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%; // Khuyên tròn chứa phím A, B, C, D
-    border: 1px solid $c-border-soft;
+  // ==========================================
+  // PROGRESS
+  // ==========================================
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .progress-text {
+    font-size: 11px;
+    font-weight: 800;
+    color: $nb-ink;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .progress-bar {
+    height: 10px;
+    background: $nb-gray-200;
+    border: 2px solid $nb-ink;
+    border-radius: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: $nb-yellow;
+    border-radius: 0;
+    transition: width 400ms;
+  }
+
+  .title {
+    font-family: $nb-font-display !important;
+    font-size: 22px;
+    font-weight: 400;
+    color: $nb-ink;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .accent-line {
+    display: none;
+  }
+
+  // ==========================================
+  // READING & VOCAB
+  // ==========================================
+  .reading-card {
+    background: $nb-yellow;
+    padding: 16px;
+    border: $nb-border solid $nb-ink;
+    box-shadow: 4px 4px 0 $nb-ink;
+    margin-bottom: 16px;
+  }
+
+  .reading-text {
+    font-size: 15px;
+    color: $nb-ink;
+    line-height: 22px;
+    font-weight: 500;
+  }
+
+  .vocab-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    margin-bottom: 16px;
+  }
+
+  .vocab-card {
+    background: $nb-mint;
+    padding: 14px 16px;
+    border: $nb-border solid $nb-ink;
+    box-shadow: 4px 4px 0 $nb-ink;
+    border-radius: 0;
+
+    &.active-fill-card {
+      background: $nb-yellow !important;
+    }
+  }
+
+  .vocab-word {
+    font-family: $nb-font-display !important;
+    font-size: 20px;
+    font-weight: 600;
+    color: $nb-ink;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+
+  .vocab-viet {
+    font-size: 14px;
+    font-weight: 600;
+    color: $nb-purple;
+    margin-bottom: 8px;
+  }
+
+  .vocab-ex {
+    font-size: 12px;
+    color: $nb-gray-850;
+    font-style: italic;
+    padding-top: 8px;
+    border-top: 2px solid $nb-ink;
+  }
+
+  .vocab-speak-btn {
+    background: $nb-coral;
+    border: 2px solid $nb-ink;
+    color: $nb-white;
+    width: 36px;
+    height: 36px;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: $c-text-muted;
-    background-color: $c-elevated;
-    transition: all 0.2s ease;
+    cursor: pointer;
+    transition: transform 100ms, box-shadow 100ms;
+    font-size: 14px;
+    flex-shrink: 0;
+    box-shadow: 3px 3px 0 $nb-ink;
 
-    &--selected {
-      border-color: $c-accent;
-      background-color: $c-accent;
-      color: $c-bg;
+    &:hover {
+      color: $nb-white !important;
+    }
+
+    &:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 $nb-ink;
+    }
+
+    &.speaking {
+      background: $nb-coral;
+      color: $nb-white;
     }
   }
 
-  &__mcq-text {
-    font-size: 13px;
-    color: $c-text;
-  }
-
   // ==========================================
-  // FILL IN BLANK EXERCISE
+  // EXERCISES
   // ==========================================
-  &__fill-card {
-    background-color: var(--color-card-bg);
-    border: 1.5px solid var(--color-card-border);
-    border-radius: var(--radius-lg); // Khung bao bài tập điền từ bo góc card 16px
-    padding: $sp-md $sp-lg;
-    margin-bottom: $sp-md;
+  .ex-instruction {
+    font-size: 12px;
+    color: $nb-ink;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    font-weight: 800 !important;
   }
 
-  &__fill-sentence {
-    font-size: 14px;
-    color: $c-text;
-    line-height: 24px;
-    margin-bottom: $sp-md;
-    padding: 0 8px;
-  }
-
-  &__fill-blank {
-    display: inline-block;
-    border-bottom: 2px solid $c-accent;
-    min-width: 80px;
+  .word-box {
+    background: $nb-yellow;
+    border-radius: 0;
+    padding: 12px 24px;
     text-align: center;
-    font-weight: 600;
-    color: $c-accent;
-    padding: 0 $sp-xs;
-    margin: 0 $sp-xs;
+    align-self: center;
+    margin: 0 auto 16px;
+    border: $nb-border solid $nb-ink;
+    box-shadow: 4px 4px 0 $nb-ink;
+
+    span {
+      font-family: $nb-font-display !important;
+      font-size: 22px;
+      font-weight: 400;
+      color: $nb-ink;
+      text-transform: uppercase;
+    }
   }
 
-  &__fill-input {
-    background-color: $c-elevated;
-    border: 1px solid $c-border-soft;
-    border-radius: var(--radius-md); // Khớp góc với câu hỏi (12px)
-    padding: 10px 14px;
-    color: $c-text;
-    font-size: 13px;
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .option {
+    padding: 12px 16px !important;
+    border-radius: 0 !important;
+    border: $nb-border solid $nb-ink !important;
+    box-shadow: 4px 4px 0 $nb-ink !important;
+    cursor: pointer;
+    font-size: 14px !important;
+    color: $nb-ink !important;
+    text-align: left !important;
     width: 100%;
+    font-weight: 600 !important;
+    transition: transform 100ms, box-shadow 100ms !important;
+
+
+    &:active:not(:disabled) {
+      transform: translate(2px, 2px) !important;
+      box-shadow: 2px 2px 0 $nb-ink !important;
+    }
+
+    &.selected {
+      background: $nb-cream !important;
+      color: $nb-ink !important;
+      font-weight: 700 !important;
+    }
+
+    &.correct {
+      background: $nb-green !important;
+      color: $nb-ink !important;
+      font-weight: 700 !important;
+    }
+
+    &.wrong {
+      background: $nb-coral !important;
+      color: $nb-white !important;
+    }
+  }
+
+  .mcq-q {
+    background: $nb-yellow;
+    border-radius: 0;
+    padding: 14px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: $nb-ink;
+    line-height: 22px;
+    border: $nb-border solid $nb-ink;
+    box-shadow: 4px 4px 0 $nb-ink;
+    font-weight: 600;
+  }
+
+  .mcq-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .mcq-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: $nb-white;
+    border: $nb-border solid $nb-ink;
+    box-shadow: 4px 4px 0 $nb-ink;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: transform 100ms, box-shadow 100ms;
+    font-weight: 600 !important;
+    border-radius: 0;
+
+    &:hover {
+      background: $nb-cream !important;
+    }
+
+    &:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 $nb-ink;
+    }
+
+    &.selected {
+      background: $nb-yellow !important;
+
+      .opt-text { font-weight: 700; }
+
+      .key {
+        background: $nb-coral;
+        color: $nb-white;
+        border-color: $nb-ink;
+      }
+    }
+
+    &.correct-opt {
+      background: $nb-green !important;
+
+      .opt-text { font-weight: 700; }
+
+      .key {
+        background: $nb-ink;
+        color: $nb-white;
+        border-color: $nb-ink;
+      }
+    }
+
+    &.wrong-opt {
+      background: $nb-coral !important;
+
+      .opt-text { color: $nb-white; }
+
+      .key {
+        background: $nb-ink;
+        color: $nb-white;
+        border-color: $nb-ink;
+      }
+    }
+  }
+
+  .key {
+    width: 28px;
+    height: 28px;
+    border-radius: 0;
+    border: 2px solid $nb-ink;
+    background: $nb-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: $nb-ink;
+    flex-shrink: 0;
+  }
+
+  .opt-text {
+    font-size: 13px;
+    color: $nb-ink;
+    font-weight: 600;
+  }
+
+  .next-btn {
+    width: 100%;
+    margin-top: 16px;
+    letter-spacing: 0.3px;
+    font-weight: 700 !important;
+  }
+
+  // ==========================================
+  // DICTIONARY DRAWER
+  // ==========================================
+  .drawer-bar {
+    background: $nb-mint !important;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: $nb-border solid $nb-ink !important;
+    cursor: pointer;
+
+    span:last-child {
+      color: $nb-ink !important;
+      font-weight: 800 !important;
+      text-transform: uppercase !important;
+      font-size: 10px !important;
+    }
+  }
+
+  .drawer-label {
+    font-size: 11px !important;
+    color: $nb-ink !important;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .drawer-icon {
+    font-size: 14px !important;
+    color: $nb-ink !important;
+  }
+
+  .drawer-body {
+    background: $nb-white;
+    padding: 12px 20px 14px;
+    border-bottom: $nb-border solid $nb-ink !important;
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  .drawer-input {
+    width: 100%;
+    background: $nb-white !important;
+    border: $nb-border solid $nb-ink !important;
+    border-radius: 0 !important;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: $nb-ink !important;
     outline: none;
-    transition: border-color 0.2s ease;
+    box-shadow: none !important;
 
     &:focus {
-      border-color: $c-accent;
-    }
-
-    &--correct {
-      border-color: $c-accent !important;
-      background-color: color-mix(in srgb, var(--color-primary) 8%, transparent) !important;
-    }
-
-    &--wrong {
-      border-color: $c-wrong !important;
-      background-color: color-mix(in srgb, #FF3B5C 8%, transparent) !important;
+      border-color: $nb-ink !important;
     }
   }
 
+  .drawer-word {
+    font-family: $nb-font-display !important;
+    font-size: 16px;
+    font-weight: 400;
+    color: $nb-purple;
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
 
+  .drawer-muted {
+    font-size: 12px;
+    font-weight: 500;
+    color: $c-text-muted;
+    margin-top: 2px;
+  }
 
-.loading-card {
-  background: var(--color-card-bg);
-  border: 1px solid var(--color-card-border);
-  border-left: 4px solid var(--color-primary);
-  border-radius: var(--radius-lg);
-  padding: 32px 24px;
-  text-align: center;
-  max-width: 320px;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
+  // ==========================================
+  // UTILITIES
+  // ==========================================
+  .counter {
+    font-size: 11px;
+    color: $c-text-muted;
+    text-align: center;
+    margin-bottom: 12px;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+  }
 
-  .spinner {
-    width: 36px;
-    height: 36px;
-    border: 3px solid var(--color-card-border);
-    border-top-color: var(--color-primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  .highlight {
+    color: $nb-purple;
+    font-weight: 800;
+    background: $nb-yellow;
+    padding: 0 2px;
+  }
+  .tag {
+    display: inline-block;
+    background: $nb-yellow;
+    border: 2px solid $nb-ink;
+    border-radius: 0;
+    box-shadow: 3px 3px 0 $nb-ink;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: $nb-ink;
+    cursor: pointer;
+    transition: transform 100ms, box-shadow 100ms;
+
+    &:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 $nb-ink;
+    }
+
+    &:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 $nb-ink;
+    }
+  }
+
+  .fill-sentence {
+    font-size: 15px;
+    color: $c-text-body;
+    line-height: 36px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .blank {
+    display: inline-block;
+    min-width: 70px;
+    border-bottom: 3px solid $nb-purple;
+    text-align: center;
+    color: $nb-purple;
+    font-weight: 800;
+    vertical-align: bottom;
+    padding: 0 6px;
+  }
+
+  // ==========================================
+  // DETAIL HEADER
+  // ==========================================
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: $nb-border solid $nb-ink !important;
+    background: $nb-purple !important;
+    padding: 12px 20px;
+
+    &__btn {
+      background: $nb-coral !important;
+      border: $nb-border solid $nb-ink !important;
+      box-shadow: 4px 4px 0 $nb-ink !important;
+      color: $nb-ink !important;
+      cursor: pointer;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 32px !important;
+      height: 32px !important;
+      padding: 0 !important;
+      font-size: 15px !important;
+      border-radius: 0 !important;
+      transition: transform 100ms, box-shadow 100ms !important;
+
+      &:active {
+        transform: translate(2px, 2px) !important;
+        box-shadow: 2px 2px 0 $nb-ink !important;
+      }
+
+      &--danger {
+        background: $c-wrong !important;
+      }
+
+      &--disabled {
+        background: $nb-gray-300 !important;
+        border: $nb-border solid $nb-gray-600 !important;
+        box-shadow: none !important;
+        color: $nb-gray-600 !important;
+        cursor: not-allowed !important;
+        pointer-events: none !important;
+      }
+    }
+
+    &__reset-icon {
+      color: $nb-yellow !important;
+      cursor: pointer;
+      font-size: 16px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: transform 150ms, color 150ms !important;
+
+      svg {
+        stroke: currentColor !important;
+        stroke-width: 60 !important;
+        stroke-linejoin: round !important;
+      }
+
+      &:hover {
+        color: $nb-yellow-soft !important;
+        transform: rotate(180deg) !important;
+      }
+
+      &--disabled {
+        color: $nb-yellow !important;
+        opacity: 0.4 !important;
+        pointer-events: none !important;
+      }
+    }
+
+    &__title {
+      font-family: $nb-font-display !important;
+      font-size: 13px !important;
+      font-weight: 400 !important;
+      color: $nb-white !important;
+      text-transform: uppercase !important;
+      text-align: center;
+      letter-spacing: 0.5px !important;
+    }
+  }
+
+  // ==========================================
+  // RESPONSIVE DETAIL LAYOUT
+  // ==========================================
+  @media (max-width: 767px) {
+    &--detail {
+      padding: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      height: 100vh !important;
+      min-height: 100vh !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow: hidden !important;
+
+      .phone {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        min-height: 100vh !important;
+        border-radius: 0 !important;
+        border: none !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 !important;
+      }
+
+      .screen {
+        flex: 1 !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+      }
+
+      .bottom-nav-bar {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important;
+        z-index: 1000 !important;
+      }
+    }
+  }
+
+  &--detail {
+    @media (max-width: 767px) {
+      &.nb-card {
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    @media (min-width: 768px) {
+      &.nb-card {
+        max-width: 900px !important;
+        width: calc(100% - 40px) !important;
+        margin: 20px auto !important;
+        padding: 0 !important;
+        height: calc(100vh - 40px) !important;
+        min-height: calc(100vh - 40px) !important;
+        max-height: calc(100vh - 40px) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        background: $nb-white !important;
+        border: $nb-border solid $nb-ink !important;
+        box-shadow: 8px 8px 0 $nb-ink !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .phone {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        border-radius: 0 !important;
+        border: none !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+      .screen {
+        flex: 1 !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+        padding: 32px 40px 96px !important;
+      }
+
+      .bottom-nav-bar {
+        padding: 16px 40px !important;
+      }
+
+      .vocab-list {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+        margin-bottom: 24px !important;
+      }
+
+      .reading-card {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+      }
+
+      .mcq-opts,
+      .options {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+
+      .drawer-body.active {
+        display: flex !important;
+        gap: 20px !important;
+        align-items: flex-start !important;
+        padding: 16px 32px !important;
+
+        .drawer-input {
+          flex: 2 !important;
+        }
+
+        #drawer-result {
+          flex: 3 !important;
+          margin-top: 0 !important;
+          padding: 10px 16px !important;
+          background: $nb-yellow !important;
+          border: 2px solid $nb-ink !important;
+          border-radius: 0 !important;
+          display: block !important;
+        }
+
+        .drawer-word {
+          margin-top: 0 !important;
+          font-size: 16px !important;
+        }
+      }
+    }
+  }
+
+  // ==========================================
+  // RESULTS + LOADING
+  // ==========================================
+  .results-summary-screen {
+    background-color: $nb-white;
+  }
+
+  .results-score-card {
+    background: $nb-yellow;
+    border: $nb-border solid $nb-ink;
+    box-shadow: 6px 6px 0 $nb-ink;
+    padding: 24px 16px;
+    text-align: center;
+  }
+
+  .results-score-value {
+    font-family: $nb-font-display !important;
+    font-size: 56px;
+    line-height: 1;
+    color: $nb-ink;
+    letter-spacing: -2px;
+  }
+
+  .results-score-max {
+    font-family: $nb-font-display !important;
+    font-size: 20px;
+    color: $nb-gray-700;
+  }
+
+  .results-ex-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: $nb-border solid $nb-ink;
+    box-shadow: 4px 4px 0 $nb-ink;
+    background: $nb-white;
+    cursor: pointer;
+    gap: 16px;
+    transition: transform 100ms, box-shadow 100ms;
+
+    &:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0 $nb-ink;
+    }
+
+    &:nth-child(odd) {
+      background: $nb-cream;
+    }
+  }
+
+  .loading-card {
+    background: $nb-white;
+    border: $nb-border solid $nb-ink;
+    box-shadow: 8px 8px 0 $nb-ink;
+    border-radius: 0;
+    padding: 32px 24px;
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid $nb-ink;
+      border-top-color: $nb-coral;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  .sticky-word-bank {
+    position: sticky !important;
+    top: -20px !important;
+    z-index: 10 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+
+    @media (min-width: 768px) {
+      top: -32px !important;
+    }
+  }
+
+  .word-bank-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 52px;
+    align-items: center;
+    background: $nb-coral;
+    border: $nb-border solid $nb-ink;
+    box-shadow: 4px 4px 0 $nb-ink;
+    padding: 14px 18px;
   }
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.results-summary-screen {
-  background-color: var(--color-background);
-
-  [data-theme='light'] & {
-    background-color: #ffffff !important;
-  }
-}
-
-.sticky-word-bank {
-  position: sticky !important;
-  top: -20px !important;
-  z-index: 10 !important;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
-  margin-bottom: 16px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 8px !important;
-  transition: all 0.3s ease !important;
-
-  @media (min-width: 768px) {
-    top: -32px !important;
-  }
-}
-}
-
-// Global fullscreen loading overlay (outside .learn-english container)
 .fullscreen-overlay {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  background: rgba(13, 13, 13, 0.85) !important;
+  background: $nb-overlay !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   z-index: 999999 !important;
@@ -1115,4 +910,8 @@ body:has(.learn-english--detail) {
   align-items: center !important;
   justify-content: center !important;
   pointer-events: all !important;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

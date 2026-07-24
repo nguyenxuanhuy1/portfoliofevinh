@@ -2,6 +2,7 @@ import React from 'react'
 import message from '../../../../../components/ui/Message'
 import Input from '../../../components/ui/Input'
 import Button from '../../../components/ui/Button'
+import { LE_COLORS } from '../../../styles/colors'
 
 interface GeminiTokenConfigProps {
   newToken: string;
@@ -19,7 +20,7 @@ export default function GeminiTokenConfig({
   return (
     <div className="screen active">
       <div className="token-config-container" style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px' }}>
-        <p className="drawer-muted" style={{ fontSize: '12px', color: '#888888', lineHeight: '18px', margin: 0 }}>
+        <p className="drawer-muted" style={{ fontSize: '12px', color: LE_COLORS.gray550, lineHeight: '18px', margin: 0 }}>
           Lưu trữ khóa API Gemini cá nhân trong thiết bị của bạn để gửi yêu cầu chấm bài làm trực tiếp bằng mô hình AI.
         </p>
 
@@ -51,36 +52,29 @@ export default function GeminiTokenConfig({
         </div>
 
         {tokens.length > 0 && (
-          <div style={{ marginTop: '16px', borderTop: '1px solid var(--color-card-border)', paddingTop: '16px' }}>
+          <div style={{ marginTop: '16px', borderTop: `3px solid ${LE_COLORS.ink}`, paddingTop: '16px' }}>
             <div className="ex-instruction" style={{ marginBottom: '12px' }}>Khóa đang lưu</div>
             <div className="vocab-list">
               {tokens.map((tok) => (
-                <div key={tok.id} className="vocab-card" style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center', 
+                <div key={tok.id} className="vocab-card" style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                   width: '100%',
                   boxSizing: 'border-box'
                 }}>
-                  <span style={{ fontSize: '13px', color: 'var(--color-text-secondary)', fontFamily: 'monospace' }}>
+                  <span style={{ fontSize: '13px', color: LE_COLORS.ink, fontFamily: 'monospace', fontWeight: 700 }}>
                     ••••••••{tok.value.slice(-8)}
                   </span>
-                  <Button 
+                  <Button
+                    variant="ghost"
                     onClick={() => {
                       const updated = tokens.filter((t) => t.id !== tok.id)
                       setTokens(updated)
                       localStorage.setItem('learn_tokens', JSON.stringify(updated))
                       message.success('Đã gỡ API Key thành công!')
                     }}
-                    style={{ 
-                      background: 'none', 
-                      border: 'none', 
-                      color: '#FF3B5C', 
-                      cursor: 'pointer', 
-                      fontSize: '12px',
-                      padding: 0,
-                      fontWeight: 500
-                    }}
+                    style={{ color: LE_COLORS.wrong, fontSize: '12px', padding: 0, fontWeight: 700 }}
                   >
                     Xóa
                   </Button>

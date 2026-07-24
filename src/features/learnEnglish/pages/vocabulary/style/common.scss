@@ -1,12 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
 @import './variables.scss';
 
 // ==========================================
-// MAIN COMPONENT WRAPPER & RESETS
+// MAIN COMPONENT WRAPPER & CSS CUSTOM PROPS
 // ==========================================
 .learn-english {
-  --le-completed: #{$c-accent};
-  --le-inprogress: #{$c-text-sub};
-  --le-notstarted: #{$c-wrong};
+  // Expose tokens for inline styles / child components
+  --le-ink: #{$nb-ink};
+  --le-white: #{$nb-white};
+  --le-black: #{$nb-black};
+  --le-yellow: #{$nb-yellow};
+  --le-yellow-soft: #{$nb-yellow-soft};
+  --le-coral: #{$nb-coral};
+  --le-orange: #{$nb-orange};
+  --le-mint: #{$nb-mint};
+  --le-purple: #{$nb-purple};
+  --le-green: #{$nb-green};
+  --le-pink: #{$nb-pink};
+  --le-blue: #{$nb-blue};
+  --le-wrong: #{$nb-wrong};
+  --le-danger: #{$nb-danger};
+  --le-cream: #{$nb-cream};
+  --le-gray-50: #{$nb-gray-50};
+  --le-gray-150: #{$nb-gray-150};
+  --le-gray-200: #{$nb-gray-200};
+  --le-gray-250: #{$nb-gray-250};
+  --le-gray-300: #{$nb-gray-300};
+  --le-gray-350: #{$nb-gray-350};
+  --le-gray-550: #{$nb-gray-550};
+  --le-gray-600: #{$nb-gray-600};
+  --le-gray-700: #{$nb-gray-700};
+  --le-gray-850: #{$nb-gray-850};
+  --le-gray-900: #{$nb-gray-900};
+
+  --le-completed: #{$nb-green};
+  --le-inprogress: #{$nb-yellow};
+  --le-notstarted: #{$nb-gray-350};
+
+  --color-primary: #{$nb-purple};
+  --color-background: #{$nb-white};
+  --color-text: #{$nb-ink};
+  --color-text-secondary: #{$c-text-body};
+  --color-text-muted: #{$c-text-muted};
+  --color-card-bg: #{$nb-white};
+  --color-card-border: #{$nb-ink};
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-full: 0;
 
   width: 100%;
   max-width: 1200px;
@@ -14,29 +55,28 @@
   padding: $screen-py $screen-px;
   background-color: transparent;
   color: $c-text;
-  font-family: 'Be Vietnam Pro', sans-serif !important;
+  font-family: $nb-font !important;
 
   * {
-    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-family: inherit !important;
   }
 
-  *:not(.lesson-card):not(.lesson-card *) {
-    box-shadow: none !important; // Disable default shadows for non-neo-brutalism items
+  h1, h2, h3, .nb-display {
+    font-family: $nb-font-display !important;
   }
 
-  // ==========================================
-  // TYPOGRAPHY & UTILITIES
-  // ==========================================
   &__title {
+    font-family: $nb-font-display !important;
     font-size: 22px;
-    font-weight: 400; // Làm chữ mỏng hơn, không in đậm
+    font-weight: 400;
     color: $c-text;
     letter-spacing: -0.5px;
     margin-bottom: $sp-xs;
+    text-transform: uppercase;
   }
 
   &__accent-line {
-    display: none; // Bỏ gạch chân hoàn toàn dưới tiêu đề
+    display: none;
   }
 
   &__section-label {
@@ -45,6 +85,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: $sp-sm;
+    font-weight: 700;
   }
 
   &__body-text {
@@ -52,4 +93,38 @@
     color: $c-text-body;
     line-height: 22px;
   }
+
+  &__result-score {
+    font-family: $nb-font-display !important;
+    font-size: 13px !important;
+    padding: 6px 12px !important;
+    border: 2px solid $nb-ink !important;
+    border-radius: 0 !important;
+    background: $nb-white;
+    color: $nb-ink !important;
+
+    &--pass {
+      background: $nb-green !important;
+    }
+
+    &--fail {
+      background: $nb-coral !important;
+      color: $nb-white !important;
+    }
+  }
+}
+
+html:has(.learn-english) {
+  --color-background: #{$nb-white} !important;
+  --color-text: #{$nb-ink} !important;
+  --color-text-secondary: #{$c-text-body} !important;
+  --color-text-muted: #{$c-text-muted} !important;
+  --color-card-bg: #{$nb-white} !important;
+  --color-card-border: #{$nb-ink} !important;
+  --color-primary: #{$nb-purple} !important;
+  --color-modal-bg: #{$nb-white} !important;
+  --radius-sm: 0 !important;
+  --radius-md: 0 !important;
+  --radius-lg: 0 !important;
+  --radius-full: 0 !important;
 }

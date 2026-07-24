@@ -1,3 +1,4 @@
+import { LE_COLORS } from '../../../styles/colors'
 interface ReadingSectionProps {
   currentStep: number;
   totalSteps: number;
@@ -30,7 +31,7 @@ export default function ReadingSection({
             }} />
           </div>
         ) : (
-          <p style={{ color: '#555555', fontStyle: 'italic' }}>Không có nội dung bài đọc.</p>
+          <p style={{ color: LE_COLORS.gray700, fontStyle: 'italic' }}>Không có nội dung bài đọc.</p>
         )}
       </div>
     </div>

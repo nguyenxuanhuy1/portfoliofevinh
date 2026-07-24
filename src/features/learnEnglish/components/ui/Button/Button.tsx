@@ -2,11 +2,29 @@ import React from 'react'
 import GlobalButton from '../../../../../components/ui/Button/Button'
 import './Button.scss'
 
-export interface ButtonProps extends React.ComponentProps<typeof GlobalButton> {}
+type ButtonVariant = 'brand' | 'secondary' | 'danger' | 'success' | 'warning' | 'dark' | 'ghost';
+type ButtonSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
-export default function Button({ children, className = '', ...props }: ButtonProps) {
+export interface ButtonProps extends Omit<React.ComponentProps<typeof GlobalButton>, 'variant' | 'size'> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+}
+
+export default function Button({ 
+  children, 
+  className = '', 
+  variant = 'brand',
+  size = 'base',
+  ...props
+}: ButtonProps) {
+  const variantClass = `btn--nb-${variant}`
+  const sizeClass = `btn--nb-${size}`
+
   return (
-    <GlobalButton className={`learn-english-btn ${className}`} {...props}>
+    <GlobalButton 
+      className={`learn-english-btn ${variantClass} ${sizeClass} ${className}`} 
+      {...props}
+    >
       {children}
     </GlobalButton>
   )

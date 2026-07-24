@@ -1,3 +1,5 @@
+@import '../../../pages/vocabulary/style/variables.scss';
+
 .skeleton {
   display: inline-block;
   position: relative;
@@ -5,36 +7,31 @@
   background-color: var(--skeleton-bg);
   vertical-align: middle;
 
-  // ─── Default Theme Variables (Dark Mode) ───────────────────
-  // Since the overall background is very dark (#0f172a), we make
-  // the skeleton lighter so it stands out beautifully.
-  --skeleton-bg: rgba(255, 255, 255, 0.1);
+  --skeleton-bg: #{$nb-ink-10};
   --skeleton-shimmer-bg: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.16) 50%,
-    rgba(255, 255, 255, 0) 100%
+    transparent 0%,
+    $nb-ink-05 50%,
+    transparent 100%
   );
 
-  // ─── Light Mode Overrides ───────────────────────────
-  // If the light theme is active, we make the base skeleton darker
-  // (using translucent dark colors) relative to the light background.
+  // Light cartoon theme (learnEnglish always light)
+  .learn-english &,
   [data-theme='light'] & {
-    --skeleton-bg: rgba(0, 0, 0, 0.08);
+    --skeleton-bg: #{$nb-ink-10};
     --skeleton-shimmer-bg: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.65) 50%,
-      rgba(255, 255, 255, 0) 100%
+      transparent 0%,
+      $nb-white-65 50%,
+      transparent 100%
     );
   }
 
-  // ─── Shape Variants ───────────────────────────────────────
   &--text {
     width: 100%;
     height: 1em;
-    border-radius: var(--radius-xs, 4px);
-    margin-bottom: var(--spacing-xs, 4px);
+    border-radius: 0;
+    margin-bottom: $sp-xs;
 
     &:last-child {
       margin-bottom: 0;
@@ -44,15 +41,14 @@
   &--rect {
     width: 100%;
     height: 100%;
-    border-radius: var(--radius-sm, 8px);
+    border-radius: 0;
   }
 
   &--circle {
-    border-radius: var(--radius-full, 9999px);
+    border-radius: 50%;
     aspect-ratio: 1 / 1;
   }
 
-  // ─── Animations ───────────────────────────────────────────
   &--shimmer::after {
     content: '';
     position: absolute;
@@ -70,7 +66,6 @@
   }
 }
 
-// Keyframes
 @keyframes skeleton-shimmer-anim {
   100% {
     transform: translateX(100%);
@@ -78,51 +73,7 @@
 }
 
 @keyframes skeleton-pulse-anim {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
 }
-
-// Custom style specifically for the skeleton loading card
-.skeleton-card-loading {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-
-  .ui-project-card__cover {
-    height: 160px !important;
-    @media (max-width: 640px) {
-      height: 130px !important; // Shorter on mobile
-    }
-  }
-
-  .ui-project-card__content {
-    padding: 16px !important;
-    gap: 8px !important;
-    @media (max-width: 640px) {
-      padding: 12px !important;
-      gap: 6px !important;
-    }
-  }
-
-  .ui-project-card__actions {
-    padding-top: 10px !important;
-    border-top: 1px solid var(--color-card-border) !important;
-    @media (max-width: 640px) {
-      padding-top: 6px !important;
-    }
-  }
-}
-
-.skeleton-skill-loading {
-  pointer-events: none !important;
-  user-select: none !important;
-}
-
-

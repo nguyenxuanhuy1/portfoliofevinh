@@ -1,46 +1,42 @@
-.ant-input,
-.ant-input-affix-wrapper {
-  background-color: var(--color-card-bg, rgba(255, 255, 255, 0.02)) !important;
-  border: 1px solid var(--color-card-border, rgba(255, 255, 255, 0.06)) !important;
-  color: var(--color-text, #ffffff) !important;
+@import '../../../pages/vocabulary/style/variables.scss';
 
-  &::placeholder {
-    color: var(--color-text-muted, rgba(255, 255, 255, 0.35)) !important;
-  }
-
-  transition: all 0.2s ease !important;
-
-  &:hover,
-  &.ant-input-affix-wrapper-hover {
-    border-color: none !important;
-    background-color: none !important;
-  }
-
-  &:focus,
-  &.ant-input-focused,
-  &.ant-input-affix-wrapper-focused,
-  &:focus-within {
-    border-color: var(--color-primary, #818cf8) !important;
+.learn-english {
+  .ant-input,
+  .ant-input-affix-wrapper,
+  .ant-input-textarea textarea.ant-input {
+    background-color: $nb-white !important;
+    border: $nb-border solid $nb-ink !important;
+    border-radius: 0 !important;
+    color: $nb-ink !important;
+    font-family: $nb-font !important;
+    font-weight: 500 !important;
     box-shadow: none !important;
-    background-color: var(--color-card-bg, rgba(255, 255, 255, 0.02)) !important;
-  }
-}
+    transition: border-color 100ms ease, background-color 100ms ease !important;
 
-.ant-input-textarea {
-  textarea.ant-input {
-    background-color: var(--color-card-bg, rgba(255, 255, 255, 0.02)) !important;
-    border: 1px solid var(--color-card-border, rgba(255, 255, 255, 0.06)) !important;
-    color: var(--color-text, #ffffff) !important;
-
-    &:hover {
-      border-color: var(--color-primary, #818cf8) !important;
-      background-color: var(--color-card-bg, rgba(255, 255, 255, 0.02)) !important;
+    &::placeholder {
+      color: $nb-gray-550 !important;
+      font-weight: 400 !important;
     }
 
-    &:focus {
-      border-color: var(--color-primary, #818cf8) !important;
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent) !important;
-      background-color: var(--color-card-bg, rgba(255, 255, 255, 0.02)) !important;
+    &:hover,
+    &.ant-input-affix-wrapper-hover {
+      border-color: $nb-ink !important;
+      background-color: $nb-white !important;
+    }
+
+    &:focus,
+    &.ant-input-focused,
+    &.ant-input-affix-wrapper-focused,
+    &:focus-within {
+      border-color: $nb-ink !important;
+      box-shadow: none !important;
+      background-color: $nb-white !important;
+    }
+
+    &:disabled {
+      background: $nb-gray-150 !important;
+      color: $nb-gray-600 !important;
+      border-color: $nb-gray-500 !important;
     }
   }
 }

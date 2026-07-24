@@ -2,6 +2,7 @@ import React from 'react'
 import Input from '../../../components/ui/Input'
 import Button from '../../../components/ui/Button'
 import type { Exercise, ExerciseType, GradingResult } from '../../../types/LearnEnglish'
+import { LE_COLORS } from '../../../styles/colors'
 
 interface ExercisesSectionProps {
   currentStep: number;
@@ -67,23 +68,9 @@ export default function ExercisesSection({
       {/* WORD BANK DISPLAYED ONCE AT THE TOP */}
       {ex.type === 'fill_with_bank' && (
         <div className="sticky-word-bank">
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '10px',
-              minHeight: '52px',
-              alignItems: 'center',
-              background: 'var(--color-primary, #6366f1)',
-              border: 'none',
-              borderRadius: '12px',
-              padding: '14px 18px',
-              boxShadow: '0 4px 14px rgba(99, 102, 241, 0.2)',
-              transition: 'all 0.3s ease'
-            }}
-          >
+          <div className="word-bank-panel">
             {unusedWords.length === 0 ? (
-              <span style={{ fontSize: '12px', color: '#ffffff', opacity: 0.8, fontStyle: 'italic', width: '100%', textAlign: 'center' }}>
+              <span style={{ fontSize: '12px', color: LE_COLORS.white, fontWeight: 700, width: '100%', textAlign: 'center', textTransform: 'uppercase' }}>
                 Đã điền hết tất cả các từ gợi ý!
               </span>
             ) : (
@@ -96,19 +83,6 @@ export default function ExercisesSection({
                     if (activeQuestionId !== null) {
                       handleAnswerChange('fill_with_bank', activeQuestionId, w)
                     }
-                  }}
-                  style={{
-                    background: '#ffffff',
-                    border: 'none',
-                    borderRadius: '20px',
-                    padding: '6px 16px',
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    color: 'var(--color-primary, #6366f1)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.06)',
-                    userSelect: 'none'
                   }}
                 >
                   {w}
@@ -140,9 +114,10 @@ export default function ExercisesSection({
                 flexDirection: 'column',
                 gap: '12px',
                 cursor: ex.type === 'fill_with_bank' && status !== 'COMPLETED' ? 'pointer' : 'default',
-                transition: 'all 0.2s ease',
+                transition: 'transform 100ms, box-shadow 100ms',
                 ...(ex.type === 'fill_with_bank' && activeQuestionId === q.id && status !== 'COMPLETED' ? {
-                  borderColor: 'var(--color-primary, #6366f1)'
+                  borderColor: LE_COLORS.ink,
+                  background: LE_COLORS.yellow
                 } : {})
               }}
             >
@@ -150,7 +125,7 @@ export default function ExercisesSection({
               {/* MATCHING EXERCISE */}
               {ex.type === 'matching' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
+                  <div style={{ fontSize: '13px', color: LE_COLORS.ink, marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px', fontWeight: 700 }}>
                     Câu {qIdx + 1}: {q.word}
                   </div>
                   <div className="options">
@@ -181,7 +156,7 @@ export default function ExercisesSection({
               {/* MULTIPLE CHOICE EXERCISE */}
               {ex.type === 'multiple_choice' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
+                  <div style={{ fontSize: '13px', color: LE_COLORS.ink, marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px', fontWeight: 700 }}>
                     Câu {qIdx + 1}: {q.question}
                   </div>
                   <div className="mcq-opts">
@@ -216,7 +191,7 @@ export default function ExercisesSection({
               {/* FILL WITH BANK EXERCISE */}
               {ex.type === 'fill_with_bank' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div className="fill-sentence" style={{ fontSize: '14px', color: 'var(--color-text-secondary)', paddingLeft: '4px', lineHeight: '28px', marginBottom: '0px' }}>
+                  <div className="fill-sentence" style={{ fontSize: '14px', color: LE_COLORS.ink, paddingLeft: '4px', lineHeight: '28px', marginBottom: '0px', fontWeight: 600 }}>
                     {(() => {
                       const parts = (q.sentence || '').split('___')
                       const currentAns = getAnswerValue('fill_with_bank', q.id)
@@ -225,12 +200,12 @@ export default function ExercisesSection({
                       const showGrade = status === 'COMPLETED'
                       
                       const blankBorderColor = showGrade
-                        ? (isCorrect ? 'var(--color-success, #10b981)' : '#ff3b5c')
-                        : (isActive ? 'var(--color-primary, #6366f1)' : 'var(--color-card-border)')
+                        ? (isCorrect ? LE_COLORS.green : LE_COLORS.wrong)
+                        : (isActive ? LE_COLORS.ink : LE_COLORS.ink)
                       
                       const blankTextColor = showGrade
-                        ? (isCorrect ? 'var(--color-success, #10b981)' : '#ff3b5c')
-                        : (currentAns ? 'var(--color-primary, #6366f1)' : 'var(--color-text-muted)')
+                        ? (isCorrect ? LE_COLORS.ink : LE_COLORS.wrong)
+                        : (currentAns ? LE_COLORS.ink : LE_COLORS.gray700)
 
                       const blankBorderStyle = showGrade || currentAns || isActive ? 'solid' : 'dashed'
 
@@ -274,7 +249,7 @@ export default function ExercisesSection({
               {/* TRANSLATE / DEFINITION EXERCISE */}
               {['translate_to_english', 'definition_to_word'].includes(ex.type) && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
+                  <div style={{ fontSize: '13px', color: LE_COLORS.ink, marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px', fontWeight: 700 }}>
                     Câu {qIdx + 1}: {q.vietnamese || q.definition}
                   </div>
                   <Input
@@ -293,7 +268,7 @@ export default function ExercisesSection({
                         {shownHints[q.id] ? 'Ẩn gợi ý' : 'Gợi ý từ AI'}
                       </Button>
                       {shownHints[q.id] && (
-                        <p style={{ color: '#888888', fontSize: '11px', marginTop: '6px', fontStyle: 'italic' }}>
+                        <p style={{ color: LE_COLORS.gray550, fontSize: '11px', marginTop: '6px', fontStyle: 'italic' }}>
                           Hint: {q.hint}
                         </p>
                       )}
@@ -305,7 +280,7 @@ export default function ExercisesSection({
               {/* ERROR CORRECTION EXERCISE */}
               {ex.type === 'error_correction' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontSize: '13px', color: '#FF3B5C', textDecoration: 'line-through', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
+                  <div style={{ fontSize: '13px', color: LE_COLORS.wrong, textDecoration: 'line-through', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
                     Câu {qIdx + 1}: {q.wrong_sentence}
                   </div>
                   <Input
@@ -321,7 +296,7 @@ export default function ExercisesSection({
               {/* OPEN ENDED EXERCISE */}
               {ex.type === 'open_ended' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px' }}>
+                  <div style={{ fontSize: '13px', color: LE_COLORS.ink, marginBottom: '4px', paddingLeft: '4px', lineHeight: '18px', fontWeight: 700 }}>
                     Câu {qIdx + 1}: {q.question}
                   </div>
                   <Input.TextArea
@@ -337,13 +312,13 @@ export default function ExercisesSection({
 
               {/* GRADING RESULTS & AI FEEDBACK IN-PLACE */}
               {status === 'COMPLETED' && qGraded && (
-                <div style={{ marginTop: '8px', borderTop: '1px dashed #222222', paddingTop: '8px' }}>
+                <div style={{ marginTop: '8px', borderTop: `1px dashed ${LE_COLORS.gray900}`, paddingTop: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span className={isCorrect ? 'highlight' : ''} style={{ fontSize: '12px', fontWeight: 600, color: isCorrect ? '#52C41A' : '#FF3B5C' }}>
+                    <span className={isCorrect ? 'highlight' : ''} style={{ fontSize: '12px', fontWeight: 600, color: isCorrect ? LE_COLORS.green : LE_COLORS.wrong }}>
                       {isCorrect ? '✓ Đúng' : `✗ Sai - Đáp án: ${qGraded.correct_answer}`}
                     </span>
                   </div>
-                  <p style={{ color: '#888888', fontSize: '11px', marginTop: '4px', lineHeight: '16px', margin: '4px 0 0 0' }}>
+                  <p style={{ color: LE_COLORS.gray550, fontSize: '11px', marginTop: '4px', lineHeight: '16px', margin: '4px 0 0 0' }}>
                     Feedback: {qGraded.feedback}
                   </p>
                 </div>
@@ -354,7 +329,7 @@ export default function ExercisesSection({
       </div>
 
       {submitError && (
-        <p style={{ color: '#FF3B5C', fontSize: '11px', margin: '8px 0 0 0', textAlign: 'center' }}>
+        <p style={{ color: LE_COLORS.wrong, fontSize: '11px', margin: '8px 0 0 0', textAlign: 'center' }}>
           {submitError}
         </p>
       )}
