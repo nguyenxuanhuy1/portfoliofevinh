@@ -38,6 +38,7 @@ export const LE_COLORS = {
 
   font: "'Be Vietnam Pro', sans-serif",
   fontDisplay: "'Be Vietnam Pro', sans-serif",
+  fontCartoon: "'Archivo Black', 'Arial Black', sans-serif",
 } as const
 
 /** Rotating card backgrounds — LessonCard / History */

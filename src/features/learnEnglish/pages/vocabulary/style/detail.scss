@@ -182,11 +182,13 @@ body:has(.learn-english--detail) {
   }
 
   .vocab-word {
-    font-family: $nb-font-display !important;
-    font-size: 20px;
-    font-weight: 600;
+    font-family: $nb-font-cartoon !important;
+    font-size: 22px;
+    font-weight: 400; // Archivo Black chỉ có 1 weight
+    letter-spacing: -0.5px;
+    line-height: 1.15;
     color: $nb-ink;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     text-transform: uppercase;
   }
 
