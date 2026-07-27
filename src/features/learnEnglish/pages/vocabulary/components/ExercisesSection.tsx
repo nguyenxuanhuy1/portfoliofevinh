@@ -3,6 +3,7 @@ import Input from '../../../components/ui/Input'
 import Button from '../../../components/ui/Button'
 import type { Exercise, ExerciseType, GradingResult } from '../../../types/LearnEnglish'
 import { LE_COLORS } from '../../../styles/colors'
+import { speakEnglish, stopSpeaking } from '../../../utils/speechUtils'
 
 interface ExercisesSectionProps {
   currentStep: number;
@@ -44,6 +45,12 @@ export default function ExercisesSection({
     }
   }, [ex])
 
+  React.useEffect(() => {
+    return () => {
+      stopSpeaking()
+    }
+  }, [])
+
   const filledAnswers = ex && ex.type === 'fill_with_bank' ? ex.questions.map((q: any) => getAnswerValue('fill_with_bank', q.id)) : []
   const unusedWords = ex && ex.word_bank ? ex.word_bank.filter((w: string) => !filledAnswers.includes(w)) : []
 
@@ -80,6 +87,7 @@ export default function ExercisesSection({
                   className="tag"
                   onClick={() => {
                     if (status === 'COMPLETED') return
+                    speakEnglish(w)
                     if (activeQuestionId !== null) {
                       handleAnswerChange('fill_with_bank', activeQuestionId, w)
                     }
@@ -140,13 +148,18 @@ export default function ExercisesSection({
                       else if (showWrong) optClass += ' wrong'
 
                       return (
-                        <Button
-                          key={oIdx}
+                        <button
+                          type="button"
+                          key={`${q.id}-${opt}-${oIdx}`}
                           className={optClass}
-                          onClick={() => handleAnswerChange('matching', q.id, opt)}
+                          disabled={status === 'COMPLETED'}
+                          onClick={() => {
+                            if (status === 'COMPLETED') return
+                            handleAnswerChange('matching', q.id, opt)
+                          }}
                         >
                           {opt}
-                        </Button>
+                        </button>
                       )
                     })}
                   </div>
