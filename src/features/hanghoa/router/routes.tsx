@@ -6,7 +6,7 @@ const HangHoaDetailPage = lazy(() => import('../pages/HangHoaDetailPage'))
 
 export const hangHoaRoutes: AppRoute[] = [
   {
-    path: '/hanghoa',
+    path: '/trekking-gear-tiktok-account',
     element: <HangHoaListPage />,
     public: true,
     label: {
@@ -17,7 +17,7 @@ export const hangHoaRoutes: AppRoute[] = [
     layout: 'none',
   },
   {
-    path: '/hanghoa/:id',
+    path: '/trekking-gear-tiktok-account/:id',
     element: <HangHoaDetailPage />,
     public: true,
     label: {
