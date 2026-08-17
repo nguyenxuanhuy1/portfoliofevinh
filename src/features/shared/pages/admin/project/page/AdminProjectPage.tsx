@@ -176,8 +176,9 @@ export default function AdminProjectPage() {
           <Button
             variant="primary"
             size="sm"
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             onClick={handleOpenCreate}
+  
           >
             Thêm Dự án
           </Button>

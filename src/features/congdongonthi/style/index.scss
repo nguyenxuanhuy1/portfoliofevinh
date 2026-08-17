@@ -3,18 +3,17 @@
 
 .congdongonthi-theme {
   // Design Primitives
-  --exam-primary: #008abb; // Kaggle Blue
-  --exam-primary-hover: #0096cb; // Close natural hover blue
+  --exam-primary: #008abb;
+  --exam-primary-hover: #0096cb;
   --exam-primary-active: #006d94;
   --exam-primary-light: rgba(0, 138, 187, 0.05);
   --exam-primary-light-hover: rgba(0, 138, 187, 0.1);
-  --exam-border-radius: 8px; // Clean 8px rounded corners
+  --exam-border-radius: 8px;
   --exam-font-display: 'Inter', 'Be Vietnam Pro', sans-serif;
   --exam-font-body: 'Inter', 'Be Vietnam Pro', sans-serif;
   --exam-transition: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-  // Kaggle Glacier Theme Variables
-  --exam-bg: #f8f9fa; // Soft grey background
+  --exam-bg: #f8f9fa;
   --exam-card-bg: #ffffff; // Card surface
   --exam-text: #202124; // Text primary dark grey
   --exam-text-secondary: #3c4043; // Text muted slate grey

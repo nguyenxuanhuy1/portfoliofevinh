@@ -1,0 +1,937 @@
+// ─── Design tokens ───────────────────────────────────────────────────────────
+$color-primary: #f26522;
+$color-primary-dark: #d9540f;
+$color-text: #1a1a1a;
+$color-text-muted: #6b7280;
+$color-border: #e5e7eb;
+$color-badge: #fbbf24;
+$color-white: #ffffff;
+$radius-full: 999px;
+$radius-card: 10px;
+
+$color-surface-muted: #f2f2f2;
+
+// ─── Theme wrapper ───────────────────────────────────────────────────────────
+.hanghoa-theme {
+  min-height: 100vh;
+  background: #f7f8fa;
+  color: $color-text;
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+}
+
+// ─── Header ──────────────────────────────────────────────────────────────────
+.hanghoa-header {
+  background: linear-gradient(180deg, $color-primary 0%, $color-primary-dark 100%);
+  padding: 28px 24px;
+
+  &__inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: $color-white;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  &__logo-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  &__logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  &__logo-name {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  &__logo-tagline {
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+
+  // Search box: white pill wrapper, input + button sit inside its padding
+  &__search {
+    flex: 1;
+    max-width: 960px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px;
+    background: $color-white;
+    border-radius: $radius-full;
+    min-height: 56px;
+  }
+
+  &__search-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: $color-text;
+    font-size: 16px;
+    padding: 12px 18px;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+  }
+
+  &__search-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    background: $color-primary;
+    color: $color-white;
+    border-radius: $radius-full;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 28px;
+    transition: background 0.2s;
+
+    .anticon {
+      font-size: 18px;
+    }
+
+    &:hover {
+      background: $color-primary-dark;
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-white;
+      outline-offset: 2px;
+    }
+  }
+}
+
+// ─── Category tabs (segmented control with sliding pill) ─────────────────────
+.hanghoa-tabs {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 4px;
+  background: $color-surface-muted;
+  border-radius: $radius-full;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  // Sliding pill sits under the labels; overshoot easing gives the slight bounce
+  &__indicator {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    width: 0;
+    z-index: 0;
+    background: $color-primary;
+    border-radius: $radius-full;
+    transition: left 0.35s cubic-bezier(0.34, 1.2, 0.4, 1),
+      width 0.35s cubic-bezier(0.34, 1.2, 0.4, 1);
+  }
+
+  &__item {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: $color-text-muted;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 8px 18px;
+    border-radius: $radius-full;
+    transition: color 0.25s;
+
+    &:hover {
+      color: $color-text;
+    }
+
+    &--active,
+    &--active:hover {
+      color: $color-white;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary;
+      outline-offset: 2px;
+    }
+  }
+}
+
+// ─── List page shell ─────────────────────────────────────────────────────────
+.hanghoa-list {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  &__heading {
+    min-width: 0;
+  }
+
+  &__heading-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.3;
+    color: $color-text;
+  }
+
+  &__heading-count {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: $color-text-muted;
+  }
+
+  &__state {
+    padding: 64px 0;
+    text-align: center;
+    color: $color-text-muted;
+  }
+}
+
+// ─── Product grid ────────────────────────────────────────────────────────────
+.hanghoa-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+// ─── Product card ────────────────────────────────────────────────────────────
+.hanghoa-card {
+  display: flex;
+  flex-direction: column;
+  background: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $radius-card;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  &__media {
+    position: relative;
+    padding: 12px;
+    background: $color-white;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+
+    &--placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: $color-surface-muted;
+      color: $color-text-muted;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+  }
+
+  // Pennant ribbon shape — clip-path only, no border-radius
+  &__badge {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    min-width: 38px;
+    padding: 6px 6px 12px;
+    background: $color-badge;
+    color: $color-text;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+  }
+
+  &__special {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: $color-primary;
+    color: $color-white;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 12px 14px;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    min-height: 2.8em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__price-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__price {
+    font-size: 16px;
+    font-weight: 800;
+    color: $color-primary;
+  }
+
+  &__price-old {
+    font-size: 13px;
+    color: $color-text-muted;
+    text-decoration: line-through;
+  }
+
+  &__discount {
+    align-self: flex-start;
+    font-size: 12px;
+    font-weight: 700;
+    color: $color-primary;
+    background: rgba($color-primary, 0.1);
+    border: 1px solid rgba($color-primary, 0.3);
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+
+  &__seller {
+    font-size: 12px;
+    color: $color-text-muted;
+  }
+}
+
+// ─── Detail page ─────────────────────────────────────────────────────────────
+.hanghoa-detail {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 16px 20px 64px;
+
+  &--state {
+    text-align: center;
+    padding: 80px 20px;
+    color: $color-text-muted;
+  }
+
+  // Breadcrumb
+  &__breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: $color-text-muted;
+  }
+
+  &__crumb {
+    color: $color-text-muted;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-primary;
+    }
+
+    &--current {
+      color: $color-text;
+      font-weight: 600;
+    }
+  }
+
+  &__crumb-sep {
+    color: $color-border;
+  }
+
+  // Hero panel
+  &__card {
+    display: grid;
+    grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+    gap: 32px;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-card;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  &__gallery {
+    border: 1px solid $color-border;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+
+    &--placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: $color-surface-muted;
+      color: $color-text-muted;
+      font-size: 13px;
+      border-radius: 6px;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__special-badge {
+    align-self: flex-start;
+    margin-bottom: 10px;
+    padding: 4px 10px;
+    border-radius: $radius-full;
+    background: rgba($color-primary, 0.12);
+    border: 1px solid rgba($color-primary, 0.35);
+    color: $color-primary;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  &__name {
+    margin: 0 0 16px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  &__seller-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  &__seller-label {
+    color: $color-text-muted;
+  }
+
+  &__seller-logo {
+    height: 22px;
+    max-width: 120px;
+    object-fit: contain;
+  }
+
+  &__seller-name {
+    font-weight: 600;
+    color: $color-text;
+  }
+
+  &__price {
+    margin: 0 0 8px;
+    font-size: 32px;
+    font-weight: 800;
+    color: $color-primary;
+    line-height: 1.2;
+  }
+
+  &__price-note {
+    margin: 0 0 24px;
+    font-size: 12px;
+    color: $color-text-muted;
+  }
+
+  &__stock {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: $color-text;
+
+    strong {
+      color: $color-primary;
+      font-weight: 800;
+    }
+
+    &--out {
+      color: #dc2626 !important;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: auto;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 160px;
+    padding: 12px 24px;
+    border-radius: $radius-full;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary;
+      outline-offset: 2px;
+    }
+
+    &--primary {
+      background: $color-primary;
+      border: 1px solid $color-primary;
+      color: $color-white;
+
+      &:hover {
+        background: $color-primary-dark;
+        border-color: $color-primary-dark;
+      }
+    }
+
+    &--outline {
+      background: $color-white;
+      border: 1px solid $color-primary;
+      color: $color-primary;
+
+      &:hover {
+        background: rgba($color-primary, 0.08);
+      }
+    }
+  }
+
+  // Sections below hero
+  &__section {
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-card;
+    padding: 20px 24px 24px;
+    margin-bottom: 16px;
+  }
+
+  &__section-title {
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &__tabs-wrap {
+    margin-bottom: 20px;
+  }
+
+  &__panel-empty {
+    padding: 40px 0;
+    text-align: center;
+    color: $color-text-muted;
+    font-size: 14px;
+  }
+}
+
+.hanghoa-html-preview {
+  width: 100%;
+  min-height: 360px;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  background: $color-white;
+}
+
+// ─── Buy contact modal ───────────────────────────────────────────────────────
+.hanghoa-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(17, 24, 39, 0.55);
+  animation: hanghoa-fade-in 0.18s ease-out;
+}
+
+.hanghoa-buy-modal {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: $radius-card;
+  border: 1px solid $color-border;
+  background: $color-white;
+  color: $color-text;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  animation: hanghoa-modal-in 0.2s ease-out;
+
+  &__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: $radius-full;
+    background: $color-surface-muted;
+    color: $color-text-muted;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: rgba($color-primary, 0.12);
+      color: $color-primary;
+    }
+  }
+
+  &__title {
+    margin: 0 0 6px;
+    padding-right: 40px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    margin: 0 0 18px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: $color-text-muted;
+  }
+
+  &__product {
+    display: flex;
+    gap: 14px;
+    padding: 12px;
+    border: 1px solid $color-border;
+    border-radius: $radius-card;
+    background: #fafafa;
+    margin-bottom: 18px;
+  }
+
+  &__thumb {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    object-fit: contain;
+    background: $color-white;
+    border: 1px solid $color-border;
+
+    &--placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: $color-text-muted;
+    }
+  }
+
+  &__product-info {
+    min-width: 0;
+  }
+
+  &__product-name {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  &__product-price {
+    margin: 0 0 2px;
+    font-size: 18px;
+    font-weight: 700;
+    color: $color-primary;
+  }
+
+  &__product-stock {
+    margin: 0;
+    font-size: 12px;
+    color: $color-text-muted;
+  }
+
+  &__contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__contact {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    grid-template-areas: 'icon name' 'icon link';
+    align-items: center;
+    gap: 0 12px;
+    padding: 10px 12px;
+    border: 1px solid $color-border;
+    border-radius: $radius-card;
+    text-decoration: none;
+    color: $color-text;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+
+    &:hover {
+      border-color: $color-primary;
+      background: rgba($color-primary, 0.05);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__contact-icon {
+    grid-area: icon;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-full;
+    background: rgba($color-primary, 0.12);
+    color: $color-primary;
+    font-size: 16px;
+  }
+
+  &__contact-name {
+    grid-area: name;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  &__contact-link {
+    grid-area: link;
+    font-size: 12px;
+    color: $color-text-muted;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__state {
+    margin: 0;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 13px;
+    color: $color-text-muted;
+  }
+}
+
+@keyframes hanghoa-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hanghoa-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// ─── Footer note ─────────────────────────────────────────────────────────────
+.hanghoa-footer {
+  border-top: 1px solid $color-border;
+  background: $color-white;
+
+  &__inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 24px 20px 32px;
+    font-size: 13px;
+    color: $color-text-muted;
+  }
+
+  &__title {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &__note {
+    margin: 0 0 8px;
+    line-height: 1.6;
+  }
+}
+
+// ─── Responsive ──────────────────────────────────────────────────────────────
+@media (max-width: 1100px) {
+  .hanghoa-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .hanghoa-detail__card {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hanghoa-detail__name {
+    font-size: 20px;
+  }
+
+  .hanghoa-detail__price {
+    font-size: 26px;
+  }
+
+  .hanghoa-detail__btn {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .hanghoa-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hanghoa-list__toolbar {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .hanghoa-tabs {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  // Các tab chia đều chiều rộng container theo số lượng item
+  .hanghoa-tabs__item {
+    flex: 1 0 auto;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .hanghoa-header {
+    padding: 18px 16px;
+  }
+
+  .hanghoa-header__inner {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .hanghoa-header__logo-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hanghoa-header__logo-name {
+    font-size: 20px;
+    white-space: normal;
+  }
+
+  .hanghoa-header__logo-tagline {
+    display: none;
+  }
+
+  .hanghoa-header__search {
+    flex-basis: 100%;
+    max-width: none;
+    min-height: 48px;
+  }
+
+  .hanghoa-header__search-input {
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+
+  .hanghoa-header__search-btn {
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+
+  .hanghoa-header__search-btn-text {
+    display: none;
+  }
+}

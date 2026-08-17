@@ -13,6 +13,7 @@ const AdminProjectsPage = lazy(() => import('../pages/admin/project'))
 const AdminContactPage = lazy(() => import('../pages/admin/contact'))
 const AdminTopicPage = lazy(() => import('../pages/admin/topic'))
 const CongDongOnThiAdminPage = lazy(() => import('../pages/admin/document'))
+const AdminHangHoaPage = lazy(() => import('../pages/admin/hanghoa'))
 
 // Fallback
 const NotFoundPage = lazy(() => import('../pages/notFound'))
@@ -98,6 +99,18 @@ export const sharedRoutes: AppRoute[] = [
     label: {
       vi: 'Tài liệu ôn thi',
       en: 'Exam Documents'
+    },
+    showInMenu: true,
+    layout: 'admin',
+  },
+  {
+    path: '/admin/hanghoa',
+    element: <AdminHangHoaPage />,
+    public: false,
+    roles: ['ADMIN'],
+    label: {
+      vi: 'Đồ phượt',
+      en: 'Products'
     },
     showInMenu: true,
     layout: 'admin',
