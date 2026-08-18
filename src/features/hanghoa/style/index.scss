@@ -263,15 +263,17 @@ $color-surface-muted: #f2f2f2;
 
   &__media {
     position: relative;
-    padding: 12px;
     background: $color-white;
+    overflow: hidden;
   }
 
   &__image {
     display: block;
     width: 100%;
+    height: 100%;
     aspect-ratio: 1 / 1;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
 
     &--placeholder {
       display: flex;
@@ -280,7 +282,6 @@ $color-surface-muted: #f2f2f2;
       background: $color-surface-muted;
       color: $color-text-muted;
       font-size: 12px;
-      border-radius: 6px;
     }
   }
 
@@ -422,16 +423,17 @@ $color-surface-muted: #f2f2f2;
   }
 
   &__gallery {
-    border: 1px solid $color-border;
     border-radius: 8px;
-    padding: 16px;
+    overflow: hidden;
   }
 
   &__image {
     display: block;
     width: 100%;
+    height: 100%;
     aspect-ratio: 1 / 1;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
 
     &--placeholder {
       display: flex;
@@ -440,7 +442,6 @@ $color-surface-muted: #f2f2f2;
       background: $color-surface-muted;
       color: $color-text-muted;
       font-size: 13px;
-      border-radius: 6px;
     }
   }
 
@@ -692,7 +693,8 @@ $color-surface-muted: #f2f2f2;
     height: 72px;
     flex-shrink: 0;
     border-radius: 8px;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
     background: $color-white;
     border: 1px solid $color-border;
 
@@ -911,9 +913,6 @@ $color-surface-muted: #f2f2f2;
     white-space: normal;
   }
 
-  .hanghoa-header__logo-tagline {
-    display: none;
-  }
 
   .hanghoa-header__search {
     flex-basis: 100%;

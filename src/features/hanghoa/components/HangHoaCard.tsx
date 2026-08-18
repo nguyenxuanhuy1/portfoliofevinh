@@ -33,7 +33,7 @@ export default function HangHoaCard({ item }: HangHoaCardProps) {
       </div>
 
       <div className="hanghoa-card__body">
-        <h3 className="hanghoa-card__name">{item.name}</h3>
+        <h3 className="hanghoa-card__name" style={{paddingTop:'10px'}}>{item.name}</h3>
 
         <div className="hanghoa-card__price-row">
           <span className="hanghoa-card__price">{formatPrice(price)}</span>

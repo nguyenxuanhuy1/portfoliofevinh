@@ -53,8 +53,6 @@ export default function HangHoaListPage() {
       <div className="hanghoa-list">
         <div className="hanghoa-list__toolbar">
           <div className="hanghoa-list__heading">
-            <h2 className="hanghoa-list__heading-title">{category || 'Sản phẩm'}</h2>
-            <p className="hanghoa-list__heading-count">{filteredItems.length} sản phẩm</p>
           </div>
 
           {tabItems.length > 0 && (

@@ -260,10 +260,11 @@ export function HangHoaModal({ open, editTarget, saving, onClose, onSubmit }: Ha
               <label className="hanghoa-modal__label" htmlFor="hanghoa-link">
                 Link nơi bán
               </label>
-              <Input
+              <Input.TextArea
                 id="hanghoa-link"
-                className="hanghoa-modal__input"
-                type="url"
+                className="hanghoa-modal__textarea"
+                rows={3}
+                maxLength={10000}
                 placeholder="https://..."
                 value={productLink}
                 onChange={(e) => setProductLink(e.target.value)}
