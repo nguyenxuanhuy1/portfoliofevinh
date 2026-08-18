@@ -18,7 +18,7 @@ export default function HangHoaHeader({ onSearch }: HangHoaHeaderProps) {
   return (
     <header className="hanghoa-header">
       <div className="hanghoa-header__inner">
-        <Link to="/hanghoa" className="hanghoa-header__logo">
+        <Link to="/trekking-gear-tiktok-account" className="hanghoa-header__logo">
           <img src={logoPg1} alt="Đồ phượt" className="hanghoa-header__logo-icon" />
           <span className="hanghoa-header__logo-text">
             <span className="hanghoa-header__logo-name">Phụ kiện phượt</span>

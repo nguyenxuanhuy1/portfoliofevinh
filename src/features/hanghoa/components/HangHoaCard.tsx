@@ -18,7 +18,7 @@ export default function HangHoaCard({ item }: HangHoaCardProps) {
   const discount = getDiscountPercent(price, oldPrice)
 
   return (
-    <Link to={`/hanghoa/${item.id}`} className="hanghoa-card">
+    <Link to={`/trekking-gear-tiktok-account/${item.id}`} className="hanghoa-card">
       <div className="hanghoa-card__media">
         {item.image ? (
           <img className="hanghoa-card__image" src={item.image} alt={item.name} />

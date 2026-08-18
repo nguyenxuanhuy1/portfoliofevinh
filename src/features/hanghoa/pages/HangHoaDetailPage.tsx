@@ -43,7 +43,7 @@ export default function HangHoaDetailPage() {
         <HangHoaHeader onSearch={() => {}} />
         <div className="hanghoa-detail hanghoa-detail--state">
           <p>Không tìm thấy hàng hóa.</p>
-          <Link to="/hanghoa" className="hanghoa-detail__crumb">
+          <Link to="/trekking-gear-tiktok-account" className="hanghoa-detail__crumb">
             Quay lại danh sách
           </Link>
         </div>
@@ -63,7 +63,7 @@ export default function HangHoaDetailPage() {
 
       <div className="hanghoa-detail">
         <nav className="hanghoa-detail__breadcrumb" aria-label="Breadcrumb">
-          <Link to="/hanghoa" className="hanghoa-detail__crumb">
+          <Link to="/trekking-gear-tiktok-account" className="hanghoa-detail__crumb">
             Trang chủ
           </Link>
           <span className="hanghoa-detail__crumb-sep">/</span>
